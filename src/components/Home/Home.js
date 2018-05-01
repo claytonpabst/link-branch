@@ -27,7 +27,7 @@ class Home extends Component {
           top:"",
           left:"",
           padding:"10px 0px",
-          zIndex:"10",
+          zIndex:"999",
         }
       },
       x:null,
@@ -43,7 +43,7 @@ class Home extends Component {
     let editing = true
     let selectedBox = box
     let boxes = this.state.boxes
-    boxes[i].visibility = "hidden"
+    // boxes[i].visibility = "hidden"
     this.setState({
       editing, selectedBox, boxes
     })
@@ -84,11 +84,9 @@ class Home extends Component {
     let fakeBox = this.state.fakeBox
     fakeBox.style.left = boxRef.left + (e.clientX - this.state.x)
     fakeBox.style.top = boxRef.top + (e.clientY - this.state.y)
-    // fakeBox.style.top = this.state.y + e.clientY
     this.setState({
       fakeBox
     })
-    console.log(e.clientX, e.clientY)
   }
 
   switchPositions(e, box){
@@ -114,7 +112,6 @@ class Home extends Component {
   }
 
   render() {
-    console.log(this)
     return (
       <div style={{zIndex:"100"}} onMouseLeave={(e) => this.editingFalse(e)} onMouseUp={(e) => this.editingFalse(e)} className="home">
         { this.state.editing ?
@@ -130,21 +127,24 @@ class Home extends Component {
           this.state.boxes.map((box, i) => {
             let boxRef = "boxRef" + i
             return (
-              <div 
+              <div
+                draggable='true' 
                 key={i}
                 ref={(self) => {this[boxRef] = self}} 
-                onMouseOver={(e) => this.switchPositions(e, box)} 
-                onMouseDown={(e) => {this.toggleEditing(e, i, box); this.createFakeBox(e, i, box)} } 
+                onDragEnd={(e) => this.editingFalse(e)}
+                onDragOver={(e) => this.switchPositions(e, box)} 
+                onDragStart={(e) => {this.toggleEditing(e, i, box); this.createFakeBox(e, i, box)} } 
                 style={{visibility:box.visibility, background:box.color, zIndex:"100", margin:"10px 0px", padding:"10px 0px"}}
               >
+                <div ></div>
                 {box.text}
               </div>
             )
           })
         }
-        { this.state.editing &&
+        {/* { this.state.editing &&
           <div onMouseMove={(e) => this.moveFakeBox(e)} style={this.state.fakeBox.style}>{this.state.fakeBox.text}</div>
-        }
+        } */}
 
       </div>
     );
