@@ -3,14 +3,17 @@ import React, { Component } from 'react';
 import './Profile.css';
 
 
-class Home extends Component {
+class Profile extends Component {
   constructor(props){
     super(props)
 
     this.state = {
       profileData:{
+        generalInfoStyle:{
+          background:"#fff",
+        },
         style:{
-          background:"#eee",
+          background:"#fff",
         },
         img:{
           src:'https://instagram.fslc1-1.fna.fbcdn.net/vp/1dc742f814174214f1bace3d6c9d8bb5/5BAE384F/t51.2885-19/s150x150/30078208_204136093510166_515503496947040256_n.jpg',
@@ -19,7 +22,7 @@ class Home extends Component {
           },
         },
         name:{
-          text:'FF',
+          text:'FOREIGN FIGURES',
           style:{
             
           },
@@ -32,9 +35,14 @@ class Home extends Component {
         },
         sections:[
           {
-            title:"BIO",
+            title:{
+              text:"BIO",
+              style:{
+                background:"#666",
+              },
+            },
             style:{
-
+              background:"#fff",
             },
             pieces:[
               {
@@ -47,7 +55,12 @@ class Home extends Component {
             ]
           },
           {
-            title:"SONGS",
+            title:{
+              text:"SONGS",
+              style:{
+                background:"#666",
+              },
+            },
             style:{
 
             },
@@ -74,6 +87,30 @@ class Home extends Component {
                   },
                 ]
               },
+              {
+                type:"PROJECT",
+                title:'Hey Love',
+                img:"https://instagram.fslc1-1.fna.fbcdn.net/vp/08f5ab0e85d584912858854603dafdea/5B9FCE76/t51.2885-15/s640x640/sh0.08/e35/23594611_360643961029054_2777025432963252224_n.jpg",
+                style:{
+
+                },
+              },
+              {
+                type:"PROJECT",
+                title:'Hey Love',
+                img:"https://instagram.fslc1-1.fna.fbcdn.net/vp/08f5ab0e85d584912858854603dafdea/5B9FCE76/t51.2885-15/s640x640/sh0.08/e35/23594611_360643961029054_2777025432963252224_n.jpg",
+                style:{
+
+                },
+              },
+              {
+                type:"PROJECT",
+                title:'Hey Love',
+                img:"https://instagram.fslc1-1.fna.fbcdn.net/vp/08f5ab0e85d584912858854603dafdea/5B9FCE76/t51.2885-15/s640x640/sh0.08/e35/23594611_360643961029054_2777025432963252224_n.jpg",
+                style:{
+
+                },
+              },
             ]
           }
         ],
@@ -94,7 +131,7 @@ class Home extends Component {
 
   buildTextPiece = (piece, i, j) => {
     return(
-      <div key={(i*10) + j}>
+      <div className="profile_text-piece" key={(i*10) + j}>
         <h3>{piece.text}</h3>
       </div>
     )
@@ -102,7 +139,7 @@ class Home extends Component {
 
   buildProjectPiece = (piece, i, j) => {
     return(
-      <div key={(i*10) + j}>
+      <div style={{background:"#fff"}} className="profile_project-piece" key={(i*10) + j}>
         <img src={piece.img}/>
         <h3>{piece.title}</h3>
       </div>
@@ -132,17 +169,19 @@ class Home extends Component {
     )
   }
 
-  buildSections = () => {
+  buildSections = (profileData) => {
     return (
       <div>
-        <img src={this.state.profileData.img.src}/>
-        <h1>{this.state.profileData.name.text}</h1>
-        <p>{this.state.profileData.profileViews.views}</p>
+        <div style={{background:profileData.generalInfoStyle.background}} className="profile_general-info-wrapper">
+          <img src={profileData.img.src}/>
+          <h1>{profileData.name.text}</h1>
+          <p>{this.numberToThousands(profileData.profileViews.views)} Profile Views</p>
+        </div>
         {
-          this.state.profileData.sections.map((section, i) => {
+          profileData.sections.map((section, i) => {
             return(
-              <div key={i}>
-                <h2>{section.title}</h2>
+              <div style={section.style} className="profile_section-wrapper profile_section-spacer" key={i}>
+                <h2 style={section.title.style}>{section.title.text}</h2>
                 {
                   this.buildPieces(section, i)
                 }
@@ -197,11 +236,16 @@ class Home extends Component {
     }
   }
 
+  numberToThousands = (x) => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   render() {
     let {profileData} = this.state;
+    let style = profileData.style
     return (
-      <div style={profileData.style} className="App">
-        <div style={{zIndex:"100"}} onMouseLeave={(e) => this.editingFalse(e)} onMouseUp={(e) => this.editingFalse(e)} className="profile_profile-wrapper">
+      <div style={{background:"#f5f5f5"}} className="App">
+        <div style={{background:"#f5f5f5"}} onMouseLeave={(e) => this.editingFalse(e)} onMouseUp={(e) => this.editingFalse(e)} className="profile_profile-wrapper">
           {/* {
             this.state.boxes.map((box, i) => {
               let boxRef = "boxRef" + i
@@ -222,7 +266,7 @@ class Home extends Component {
             })
           } */}
           { 
-            this.buildSections()
+            this.buildSections(profileData)
           }
 
         </div>
@@ -232,4 +276,4 @@ class Home extends Component {
 }
 
 
-export default Home;
+export default Profile;
