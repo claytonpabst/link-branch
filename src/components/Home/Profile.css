@@ -1,0 +1,16 @@
+
+.profile_profile-wrapper{
+    margin: 0 auto;
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+    padding: 20px 5px;
+}
+.profile_profile-wrapper img{
+    width: 150px;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto;
+}
+
+
