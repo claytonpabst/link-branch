@@ -74,16 +74,16 @@ class Profile extends Component {
                 },
                 links:[
                   {
-                    img:'',
-                    href:'',
+                    img:'https://developer.spotify.com/assets/branding-guidelines/logoMisuse5@2x.png',
+                    href:'https://www.spotify.com',
                   },
                   {
-                    img:'',
-                    href:'',
+                    img:'https://developer.spotify.com/assets/branding-guidelines/logoMisuse5@2x.png',
+                    href:'https://www.spotify.com',
                   },
                   {
-                    img:'',
-                    href:'',
+                    img:'https://developer.spotify.com/assets/branding-guidelines/logoMisuse5@2x.png',
+                    href:'https://www.spotify.com',
                   },
                 ]
               },
@@ -115,6 +115,9 @@ class Profile extends Component {
           }
         ],
       },
+      linkModelData:{
+
+      },
       boxes: [
         {id:0, text:'box 1', color: "blue", visibility:"visible"},
         {id:1, text:'box 2', color: "pink", visibility:"visible"},
@@ -122,11 +125,23 @@ class Profile extends Component {
         {id:3, text:'box 4', color: "green", visibility:"visible"},
         {id:4, text:'box 5', color: "yellow", visibility:"visible"},
       ],
+      showLinkModel: false,
       selectedBox: null,
       editing: false,
     }
 
     this.switchPositions = this.switchPositions.bind(this);
+  }
+
+  showLinkModel = (piece, i, j) => {
+    this.setState({
+      linkModelData:piece,
+      showLinkModel:true,
+    })
+  }
+
+  closeLinkModel = () => {
+    this.setState({showLinkModel:false});
   }
 
   buildTextPiece = (piece, i, j) => {
@@ -139,7 +154,7 @@ class Profile extends Component {
 
   buildProjectPiece = (piece, i, j) => {
     return(
-      <div style={{background:"#fff"}} className="profile_project-piece" key={(i*10) + j}>
+      <div onClick={() => this.showLinkModel(piece, i, j)} style={{background:"#fff"}} className="profile_project-piece" key={(i*10) + j}>
         <img src={piece.img}/>
         <h3>{piece.title}</h3>
       </div>
@@ -268,7 +283,27 @@ class Profile extends Component {
           { 
             this.buildSections(profileData)
           }
+          { this.state.showLinkModel &&
+            <div className="profile_link-model-overlay">
+              <div className="profile_link-model-wrapper">
 
+
+
+                <div className="profile_links-wrapper">
+                  { this.state.linkModelData.links &&
+                    this.state.linkModelData.links.map((link, k) => {
+                      return (
+                        <div className="profile_link-piece">
+                          <img src={link.img}/>
+                          <a>{link.href}</a>
+                        </div>
+                      )
+                    })
+                  }
+                </div>
+              </div>
+            </div>
+          }
         </div>
       </div>
     );

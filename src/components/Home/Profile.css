@@ -63,4 +63,20 @@
     margin: 0 auto;
 }
 
+.profile_link-model-overlay{
+    position: absolute;
+    left:0;
+    top:0;
+    width: 100%;
+    height: 100%;
+    background:rgba(0,0,0,0.5);
+}
+.profile_link-model-wrapper{
+    margin: 20px auto;
+    min-height: 500px;
+    width: 90%;
+    height: fit-content;
+    background: white;
+}
+
 
