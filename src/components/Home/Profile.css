@@ -77,6 +77,10 @@
     width: 90%;
     height: fit-content;
     background: white;
+    border-radius: 10px;
+}
+.profile_link-model-x:hover{
+    cursor: pointer;
 }
 
 

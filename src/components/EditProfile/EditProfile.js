@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-import './Profile.css';
+import './EditProfile.css';
 
 
-class Profile extends Component {
+class EditProfile extends Component {
   constructor(props){
     super(props)
 
@@ -118,6 +118,7 @@ class Profile extends Component {
       linkModelData:{
 
       },
+      edit:"",
       boxes: [
         {id:0, text:'box 1', color: "blue", visibility:"visible"},
         {id:1, text:'box 2', color: "pink", visibility:"visible"},
@@ -133,9 +134,37 @@ class Profile extends Component {
     this.switchPositions = this.switchPositions.bind(this);
   }
 
+  //--------------Start Editing Functions --------------------//
+  
+  editImage = (pointer, profileDataOnReCall) => {
+    console.log(pointer)
+    let profileData;
+    if(profileDataOnReCall){
+      profileData = profileDataOnReCall;
+    } else {
+      profileData = this.state.profileData;
+    }
+    if(typeof(pointer) === 'string'){
+      pointer = pointer.split('.');
+    }
+    if(pointer.length === 1){
+      console.log(profileData)
+      profileData[pointer[0]] = this.state.edit;
+      this.forceUpdate();
+      return;
+    }
+    return this.editImage(pointer.slice(1, pointer.length), profileData[pointer[0]])
+  }
+  
+  
+  //--------------Start Editing Functions --------------------//
+
   showLinkModel = (piece, i, j) => {
+    let linkModelData = Object.assign(piece);
+    linkModelData.i = i;
+    linkModelData.j = j;
     this.setState({
-      linkModelData:piece,
+      linkModelData:linkModelData,
       showLinkModel:true,
     })
   }
@@ -146,7 +175,7 @@ class Profile extends Component {
 
   buildTextPiece = (piece, i, j) => {
     return(
-      <div className="profile_text-piece" key={(i*10) + j}>
+      <div className="profile_text-piece" key={j}>
         <h3>{piece.text}</h3>
       </div>
     )
@@ -154,7 +183,7 @@ class Profile extends Component {
 
   buildProjectPiece = (piece, i, j) => {
     return(
-      <div onClick={() => this.showLinkModel(piece, i, j)} style={{background:"#fff"}} className="profile_project-piece" key={(i*10) + j}>
+      <div onClick={() => this.showLinkModel(piece, i, j)} style={{background:"#fff"}} className="profile_project-piece" key={j}>
         <img src={piece.img}/>
         <h3>{piece.title}</h3>
       </div>
@@ -166,7 +195,6 @@ class Profile extends Component {
       <div>
         {
           section.pieces.map((piece, j) => {
-            console.log(piece)
             switch (piece.type){
               case "TEXT":
                 return this.buildTextPiece(piece, i, j);
@@ -188,7 +216,7 @@ class Profile extends Component {
     return (
       <div>
         <div style={{background:profileData.generalInfoStyle.background}} className="profile_general-info-wrapper">
-          <img src={profileData.img.src}/>
+          <img onClick={() => this.editImage("img.src")} src={profileData.img.src}/>
           <h1>{profileData.name.text}</h1>
           <p>{this.numberToThousands(profileData.profileViews.views)} Profile Views</p>
         </div>
@@ -256,6 +284,7 @@ class Profile extends Component {
   }
 
   render() {
+    console.log(this.state)
     let {profileData} = this.state;
     let style = profileData.style
     return (
@@ -305,7 +334,7 @@ class Profile extends Component {
                   { this.state.linkModelData.links &&
                     this.state.linkModelData.links.map((link, k) => {
                       return (
-                        <div className="profile_link-piece">
+                        <div className="profile_link-piece" key={k}>
                           <img src={link.img}/>
                           <a href={link.href}>Go</a>
                         </div>
@@ -317,10 +346,11 @@ class Profile extends Component {
             </div>
           }
         </div>
+        <input value={this.state.edit} onChange={(e) => this.setState({edit:e.target.value})}/>
       </div>
     );
   }
 }
 
 
-export default Profile;
+export default EditProfile;
