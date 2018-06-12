@@ -166,7 +166,7 @@ class Profile extends Component {
       <div>
         {
           section.pieces.map((piece, j) => {
-            console.log(piece)
+            // console.log(piece)
             switch (piece.type){
               case "TEXT":
                 return this.buildTextPiece(piece, i, j);

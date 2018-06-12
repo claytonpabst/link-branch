@@ -115,10 +115,17 @@ class EditProfile extends Component {
           }
         ],
       },
-      linkModelData:{
+      modelData:{
 
       },
-      edit:"",
+      editText:"",
+      currentText:"",
+      editPointer:'',
+      showLinkModel: false,
+      showEditImageModel: false,
+      showEditTextModel: false,
+      selectedBox: null,
+      editing: false,
       boxes: [
         {id:0, text:'box 1', color: "blue", visibility:"visible"},
         {id:1, text:'box 2', color: "pink", visibility:"visible"},
@@ -126,9 +133,6 @@ class EditProfile extends Component {
         {id:3, text:'box 4', color: "green", visibility:"visible"},
         {id:4, text:'box 5', color: "yellow", visibility:"visible"},
       ],
-      showLinkModel: false,
-      selectedBox: null,
-      editing: false,
     }
 
     this.switchPositions = this.switchPositions.bind(this);
@@ -136,8 +140,8 @@ class EditProfile extends Component {
 
   //--------------Start Editing Functions --------------------//
   
-  editImage = (pointer, profileDataOnReCall) => {
-    console.log(pointer)
+  editDataPoint = (pointer, profileDataOnReCall) => {
+    console.log('hit');
     let profileData;
     if(profileDataOnReCall){
       profileData = profileDataOnReCall;
@@ -148,12 +152,44 @@ class EditProfile extends Component {
       pointer = pointer.split('.');
     }
     if(pointer.length === 1){
-      console.log(profileData)
-      profileData[pointer[0]] = this.state.edit;
+      profileData[pointer[0]] = this.state.editText;
       this.forceUpdate();
       return;
     }
-    return this.editImage(pointer.slice(1, pointer.length), profileData[pointer[0]])
+    return this.editDataPoint(pointer.slice(1, pointer.length), profileData[pointer[0]])
+  }
+
+  editImageModel = (pointer, piece) => {
+    this.setState({
+      editPointer:pointer,
+      showEditImageModel: true,
+      modelData:piece
+    })
+  }
+
+  closeEditImageModel = () => {
+    this.setState({
+      showEditImageModel: false,
+      editText: '',
+      editPointer: '',
+    })
+  }
+  editTextModel = (pointer, piece, currentText) => {
+    this.setState({
+      editPointer:pointer,
+      showEditTextModel: true,
+      currentText: currentText,
+      modelData:piece
+    })
+  }
+
+  closeEditTextModel = () => {
+    this.setState({
+      showEditTextModel: false,
+      editText: '',
+      editPointer: '',
+      currentText: '',
+    })
   }
   
   
@@ -164,7 +200,7 @@ class EditProfile extends Component {
     linkModelData.i = i;
     linkModelData.j = j;
     this.setState({
-      linkModelData:linkModelData,
+      modelData:linkModelData,
       showLinkModel:true,
     })
   }
@@ -184,8 +220,26 @@ class EditProfile extends Component {
   buildProjectPiece = (piece, i, j) => {
     return(
       <div onClick={() => this.showLinkModel(piece, i, j)} style={{background:"#fff"}} className="profile_project-piece" key={j}>
-        <img src={piece.img}/>
-        <h3>{piece.title}</h3>
+        <div style={{position:"relative"}}>
+          <img src={piece.img}/>
+          <img 
+            src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
+            onClick={(e) =>{e.stopPropagation(); this.editImageModel("sections."+i.toString()+".pieces."+j.toString()+".img", piece)}}
+            style={{
+              background:'white', 
+              width:"20px", 
+              height:"20px", 
+              borderRadius:"50%",
+              border:"1px solid black", 
+              textAlign:"center",
+              position:"absolute",
+              top:"2px",
+              left:"10px",
+            }}
+            className="profile_link-model-x"
+          />
+        </div>
+        <h3 onClick={(e) =>{e.stopPropagation(); this.editTextModel("sections."+i.toString()+".pieces."+j.toString()+".title", piece, piece.title)}}>{piece.title}</h3>
       </div>
     )
   }
@@ -214,7 +268,7 @@ class EditProfile extends Component {
 
   buildSections = (profileData) => {
     return (
-      <div>
+      <div draggable='true'>
         <div style={{background:profileData.generalInfoStyle.background}} className="profile_general-info-wrapper">
           <img onClick={() => this.editImage("img.src")} src={profileData.img.src}/>
           <h1>{profileData.name.text}</h1>
@@ -284,7 +338,7 @@ class EditProfile extends Component {
   }
 
   render() {
-    console.log(this.state)
+    // console.log(this.state)
     let {profileData} = this.state;
     let style = profileData.style
     return (
@@ -322,17 +376,17 @@ class EditProfile extends Component {
                 >
                   x
                 </div>
-                {this.state.linkModelData.img &&
-                  <img src={this.state.linkModelData.img}/>
+                {this.state.modelData.img &&
+                  <img src={this.state.modelData.img}/>
                 }
-                {this.state.linkModelData.title &&
-                  <h3>{this.state.linkModelData.title}</h3>
+                {this.state.modelData.title &&
+                  <h3 style={{textAlign:"center"}}>{this.state.modelData.title}</h3>
                 }
 
 
                 <div className="profile_links-wrapper">
-                  { this.state.linkModelData.links &&
-                    this.state.linkModelData.links.map((link, k) => {
+                  { this.state.modelData.links &&
+                    this.state.modelData.links.map((link, k) => {
                       return (
                         <div className="profile_link-piece" key={k}>
                           <img src={link.img}/>
@@ -345,8 +399,46 @@ class EditProfile extends Component {
               </div>
             </div>
           }
+          { this.state.showEditImageModel &&
+            <div className="profile_link-model-overlay">
+              <div className="profile_link-model-wrapper">
+                <div 
+                  onClick={() => this.closeEditImageModel()}
+                  style={{background:'red', width:"20px", height:"20px", borderRadius:"50%", textAlign:"center"}}
+                  className="profile_link-model-x"
+                >
+                  x
+                </div>
+                {this.state.modelData.img &&
+                  <img src={this.state.modelData.img}/>
+                }
+                {this.state.modelData.title &&
+                  <h3 style={{textAlign:"center", fontWeight:"bolder", fontSize:"30px"}}>{this.state.modelData.title}</h3>
+                }
+                <h6 style={{textAlign:"left", margin:"20px 0px 0px 0px", fontWeight:"lighter"}}>Enter New Image Address</h6>
+                <input value={this.state.edit} onChange={(e) => this.setState({editText:e.target.value})}/>
+                <button onClick={() => {this.editImage(this.state.editPointer); this.closeEditImageModel()}}>Update Image</button>
+              </div>
+            </div>
+          }
+          { this.state.showEditTextModel &&
+            <div className="profile_link-model-overlay">
+              <div className="profile_link-model-wrapper">
+                <div 
+                  onClick={() => this.closeEditImageModel()}
+                  style={{background:'red', width:"20px", height:"20px", borderRadius:"50%", textAlign:"center"}}
+                  className="profile_link-model-x"
+                >
+                  x
+                </div>
+                <h2>Current Text: {this.state.currentText}</h2>
+                <h6 style={{textAlign:"left", margin:"20px 0px 0px 0px", fontWeight:"lighter"}}>Enter New Text</h6>
+                <input value={this.state.edit} onChange={(e) => this.setState({editText:e.target.value})}/>
+                <button onClick={() => {this.editDataPoint(this.state.editPointer); this.closeEditTextModel()}}>Update Image</button>
+              </div>
+            </div>
+          }
         </div>
-        <input value={this.state.edit} onChange={(e) => this.setState({edit:e.target.value})}/>
       </div>
     );
   }
