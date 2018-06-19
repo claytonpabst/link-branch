@@ -1,0 +1,9 @@
+.edit-profile_edit-icon {
+  background:white; 
+  width: 20px !important;
+  height:20px; 
+  border-radius:50% !important;
+  border:1px solid black; 
+  text-align:center;
+  position:absolute;
+}
