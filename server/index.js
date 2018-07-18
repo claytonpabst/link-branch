@@ -24,11 +24,15 @@ massive(config.connection)
 
 app.use(express.static(__dirname + './../build'))
 
-var userController = require("./userController.js");
+// var userController = require("./userController.js");
 
 //////////Endpoints for the front end
 
 
 
 
-app.listen(config.port, console.log("you are now connected on " + config.port));
+// app.listen(config.port, console.log("you are now connected on " + config.port));
+
+app.listen(config.port, '0.0.0.0', function() {
+  console.log('Listening to port:  ' + config.port);
+});

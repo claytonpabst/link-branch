@@ -19,7 +19,7 @@ class MainHeader extends Component {
           <div style={{float:"left", padding:"14px",}}>
             <button style={{background:"#e33737", padding:"10px", border:"none", borderRadius:"10px", fontSize:"16px", color:"white", fontWeight:"bold"}}>Login/Sign Up</button>
           </div>
-          <div style={{float:"right", padding:"19px"}} onClick={this.props.toggleMobileMenu}>
+          <div style={{float:"right", padding:"19px 19px 19px 0px"}} onClick={this.props.toggleMobileMenu}>
             <img style={{height:"30px"}} src="http://cdn.onlinewebfonts.com/svg/img_113945.png" />
           </div>
         </div>
