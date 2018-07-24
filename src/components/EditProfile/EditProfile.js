@@ -47,7 +47,7 @@ class EditProfile extends Component {
             pieces:[
               {
                 type:"TEXT",
-                text:'I would probably be in a p tag or something',
+                text:'    They decided to call themselves Foreign Figures as a nod to the time that each member spent living in a foreign country, as well as the band’s interest in connecting with all types of people around the world.',
                 style:{
 
                 },
@@ -66,10 +66,17 @@ class EditProfile extends Component {
             },
             pieces:[
               {
+                type:"TEXT",
+                text:'    Enjoy the latest singles from FF',
+                style:{
+
+                },
+              },
+              {
                 type:"PROJECT",
-                title:'Hey Love',
+                title:'Paradigm',
                 img:{
-                  src:"https://instagram.fslc1-1.fna.fbcdn.net/vp/08f5ab0e85d584912858854603dafdea/5B9FCE76/t51.2885-15/s640x640/sh0.08/e35/23594611_360643961029054_2777025432963252224_n.jpg",
+                  src:"http://www.foreignfigures.com/wp-content/uploads/2016/07/cropped-Paradigm-Cover-Art-270x270.jpg",
                   style:{
 
                   }
@@ -93,17 +100,10 @@ class EditProfile extends Component {
                 ]
               },
               {
-                type:"TEXT",
-                text:'I would probably be in a p tag or something',
-                style:{
-
-                },
-              },
-              {
                 type:"PROJECT",
-                title:'Hey Love',
+                title:'Come Alive',
                 img:{
-                  src:"https://instagram.fslc1-1.fna.fbcdn.net/vp/08f5ab0e85d584912858854603dafdea/5B9FCE76/t51.2885-15/s640x640/sh0.08/e35/23594611_360643961029054_2777025432963252224_n.jpg",
+                  src:"http://www.foreignfigures.com/wp-content/uploads/2016/03/Come-Alive-EP-Cover-Art-300x300.jpg",
                   style:{
 
                   }
@@ -128,9 +128,9 @@ class EditProfile extends Component {
               },
               {
                 type:"PROJECT",
-                title:'Hey Love',
+                title:'Cold War',
                 img:{
-                  src:"https://instagram.fslc1-1.fna.fbcdn.net/vp/08f5ab0e85d584912858854603dafdea/5B9FCE76/t51.2885-15/s640x640/sh0.08/e35/23594611_360643961029054_2777025432963252224_n.jpg",
+                  src:"http://www.foreignfigures.com/wp-content/uploads/2017/06/Cold-War-Cover-Art-SNOW-300x300.jpg",
                   style:{
 
                   }
@@ -213,7 +213,7 @@ class EditProfile extends Component {
     this.deleteSection = this.deleteSection.bind(this);
   }
 
-  //--------------Start Editing Functions --------------------//
+  //--------------Start of Data Editing Functions --------------------//
   
   editDataPoint = (pointer, profileDataOnReCall) => {
     let profileData;
@@ -368,13 +368,30 @@ class EditProfile extends Component {
     return
   }
 
+  pieceSwap = (i, j) => {
+    console.log(i, j, this.state)
+    if(i !== this.state.currentSectionIndex){return}
+    if(j === this.state.currentPieceIndex){return}
+    let profileData = JSON.parse(JSON.stringify(this.state.profileData))
+    let piece1 = JSON.parse(JSON.stringify(profileData.sections[this.state.currentSectionIndex].pieces[this.state.currentPieceIndex]))
+    let piece2 = JSON.parse(JSON.stringify(profileData.sections[i].pieces[j]))
+    profileData.sections[i].pieces[j] = piece1
+    profileData.sections[this.state.currentSectionIndex].pieces[this.state.currentPieceIndex] = piece2
+    this.state.profileData = profileData
+    this.state.currentPieceIndex = null
+    this.state.currentSectionIndex = null
+    this.forceUpdate()
+    this.unRecordDragEvent()
+  }
+
+
   //--------------End Editing Functions --------------------//
 
   //--------------Start HTML Return Function --------------------//
   
   buildTextPiece = (piece, i, j) => {
     return(
-      <div draggable="true" onDragEnd={this.unRecordDragEvent} onDragStart={(e) => {e.stopPropagation(); this.recordDragEvent(e, i, j)}} className="profile_text-piece" key={j}>
+      <div onDragOver={() => this.pieceSwap(i, j)} draggable="true" onDragEnd={this.unRecordDragEvent} onDragStart={(e) => {e.stopPropagation(); this.recordDragEvent(e, i, j)}} className="profile_text-piece" key={j}>
         <div style={{position:"relative"}}>
           <h3><pre>{piece.text}</pre></h3>
           {this.props.edit &&
@@ -395,7 +412,7 @@ class EditProfile extends Component {
 
   buildProjectPiece = (piece, i, j) => {
     return(
-      <div draggable="true" onDragEnd={this.unRecordDragEvent} onDragStart={(e) => {e.stopPropagation(); this.recordDragEvent(e, i, j)}} onClick={() => this.showLinkModel(piece, i, j)} style={{background:"#fff"}} className="profile_project-piece" key={j}>
+      <div onDragOver={() => this.pieceSwap(i, j)} draggable="true" onDragEnd={this.unRecordDragEvent} onDragStart={(e) => {e.stopPropagation(); this.recordDragEvent(e, i, j)}} onClick={() => this.showLinkModel(piece, i, j)} style={{background:"#fff"}} className="profile_project-piece" key={j}>
         <div style={{position:"relative"}}>
           <img src={piece.img.src}/>
           {this.props.edit &&
@@ -616,8 +633,6 @@ class EditProfile extends Component {
                 {this.state.modelData.title &&
                   <h3 style={{textAlign:"center"}}>{this.state.modelData.title}</h3>
                 }
-
-
                 <div className="profile_links-wrapper">
                   {this.state.modelData.links &&
                     this.state.modelData.links.map((link, k) => {
