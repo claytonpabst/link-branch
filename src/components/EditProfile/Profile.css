@@ -93,7 +93,7 @@
 }
 .profile_link-piece-img{
     height: 40px;
-    width: 60px !important;
+    width: auto !important;
     margin: 10px 0 !important;
     padding: 0 !important;
 }

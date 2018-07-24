@@ -369,7 +369,7 @@ class EditProfile extends Component {
   }
 
   pieceSwap = (i, j) => {
-    console.log(i, j, this.state)
+    if(this.state.pieceDetelable === false){return}
     if(i !== this.state.currentSectionIndex){return}
     if(j === this.state.currentPieceIndex){return}
     let profileData = JSON.parse(JSON.stringify(this.state.profileData))
@@ -380,6 +380,24 @@ class EditProfile extends Component {
     this.state.profileData = profileData
     this.state.currentPieceIndex = null
     this.state.currentSectionIndex = null
+    this.state.sectionDeletable = false
+    this.state.pieceDetelable = false
+    this.forceUpdate()
+    this.unRecordDragEvent()
+  }
+  SectionSwap = (i) => {
+    if(this.state.sectionDeletable === false){return}
+    if(i === this.state.currentSectionIndex){return}
+    let profileData = JSON.parse(JSON.stringify(this.state.profileData))
+    let section1 = JSON.parse(JSON.stringify(profileData.sections[this.state.currentSectionIndex]))
+    let section2 = JSON.parse(JSON.stringify(profileData.sections[i]))
+    profileData.sections[i] = section1
+    profileData.sections[this.state.currentSectionIndex] = section2
+    this.state.profileData = profileData
+    this.state.currentPieceIndex = null
+    this.state.currentSectionIndex = null
+    this.state.sectionDeletable = false
+    this.state.pieceDetelable = false
     this.forceUpdate()
     this.unRecordDragEvent()
   }
@@ -506,7 +524,7 @@ class EditProfile extends Component {
         {
           profileData.sections.map((section, i) => {
             return(
-              <div draggable="true" onDragEnd={this.unRecordDragEvent} onDragStart={(e) => {this.recordDragEvent(e, i, null)}} style={section.style} className="profile_section-wrapper profile_section-spacer" key={i}>
+              <div onDragOver={() => this.SectionSwap(i)} draggable="true" onDragEnd={this.unRecordDragEvent} onDragStart={(e) => {this.recordDragEvent(e, i, null)}} style={section.style} className="profile_section-wrapper profile_section-spacer" key={i}>
                 <div style={{position:"relative"}}>
                   {this.props.edit &&
                     <Fragment>
