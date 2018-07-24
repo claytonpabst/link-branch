@@ -190,6 +190,10 @@ class EditProfile extends Component {
       editText:"",
       currentText:"",
       currentImg:'',
+      currentSectionIndex:null,
+      currentPieceIndex:null,
+      sectionDeletable:false,
+      pieceDetelable:false,
       editPointer:'',
       showLinkModel: false,
       showEditImageModel: false,
@@ -206,12 +210,12 @@ class EditProfile extends Component {
     }
 
     this.switchPositions = this.switchPositions.bind(this);
+    this.deleteSection = this.deleteSection.bind(this);
   }
 
   //--------------Start Editing Functions --------------------//
   
   editDataPoint = (pointer, profileDataOnReCall) => {
-    console.log('hit');
     let profileData;
     if(profileDataOnReCall){
       profileData = profileDataOnReCall;
@@ -296,6 +300,73 @@ class EditProfile extends Component {
       profileData
     })
   }
+  addTextPiece = (i) => {
+    let profileData = JSON.parse(JSON.stringify(this.state.profileData))
+    profileData.sections[i].pieces.push({
+      type:"TEXT",
+      text:'New Text',
+      style:{
+        
+      },
+    })
+    this.setState({profileData})
+  }
+  addProjectPiece = (i) => {
+    let profileData = JSON.parse(JSON.stringify(this.state.profileData))
+    profileData.sections[i].pieces.push({
+      type:"PROJECT",
+      title:'New Project',
+      img:{
+        src:"https://d30y9cdsu7xlg0.cloudfront.net/png/396915-200.png",
+        style:{
+
+        }
+      },
+      style:{
+
+      },
+      links:[]
+    })
+    this.setState({profileData})
+  }
+
+  recordDragEvent = (e, sectionIndex, pieceIndex) => {
+    let pieceDetelable = false
+    let sectionDeletable = false
+    if(pieceIndex !== null){
+      pieceDetelable = true
+    } else {
+      sectionDeletable = true
+    }
+    this.setState({
+      sectionDeletable,
+      pieceDetelable,
+      currentSectionIndex: sectionIndex,
+      currentPieceIndex: pieceIndex,
+    })
+  }
+  unRecordDragEvent = () => {
+    this.setState({
+      pieceDetelable:false,
+      sectionDeletable: false,
+      currentSectionIndex: null,
+      currentPieceIndex: null,
+    })
+  }
+  deleteSection(event){
+    // This function is used for deleting sections AND child pieces
+    let profileData = JSON.parse(JSON.stringify(this.state.profileData))
+    if(this.state.sectionDeletable){
+      profileData.sections.splice(this.state.currentSectionIndex, 1)
+    } else if (this.state.pieceDetelable){
+      profileData.sections[this.state.currentSectionIndex].pieces.splice(this.state.currentPieceIndex, 1)
+    }
+    this.setState({
+      profileData,      
+    })
+    this.unRecordDragEvent()
+    return
+  }
 
   //--------------End Editing Functions --------------------//
 
@@ -303,7 +374,7 @@ class EditProfile extends Component {
   
   buildTextPiece = (piece, i, j) => {
     return(
-      <div draggable="true" className="profile_text-piece" key={j}>
+      <div draggable="true" onDragEnd={this.unRecordDragEvent} onDragStart={(e) => {e.stopPropagation(); this.recordDragEvent(e, i, j)}} className="profile_text-piece" key={j}>
         <div style={{position:"relative"}}>
           <h3><pre>{piece.text}</pre></h3>
           {this.props.edit &&
@@ -324,7 +395,7 @@ class EditProfile extends Component {
 
   buildProjectPiece = (piece, i, j) => {
     return(
-      <div draggable="true" onClick={() => this.showLinkModel(piece, i, j)} style={{background:"#fff"}} className="profile_project-piece" key={j}>
+      <div draggable="true" onDragEnd={this.unRecordDragEvent} onDragStart={(e) => {e.stopPropagation(); this.recordDragEvent(e, i, j)}} onClick={() => this.showLinkModel(piece, i, j)} style={{background:"#fff"}} className="profile_project-piece" key={j}>
         <div style={{position:"relative"}}>
           <img src={piece.img.src}/>
           {this.props.edit &&
@@ -409,7 +480,7 @@ class EditProfile extends Component {
           {this.props.edit &&
             <Fragment>
               <div style={{position:"absolute", bottom:"8px", right:"5px",display:"flex",}}>
-                <div style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://cdn3.iconfinder.com/data/icons/objects/512/Bin-512.png"/></div>
+                <div onDragOver={(e) => e.preventDefault()} onDrop={(e) => this.deleteSection(e)} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://cdn3.iconfinder.com/data/icons/objects/512/Bin-512.png"/></div>
                 <div onClick={this.addSection} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://cdn4.iconfinder.com/data/icons/ios7-essence/22/add_plus-512.png"/></div>
               </div>
             </Fragment>
@@ -418,7 +489,7 @@ class EditProfile extends Component {
         {
           profileData.sections.map((section, i) => {
             return(
-              <div style={section.style} className="profile_section-wrapper profile_section-spacer" key={i}>
+              <div draggable="true" onDragEnd={this.unRecordDragEvent} onDragStart={(e) => {this.recordDragEvent(e, i, null)}} style={section.style} className="profile_section-wrapper profile_section-spacer" key={i}>
                 <div style={{position:"relative"}}>
                   {this.props.edit &&
                     <Fragment>
@@ -429,8 +500,9 @@ class EditProfile extends Component {
                         className="profile_link-model-x edit-profile_edit-icon"
                       />
                       <div style={{position:"absolute", right:"5px",display:"flex",}}>
-                        <div style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://cdn3.iconfinder.com/data/icons/objects/512/Bin-512.png"/></div>
-                        <div style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://cdn4.iconfinder.com/data/icons/ios7-essence/22/add_plus-512.png"/></div>
+                        <div onDragOver={(e) => e.preventDefault()} onDrop={(e) => this.deleteSection(e)} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://cdn3.iconfinder.com/data/icons/objects/512/Bin-512.png"/></div>
+                        <div onClick={() => this.addTextPiece(i)} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://www.shareicon.net/data/512x512/2015/08/29/92770_write_512x512.png"/></div>
+                        <div onClick={() => this.addProjectPiece(i)} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://d30y9cdsu7xlg0.cloudfront.net/png/396915-200.png"/></div>
                       </div>
                     </Fragment>
                   }
