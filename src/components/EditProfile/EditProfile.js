@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 import './EditProfile.css';
+import './Profile.css';
 
 class EditProfile extends Component {
   constructor(props){
@@ -263,9 +264,6 @@ class EditProfile extends Component {
     })
   }
   
-  
-  //--------------Start Editing Functions --------------------//
-
   showLinkModel = (piece, i, j) => {
     let linkModelData = Object.assign({},piece);
     linkModelData.i = i;
@@ -275,25 +273,50 @@ class EditProfile extends Component {
       showLinkModel:true,
     })
   }
-
+  
   closeLinkModel = () => {
     this.setState({showLinkModel:false});
   }
 
+  addSection = () => {
+    let profileData = JSON.parse(JSON.stringify(this.state.profileData))
+    profileData.sections.push({
+      title:{
+        text:"New Section",
+        style:{
+          background:"#666",
+        },
+      },
+      style:{
+        background:"#fff",
+      },
+      pieces:[]
+    })
+    this.setState({
+      profileData
+    })
+  }
+
+  //--------------End Editing Functions --------------------//
+
+  //--------------Start HTML Return Function --------------------//
+  
   buildTextPiece = (piece, i, j) => {
     return(
-      <div className="profile_text-piece" key={j}>
+      <div draggable="true" className="profile_text-piece" key={j}>
         <div style={{position:"relative"}}>
           <h3><pre>{piece.text}</pre></h3>
-          <img 
-            src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
-            onClick={(e) =>{e.stopPropagation(); this.editTextModel("sections."+i.toString()+".pieces."+j.toString()+".text", piece, piece.text)}}
-            style={{
-              top:"2px",
-              left:"-5px",
-            }}
-            className="profile_link-model-x edit-profile_edit-icon"
-          />
+          {this.props.edit &&
+            <img 
+              src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
+              onClick={(e) =>{e.stopPropagation(); this.editTextModel("sections."+i.toString()+".pieces."+j.toString()+".text", piece, piece.text)}}
+              style={{
+                top:"2px",
+                left:"-5px",
+              }}
+              className="profile_link-model-x edit-profile_edit-icon"
+            />
+          }
         </div>
       </div>
     )
@@ -301,29 +324,33 @@ class EditProfile extends Component {
 
   buildProjectPiece = (piece, i, j) => {
     return(
-      <div onClick={() => this.showLinkModel(piece, i, j)} style={{background:"#fff"}} className="profile_project-piece" key={j}>
+      <div draggable="true" onClick={() => this.showLinkModel(piece, i, j)} style={{background:"#fff"}} className="profile_project-piece" key={j}>
         <div style={{position:"relative"}}>
           <img src={piece.img.src}/>
-          <img 
-            src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
-            onClick={(e) =>{e.stopPropagation(); this.editImageModel("sections."+i.toString()+".pieces."+j.toString()+".img.src", piece, piece.img.src)}}
-            style={{
-              top:"2px",
-              left:"10px",
-            }}
-            className="profile_link-model-x edit-profile_edit-icon"
-          />
+          {this.props.edit &&
+            <img 
+              src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
+              onClick={(e) =>{e.stopPropagation(); this.editImageModel("sections."+i.toString()+".pieces."+j.toString()+".img.src", piece, piece.img.src)}}
+              style={{
+                top:"2px",
+                left:"10px",
+              }}
+              className="profile_link-model-x edit-profile_edit-icon"
+            />
+          }
         </div>
         <div style={{position:"relative"}}>
-          <img 
-            src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
-            onClick={(e) =>{e.stopPropagation(); this.editTextModel("sections."+i.toString()+".pieces."+j.toString()+".title", piece, piece.title)}}
-            style={{
-              top:"2px",
-              left:"10px",
-            }}
-            className="profile_link-model-x edit-profile_edit-icon"
-          />
+          {this.props.edit &&
+            <img 
+              src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
+              onClick={(e) =>{e.stopPropagation(); this.editTextModel("sections."+i.toString()+".pieces."+j.toString()+".title", piece, piece.title)}}
+              style={{
+                top:"2px",
+                left:"10px",
+              }}
+              className="profile_link-model-x edit-profile_edit-icon"
+            />
+          }
           <h3>{piece.title}</h3>
         </div>
       </div>
@@ -354,48 +381,59 @@ class EditProfile extends Component {
 
   buildSections = (profileData) => {
     return (
-      <div draggable='true'>
-        <div style={{background:profileData.generalInfoStyle.background}} className="profile_general-info-wrapper">
+      <div>
+        <div style={{background:profileData.generalInfoStyle.background, position:"relative"}} className="profile_general-info-wrapper">
           <div style={{position:"relative"}}>
             <img style={{width:"35%"}} src={profileData.img.src}/>
-            <img 
-              src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
-              onClick={(e) => {e.stopPropagation(); this.editImageModel("img.src", profileData.img, profileData.img.src)}}
-              style={{
-                top:"2px",
-                left:"10px",
-              }}
-              className="profile_link-model-x edit-profile_edit-icon"
-            />
+            {this.props.edit &&
+              <img 
+                src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
+                onClick={(e) => {e.stopPropagation(); this.editImageModel("img.src", profileData.img, profileData.img.src)}}
+                style={{top:"2px",left:"10px",}}
+                className="profile_link-model-x edit-profile_edit-icon"
+              />
+            }
           </div>
           <div style={{position:"relative"}}>
             <h1>{profileData.name.text}</h1>
-            <img 
-              src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
-              onClick={(e) => {e.stopPropagation(); this.editTextModel("name.text", null, profileData.name.text)}}
-              style={{
-                top:"2px",
-                left:"10px",
-              }}
-              className="profile_link-model-x edit-profile_edit-icon"
-            />
+            {this.props.edit &&
+              <img 
+                src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
+                onClick={(e) => {e.stopPropagation(); this.editTextModel("name.text", null, profileData.name.text)}}
+                style={{top:"2px",left:"10px",}}
+                className="profile_link-model-x edit-profile_edit-icon"
+              />
+            }
           </div>
           <p>{this.numberToThousands(profileData.profileViews.views)} Profile Views</p>
+          {this.props.edit &&
+            <Fragment>
+              <div style={{position:"absolute", bottom:"8px", right:"5px",display:"flex",}}>
+                <div style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://cdn3.iconfinder.com/data/icons/objects/512/Bin-512.png"/></div>
+                <div onClick={this.addSection} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://cdn4.iconfinder.com/data/icons/ios7-essence/22/add_plus-512.png"/></div>
+              </div>
+            </Fragment>
+          }
         </div>
         {
           profileData.sections.map((section, i) => {
             return(
               <div style={section.style} className="profile_section-wrapper profile_section-spacer" key={i}>
                 <div style={{position:"relative"}}>
-                  <img 
-                    src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
-                    onClick={(e) => {e.stopPropagation(); this.editTextModel("sections."+i.toString()+".title.text", null, section.title.text,)}}
-                    style={{
-                      top:"2px",
-                      left:"-5px",
-                    }}
-                    className="profile_link-model-x edit-profile_edit-icon"
-                  />
+                  {this.props.edit &&
+                    <Fragment>
+                      <img 
+                        src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
+                        onClick={(e) => {e.stopPropagation(); this.editTextModel("sections."+i.toString()+".title.text", null, section.title.text,)}}
+                        style={{top:"2px",left:"-5px",}}
+                        className="profile_link-model-x edit-profile_edit-icon"
+                      />
+                      <div style={{position:"absolute", right:"5px",display:"flex",}}>
+                        <div style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://cdn3.iconfinder.com/data/icons/objects/512/Bin-512.png"/></div>
+                        <div style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://cdn4.iconfinder.com/data/icons/ios7-essence/22/add_plus-512.png"/></div>
+                      </div>
+                    </Fragment>
+                  }
                   <h2 style={section.title.style}>{section.title.text}</h2>
                 </div>
                 {
@@ -408,6 +446,8 @@ class EditProfile extends Component {
       </div>
     )
   }
+
+  //These functions below are not in use and are just an example of repositioning section and pieces using the drag and drop api
 
   toggleEditing = (e, i, box) => {
     let editing = true
@@ -485,6 +525,9 @@ class EditProfile extends Component {
           { 
             this.buildSections(profileData)
           }
+
+          {/* --------------------------The above line executes all the HTML functions and builds the profile. Below is the return of different models------------------------------ */}
+
           { this.state.showLinkModel &&
             <div className="profile_link-model-overlay">
               <div style={{position:"relative", padding:"20px"}} className="profile_link-model-wrapper">

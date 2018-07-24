@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import router from './router';
 
 import MobileMenu from "./components/MobileMenu/MobileMenu.js"
 import MainHeader from "./components/MainHeader/MainHeader.js"
 
-import Profile from './components/Home/Profile.js';
 import EditProfile from './components/EditProfile/EditProfile.js';
-import NumberChanger from './components/Home/NumberChanger.js';
-
 
 import './reset.css';
 import './App.css';
@@ -43,8 +39,8 @@ class App extends Component {
         <MainHeader toggleMobileMenu={this.toggleMobileMenu} />
         <Switch>
         
-          <Route exact path="/edit" render={()=><EditProfile edit={true}/>} />
-          <Route exact path="/u/:id" render={()=><EditProfile edit={false}/>} />
+          <Route render={()=><EditProfile edit={true}/>} exact path="/edit" />
+          <Route render={()=><EditProfile edit={false}/>} exact path="/u" />
 
         </Switch>
         <MobileMenu mobileMenuStyle={this.state.mobileMenuStyle} toggleMobileMenu={this.toggleMobileMenu} />
