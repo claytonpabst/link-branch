@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import './EditProfile.css';
 
-
 class EditProfile extends Component {
   constructor(props){
     super(props)
@@ -189,6 +188,7 @@ class EditProfile extends Component {
       },
       editText:"",
       currentText:"",
+      currentImg:'',
       editPointer:'',
       showLinkModel: false,
       showEditImageModel: false,
@@ -228,10 +228,11 @@ class EditProfile extends Component {
     return this.editDataPoint(pointer.slice(1, pointer.length), profileData[pointer[0]])
   }
 
-  editImageModel = (pointer, piece) => {
+  editImageModel = (pointer, piece, currentImg) => {
     this.setState({
       editPointer:pointer,
       showEditImageModel: true,
+      currentImg: currentImg,
       modelData:piece
     })
   }
@@ -241,6 +242,7 @@ class EditProfile extends Component {
       showEditImageModel: false,
       editText: '',
       editPointer: '',
+      currentImg: '',
     })
   }
   editTextModel = (pointer, piece, currentText) => {
@@ -265,7 +267,7 @@ class EditProfile extends Component {
   //--------------Start Editing Functions --------------------//
 
   showLinkModel = (piece, i, j) => {
-    let linkModelData = Object.assign(piece);
+    let linkModelData = Object.assign({},piece);
     linkModelData.i = i;
     linkModelData.j = j;
     this.setState({
@@ -304,7 +306,7 @@ class EditProfile extends Component {
           <img src={piece.img.src}/>
           <img 
             src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
-            onClick={(e) =>{e.stopPropagation(); this.editImageModel("sections."+i.toString()+".pieces."+j.toString()+".img.src", piece)}}
+            onClick={(e) =>{e.stopPropagation(); this.editImageModel("sections."+i.toString()+".pieces."+j.toString()+".img.src", piece, piece.img.src)}}
             style={{
               top:"2px",
               left:"10px",
@@ -312,7 +314,18 @@ class EditProfile extends Component {
             className="profile_link-model-x edit-profile_edit-icon"
           />
         </div>
-        <h3 onClick={(e) =>{e.stopPropagation(); this.editTextModel("sections."+i.toString()+".pieces."+j.toString()+".title", piece, piece.title)}}>{piece.title}</h3>
+        <div style={{position:"relative"}}>
+          <img 
+            src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
+            onClick={(e) =>{e.stopPropagation(); this.editTextModel("sections."+i.toString()+".pieces."+j.toString()+".title", piece, piece.title)}}
+            style={{
+              top:"2px",
+              left:"10px",
+            }}
+            className="profile_link-model-x edit-profile_edit-icon"
+          />
+          <h3>{piece.title}</h3>
+        </div>
       </div>
     )
   }
@@ -347,7 +360,7 @@ class EditProfile extends Component {
             <img style={{width:"35%"}} src={profileData.img.src}/>
             <img 
               src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
-              onClick={(e) => {e.stopPropagation(); this.editImageModel("img.src", profileData.img.src)}}
+              onClick={(e) => {e.stopPropagation(); this.editImageModel("img.src", profileData.img, profileData.img.src)}}
               style={{
                 top:"2px",
                 left:"10px",
@@ -422,8 +435,8 @@ class EditProfile extends Component {
     this.num++;
     this.forceUpdate()
     if(this.state.editing && box !== this.state.selectedBox && this.state.selectedBox){
-      let box1 = Object.assign(this.state.selectedBox) 
-      let box2 = Object.assign(box) 
+      let box1 = Object.assign({},this.state.selectedBox) 
+      let box2 = Object.assign({},box) 
       for(let i=0; i<this.state.boxes.length; i++){
         if(this.state.boxes[i].id === box1.id){box1.index = i}
         if(this.state.boxes[i].id === box2.id){box2.index = i}
@@ -444,7 +457,7 @@ class EditProfile extends Component {
   }
 
   render() {
-    // console.log(this.state)
+    console.log(this.state)
     let {profileData} = this.state;
     let style = profileData.style
     return (
@@ -491,12 +504,12 @@ class EditProfile extends Component {
 
 
                 <div className="profile_links-wrapper">
-                  { this.state.modelData.links &&
+                  {this.state.modelData.links &&
                     this.state.modelData.links.map((link, k) => {
                       return (
                         <div className="profile_link-piece" key={k}>
-                          <img src={link.img}/>
-                          <a href={link.href}>Go</a>
+                          <img className="profile_link-piece-img" src={link.img}/>
+                          <a className="profile_link-piece-go" href={link.href}>Go</a>
                         </div>
                       )
                     })
@@ -515,12 +528,10 @@ class EditProfile extends Component {
                 >
                   x
                 </div>
-                {this.state.modelData.img.src &&
-                  <img src={this.state.modelData.img.src}/>
-                }
-                {this.state.modelData.title &&
+                <img src={this.state.currentImg} alt="Image to Update"/>
+                {/* {this.state.modelData.title &&
                   <h3 style={{textAlign:"center", fontWeight:"bolder", fontSize:"30px"}}>{this.state.modelData.title}</h3>
-                }
+                } */}
                 <h6 style={{textAlign:"left", margin:"20px 0px 0px 0px", fontWeight:"lighter"}}>Enter New Image Address</h6>
                 <input value={this.state.edit} onChange={(e) => this.setState({editText:e.target.value})}/>
                 <button onClick={() => {this.editDataPoint(this.state.editPointer); this.closeEditImageModel()}}>Update Image</button>

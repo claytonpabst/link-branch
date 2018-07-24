@@ -80,4 +80,36 @@
     cursor: pointer;
 }
 
+.profile_links-wrapper{
+    margin-top: 25px;
+}
+
+.profile_link-piece{
+    border-top: 1px solid grey;
+    /* background: pink; */
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+.profile_link-piece-img{
+    height: 40px;
+    width: 60px !important;
+    margin: 10px 0 !important;
+    padding: 0 !important;
+}
+.profile_link-piece-go{
+    background: green;
+    margin: 10px 0;
+    height: 40px;
+    width: 40px;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 40px;
+    font-size: 22px;
+    font-weight: bolder;
+    text-decoration-line: none;
+    color: white;
+    margin: 10px 0;
+}
+
 

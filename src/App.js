@@ -43,9 +43,8 @@ class App extends Component {
         <MainHeader toggleMobileMenu={this.toggleMobileMenu} />
         <Switch>
         
-          <Route component={ Profile } path='/' exact />
-          <Route component={ EditProfile } path='/edit' exact />
-          <Route component={ NumberChanger } path='/number' exact />
+          <Route exact path="/edit" render={()=><EditProfile edit={true}/>} />
+          <Route exact path="/u/:id" render={()=><EditProfile edit={false}/>} />
 
         </Switch>
         <MobileMenu mobileMenuStyle={this.state.mobileMenuStyle} toggleMobileMenu={this.toggleMobileMenu} />
@@ -53,6 +52,5 @@ class App extends Component {
     );
   }
 }
-
 
 export default App;
