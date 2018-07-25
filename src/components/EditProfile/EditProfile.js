@@ -24,7 +24,11 @@ class EditProfile extends Component {
         name:{
           text:'FOREIGN FIGURES',
           style:{
-            
+            fontSize:"30px",
+            fontWeight:"bolder",
+            lineHeight:"100px",
+            fontFamily:'"Comic Sans MS", cursive, sans-serif',
+            color:"Green",
           },
         },
         profileViews:{
@@ -188,6 +192,7 @@ class EditProfile extends Component {
 
       },
       editText:"",
+      styleBeingEdited:'',
       currentText:"",
       currentImg:'',
       currentSectionIndex:null,
@@ -195,6 +200,7 @@ class EditProfile extends Component {
       sectionDeletable:false,
       pieceDetelable:false,
       editPointer:'',
+      stylePointer:'',
       showLinkModel: false,
       showEditImageModel: false,
       showEditTextModel: false,
@@ -209,32 +215,44 @@ class EditProfile extends Component {
       ],
     }
 
-    this.switchPositions = this.switchPositions.bind(this);
     this.deleteSection = this.deleteSection.bind(this);
   }
 
   //--------------Start of Data Editing Functions --------------------//
   
-  editDataPoint = (pointer, profileDataOnReCall) => {
-    let profileData;
+  // pointer changes as this function calls inself to dig into the obj. 
+  // original pointer is used to check if .style exists in the pointer to decide what to update--------------------
+  editDataPoint = (pointer, profileDataOnReCall, originalPointer) => {
+    let profileData
+    let content
     if(profileDataOnReCall){
       profileData = profileDataOnReCall;
+      originalPointer = originalPointer
     } else {
-      profileData = this.state.profileData;
+      profileData = this.state.profileData
+      originalPointer = pointer
     }
+    console.log(profileData)
     if(typeof(pointer) === 'string'){
-      pointer = pointer.split('.');
+      pointer = pointer.split('.')
+      originalPointer = originalPointer.split('.')
     }
     if(pointer.length === 1){
-      profileData[pointer[0]] = this.state.editText;
-      this.forceUpdate();
+      if(originalPointer.indexOf('style') > -1){
+        content = this.state.styleBeingEdited
+      } else {
+        content = this.state.editText
+      }
+      profileData[pointer[0]] = content
+      this.forceUpdate()
       return;
     }
-    return this.editDataPoint(pointer.slice(1, pointer.length), profileData[pointer[0]])
+    return this.editDataPoint(pointer.slice(1, pointer.length), profileData[pointer[0]], originalPointer)
   }
 
-  editImageModel = (pointer, piece, currentImg) => {
+  editImageModel = (pointer, piece, currentImg, stylePointer) => {
     this.setState({
+      stylePointer,
       editPointer:pointer,
       showEditImageModel: true,
       currentImg: currentImg,
@@ -246,16 +264,18 @@ class EditProfile extends Component {
     this.setState({
       showEditImageModel: false,
       editText: '',
+      styleBeingEdited: '',
       editPointer: '',
       currentImg: '',
     })
   }
-  editTextModel = (pointer, piece, currentText) => {
+  editTextModel = (pointer, piece, currentText, stylePointer) => {
     this.setState({
-      editPointer:pointer,
+      stylePointer,
+      editPointer: pointer,
       showEditTextModel: true,
       currentText: currentText,
-      modelData:piece
+      modelData: piece
     })
   }
 
@@ -263,6 +283,7 @@ class EditProfile extends Component {
     this.setState({
       showEditTextModel: false,
       editText: '',
+      styleBeingEdited: '',
       editPointer: '',
       currentText: '',
     })
@@ -501,11 +522,11 @@ class EditProfile extends Component {
             }
           </div>
           <div style={{position:"relative"}}>
-            <h1>{profileData.name.text}</h1>
+            <h1 style={profileData.name.style}>{profileData.name.text}</h1>
             {this.props.edit &&
               <img 
                 src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
-                onClick={(e) => {e.stopPropagation(); this.editTextModel("name.text", null, profileData.name.text)}}
+                onClick={(e) => {e.stopPropagation(); this.editTextModel("name.text", null, profileData.name.text, "name.style")}}
                 style={{top:"2px",left:"10px",}}
                 className="profile_link-model-x edit-profile_edit-icon"
               />
@@ -554,88 +575,25 @@ class EditProfile extends Component {
     )
   }
 
-  //These functions below are not in use and are just an example of repositioning section and pieces using the drag and drop api
-
-  toggleEditing = (e, i, box) => {
-    let editing = true
-    let selectedBox = box
-    let boxes = this.state.boxes
-    // boxes[i].visibility = "hidden"
-    this.setState({
-      editing, selectedBox, boxes
-    })
-  }
-  editingFalse = (e, i, box) => {
-    let editing =false 
-    let selectedBox = null
-    let boxes = this.state.boxes
-    for(let i=0; i<boxes.length; i++){
-      boxes[i].visibility = "visible"
-    }
-    this.setState({
-      editing, selectedBox, boxes
-    })
-  }
-
-  switchPositions(e, box){
-    // e.stopPropagation()
-    this.num++;
-    this.forceUpdate()
-    if(this.state.editing && box !== this.state.selectedBox && this.state.selectedBox){
-      let box1 = Object.assign({},this.state.selectedBox) 
-      let box2 = Object.assign({},box) 
-      for(let i=0; i<this.state.boxes.length; i++){
-        if(this.state.boxes[i].id === box1.id){box1.index = i}
-        if(this.state.boxes[i].id === box2.id){box2.index = i}
-      }
-      let boxes = this.state.boxes
-      boxes[box1.index] = box2
-      boxes[box2.index] = box1
-      this.setState({
-        boxes
-      })
-    } else {
-      return
-    }
-  }
-
   numberToThousands = (x) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
   render() {
     console.log(this.state)
-    let {profileData} = this.state;
+    let profileData = JSON.parse(JSON.stringify(this.state.profileData));
     let style = profileData.style
     return (
       <div style={{background:"#f5f5f5"}} className="App">
-        <div style={{background:"#f5f5f5"}} onMouseLeave={(e) => this.editingFalse(e)} onMouseUp={(e) => this.editingFalse(e)} className="profile_profile-wrapper">
-          {/* {
-            this.state.boxes.map((box, i) => {
-              let boxRef = "boxRef" + i
-              return (
-                <div
-                  draggable='true' 
-                  key={i}
-                  ref={(self) => {this[boxRef] = self}} 
-                  onDragEnd={(e) => this.editingFalse(e)}
-                  onDragOver={(e) => this.switchPositions(e, box)} 
-                  onDragStart={(e) => {this.toggleEditing(e, i, box) }} 
-                  style={{visibility:box.visibility, background:box.color, zIndex:"100", margin:"10px 0px", padding:"10px 0px"}}
-                >
-                  <div ></div>
-                  {box.text}
-                </div>
-              )
-            })
-          } */}
+        <div style={{background:"#f5f5f5"}} className="profile_profile-wrapper">
+
           { 
             this.buildSections(profileData)
           }
 
-          {/* --------------------------The above line executes all the HTML functions and builds the profile. Below is the return of different models------------------------------ */}
+          {/* --------------------------The above line executes all the HTML functions and builds the profile. Below is the return of different editing models------------------------------ */}
 
-          { this.state.showLinkModel &&
+          {this.state.showLinkModel &&
             <div className="profile_link-model-overlay">
               <div style={{position:"relative", padding:"20px"}} className="profile_link-model-wrapper">
                 <div 
@@ -666,7 +624,7 @@ class EditProfile extends Component {
               </div>
             </div>
           }
-          { this.state.showEditImageModel &&
+          {this.state.showEditImageModel &&
             <div className="profile_link-model-overlay">
               <div style={{position:"relative", padding:"20px"}} className="profile_link-model-wrapper">
                 <div 
@@ -677,9 +635,6 @@ class EditProfile extends Component {
                   x
                 </div>
                 <img src={this.state.currentImg} alt="Image to Update"/>
-                {/* {this.state.modelData.title &&
-                  <h3 style={{textAlign:"center", fontWeight:"bolder", fontSize:"30px"}}>{this.state.modelData.title}</h3>
-                } */}
                 <h6 style={{textAlign:"left", margin:"20px 0px 0px 0px", fontWeight:"lighter"}}>Enter New Image Address</h6>
                 <input value={this.state.edit} onChange={(e) => this.setState({editText:e.target.value})}/>
                 <button onClick={() => {this.editDataPoint(this.state.editPointer); this.closeEditImageModel()}}>Update Image</button>
@@ -696,10 +651,75 @@ class EditProfile extends Component {
                 >
                   x
                 </div>
-                <h2>Current Text: {this.state.currentText}</h2>
-                <h6 style={{textAlign:"left", margin:"20px 0px 0px 0px", fontWeight:"lighter"}}>Enter New Text</h6>
+
+                <h6 style={{margin:"20px 0px 0px 0px", fontWeight:"lighter", width:"150px", display:"inlineBlock"}}>Enter New Text</h6>
                 <textarea style={{width:"90%", height:"200px"}} value={this.state.currentText} onChange={(e) => this.setState({editText:e.target.value,currentText:e.target.value})}/>
                 <button onClick={() => {this.editDataPoint(this.state.editPointer); this.closeEditTextModel()}}>Update Text</button>
+                <div style={{display:"flex", margin:"13px 0", width:"100%"}}>
+                  <h6 style={{fontWeight:"lighter", width:"100px"}}>Font Size:</h6>
+                  <select onChange={(e) => {this.state.styleBeingEdited = e.target.value; this.editDataPoint(this.state.stylePointer + ".fontSize")}}>
+                    <option selected value="30px">Font Size</option>
+                    <option value="10px">10</option>
+                    <option value="15px">15</option>
+                    <option value="20px">20</option>
+                    <option value="25px">25</option>
+                    <option value="30px">30</option>
+                    <option value="35px">35</option>
+                    <option value="40px">40</option>
+                    <option value="50px">50</option>
+                  </select>
+                </div>
+                <div style={{display:"flex", margin:"13px 0", width:"100%"}}> 
+                  <h6 style={{fontWeight:"lighter", width:"100px"}}>Bold Value:</h6>
+                  <select onChange={(e) => {this.state.styleBeingEdited = e.target.value; this.editDataPoint(this.state.stylePointer + ".fontWeight")}}>
+                    <option selected value="30px">Bold Select</option>
+                    <option value="lighter">Thinner</option>
+                    <option value="light">Thin</option>
+                    <option value="normal">Normal</option>
+                    <option value="bold">Thick</option>
+                    <option value="bolder">Thicker</option>
+                  </select>
+                </div>
+                <div style={{display:"flex", margin:"13px 0", width:"100%"}}>
+                  <h6 style={{fontWeight:"lighter", width:"100px"}}>Line Spacing:</h6>
+                  <select onChange={(e) => {this.state.styleBeingEdited = e.target.value; this.editDataPoint(this.state.stylePointer + ".lineHeight")}}>
+                    <option selected value="30px">Line Spacing</option>
+                    <option value="10px">10</option>
+                    <option value="15px">15</option>
+                    <option value="20px">20</option>
+                    <option value="25px">25</option>
+                    <option value="30px">30</option>
+                    <option value="35px">35</option>
+                    <option value="40px">40</option>
+                    <option value="50px">50</option>
+                    <option value="60px">60</option>
+                    <option value="70px">70</option>
+                    <option value="80px">80</option>
+                  </select>
+                </div>
+                <div style={{display:"flex", margin:"13px 0", width:"100%"}}>
+                  <h6 style={{fontWeight:"lighter", width:"100px"}}>Font Style:</h6>
+                  <select onChange={(e) => {this.state.styleBeingEdited = e.target.value; this.editDataPoint(this.state.stylePointer + ".fontFamily")}}>
+                    <option selected value='"Courier New", Courier, monospace'>Font Style</option>
+                    <option value='"Courier New", Courier, monospace'>Typewriter</option>
+                    <option value='Impact, Charcoal, sans-serif'>Compact</option>
+                    <option value='"Lucida Sans Unicode", "Lucida Grande", sans-serif'>Spacious</option>
+                    <option value='"Comic Sans MS", cursive, sans-serif'>Hand Written</option>
+                    <option value="Georgia, serif">Novel Print</option>
+                    <option value='"Times New Roman", Times, serif'>Classic Roman</option>
+                  </select>
+                </div>
+                <div style={{display:"flex", margin:"13px 0", width:"100%"}}>
+                  <h6 style={{fontWeight:"lighter", width:"100px"}}>Font Color:</h6>
+                  <input onChange={(e) => {this.state.styleBeingEdited = e.target.value; this.editDataPoint(this.state.stylePointer + ".color")}} type="color"/>
+                </div>
+                <button
+                  onClick={() => this.closeEditTextModel()}
+                  style={{background:'green', padding:"15px 25px",margin:"10px auto 0 auto", fontSize:"20px", color:"white", borderRadius:"5px",display:"block",}}
+                  className=""
+                >
+                  Done
+                </button>
               </div>
             </div>
           }
