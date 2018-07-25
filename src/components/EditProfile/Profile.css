@@ -112,4 +112,23 @@
     margin: 10px 0;
 }
 
+.profile_text-model-option-wrapper {
+    display: flex;
+    width: 100%;
+    max-width: 250px;
+    justify-content: center;
+    margin: 10px auto;
+}
+.profile_text-model-option-wrapper h6 {
+    width:120px;
+    line-height: 30px;
+}
+.profile_text-model-option-wrapper select {
+    width:120px;
+    height: 30px;
+}
+.profile_text-model-option-wrapper input {
+    width:120px;
+    height: 30px;
+}
 

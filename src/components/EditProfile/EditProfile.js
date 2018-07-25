@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 
 import './EditProfile.css';
 import './Profile.css';
+import './../../App.css'
 
 class EditProfile extends Component {
   constructor(props){
@@ -78,7 +79,12 @@ class EditProfile extends Component {
               },
               {
                 type:"PROJECT",
-                title:'Paradigm',
+                title:{
+                  text:'Paradigm',
+                  style:{
+
+                  }
+                },
                 img:{
                   src:"http://www.foreignfigures.com/wp-content/uploads/2016/07/cropped-Paradigm-Cover-Art-270x270.jpg",
                   style:{
@@ -105,7 +111,12 @@ class EditProfile extends Component {
               },
               {
                 type:"PROJECT",
-                title:'Come Alive',
+                title:{
+                  text:'Paradigm',
+                  style:{
+
+                  }
+                },
                 img:{
                   src:"http://www.foreignfigures.com/wp-content/uploads/2016/03/Come-Alive-EP-Cover-Art-300x300.jpg",
                   style:{
@@ -132,7 +143,12 @@ class EditProfile extends Component {
               },
               {
                 type:"PROJECT",
-                title:'Cold War',
+                title:{
+                  text:'Paradigm',
+                  style:{
+
+                  }
+                },
                 img:{
                   src:"http://www.foreignfigures.com/wp-content/uploads/2017/06/Cold-War-Cover-Art-SNOW-300x300.jpg",
                   style:{
@@ -159,7 +175,12 @@ class EditProfile extends Component {
               },
               {
                 type:"PROJECT",
-                title:'Hey Love',
+                title:{
+                  text:'Paradigm',
+                  style:{
+
+                  }
+                },
                 img:{
                   src:"https://instagram.fslc1-1.fna.fbcdn.net/vp/08f5ab0e85d584912858854603dafdea/5B9FCE76/t51.2885-15/s640x640/sh0.08/e35/23594611_360643961029054_2777025432963252224_n.jpg",
                   style:{
@@ -269,12 +290,12 @@ class EditProfile extends Component {
       currentImg: '',
     })
   }
-  editTextModel = (pointer, piece, currentText, stylePointer) => {
+  editTextModel = (pointer, piece, editText, stylePointer) => {
     this.setState({
       stylePointer,
       editPointer: pointer,
       showEditTextModel: true,
-      currentText: currentText,
+      editText,
       modelData: piece
     })
   }
@@ -432,11 +453,11 @@ class EditProfile extends Component {
     return(
       <div onDragOver={() => this.pieceSwap(i, j)} draggable="true" onDragEnd={this.unRecordDragEvent} onDragStart={(e) => {e.stopPropagation(); this.recordDragEvent(e, i, j)}} className="profile_text-piece" key={j}>
         <div style={{position:"relative"}}>
-          <h3><pre>{piece.text}</pre></h3>
+          <h3 style={{padding:"7px 13px"}}><pre style={piece.style}>{piece.text}</pre></h3>
           {this.props.edit &&
             <img 
               src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
-              onClick={(e) =>{e.stopPropagation(); this.editTextModel("sections."+i.toString()+".pieces."+j.toString()+".text", piece, piece.text)}}
+              onClick={(e) =>{e.stopPropagation(); this.editTextModel("sections."+i.toString()+".pieces."+j.toString()+".text", piece, piece.text, "sections."+i.toString()+".pieces."+j.toString()+".style")}}
               style={{
                 top:"2px",
                 left:"-5px",
@@ -470,7 +491,7 @@ class EditProfile extends Component {
           {this.props.edit &&
             <img 
               src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
-              onClick={(e) =>{e.stopPropagation(); this.editTextModel("sections."+i.toString()+".pieces."+j.toString()+".title", piece, piece.title)}}
+              onClick={(e) =>{e.stopPropagation(); this.editTextModel("sections."+i.toString()+".pieces."+j.toString()+".title.text", piece, piece.title.text, "sections."+i.toString()+".pieces."+j.toString()+".title.style")}}
               style={{
                 top:"2px",
                 left:"10px",
@@ -478,7 +499,7 @@ class EditProfile extends Component {
               className="profile_link-model-x edit-profile_edit-icon"
             />
           }
-          <h3>{piece.title}</h3>
+          <h3 style={piece.title.style}>{piece.title.text}</h3>
         </div>
       </div>
     )
@@ -551,7 +572,7 @@ class EditProfile extends Component {
                     <Fragment>
                       <img 
                         src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
-                        onClick={(e) => {e.stopPropagation(); this.editTextModel("sections."+i.toString()+".title.text", null, section.title.text,)}}
+                        onClick={(e) => {e.stopPropagation(); this.editTextModel("sections."+i.toString()+".title.text", null, section.title.text, "sections."+i.toString()+".title.style")}}
                         style={{top:"2px",left:"-5px",}}
                         className="profile_link-model-x edit-profile_edit-icon"
                       />
@@ -607,7 +628,7 @@ class EditProfile extends Component {
                   <img src={this.state.modelData.img.src}/>
                 }
                 {this.state.modelData.title &&
-                  <h3 style={{textAlign:"center"}}>{this.state.modelData.title}</h3>
+                  <h3 style={{textAlign:"center"}}>{this.state.modelData.title.text}</h3>
                 }
                 <div className="profile_links-wrapper">
                   {this.state.modelData.links &&
@@ -652,11 +673,14 @@ class EditProfile extends Component {
                   x
                 </div>
 
-                <h6 style={{margin:"20px 0px 0px 0px", fontWeight:"lighter", width:"150px", display:"inlineBlock"}}>Enter New Text</h6>
-                <textarea style={{width:"90%", height:"200px"}} value={this.state.currentText} onChange={(e) => this.setState({editText:e.target.value,currentText:e.target.value})}/>
-                <button onClick={() => {this.editDataPoint(this.state.editPointer); this.closeEditTextModel()}}>Update Text</button>
-                <div style={{display:"flex", margin:"13px 0", width:"100%"}}>
-                  <h6 style={{fontWeight:"lighter", width:"100px"}}>Font Size:</h6>
+                <h6 style={{margin:"10px 0px 5px 0px", fontWeight:"Bold", textAlign:"center", fontSize:"20px", display:"inlineBlock"}}>New Text</h6>
+                <textarea style={{width:"100%", height:"200px"}} value={this.state.editText} onChange={(e) => {this.state.editText = e.target.value; this.editDataPoint(this.state.editPointer)}}/>
+                
+                <div style={{margin:"20px 0"}} class="app_seperating-line"></div>
+
+                <h6 style={{margin:"-10px 0px 5px 0px", fontWeight:"Bold", textAlign:"center", fontSize:"20px", display:"inlineBlock"}}>Font Styling</h6>
+                <div class="profile_text-model-option-wrapper">
+                  <h6 style={{fontWeight:"lighter"}}>Font Size:</h6>
                   <select onChange={(e) => {this.state.styleBeingEdited = e.target.value; this.editDataPoint(this.state.stylePointer + ".fontSize")}}>
                     <option selected value="30px">Font Size</option>
                     <option value="10px">10</option>
@@ -669,8 +693,8 @@ class EditProfile extends Component {
                     <option value="50px">50</option>
                   </select>
                 </div>
-                <div style={{display:"flex", margin:"13px 0", width:"100%"}}> 
-                  <h6 style={{fontWeight:"lighter", width:"100px"}}>Bold Value:</h6>
+                <div class="profile_text-model-option-wrapper"> 
+                  <h6 style={{fontWeight:"lighter"}}>Bold Value:</h6>
                   <select onChange={(e) => {this.state.styleBeingEdited = e.target.value; this.editDataPoint(this.state.stylePointer + ".fontWeight")}}>
                     <option selected value="30px">Bold Select</option>
                     <option value="lighter">Thinner</option>
@@ -680,8 +704,8 @@ class EditProfile extends Component {
                     <option value="bolder">Thicker</option>
                   </select>
                 </div>
-                <div style={{display:"flex", margin:"13px 0", width:"100%"}}>
-                  <h6 style={{fontWeight:"lighter", width:"100px"}}>Line Spacing:</h6>
+                <div class="profile_text-model-option-wrapper">
+                  <h6 style={{fontWeight:"lighter"}}>Line Spacing:</h6>
                   <select onChange={(e) => {this.state.styleBeingEdited = e.target.value; this.editDataPoint(this.state.stylePointer + ".lineHeight")}}>
                     <option selected value="30px">Line Spacing</option>
                     <option value="10px">10</option>
@@ -697,8 +721,8 @@ class EditProfile extends Component {
                     <option value="80px">80</option>
                   </select>
                 </div>
-                <div style={{display:"flex", margin:"13px 0", width:"100%"}}>
-                  <h6 style={{fontWeight:"lighter", width:"100px"}}>Font Style:</h6>
+                <div class="profile_text-model-option-wrapper">
+                  <h6 style={{fontWeight:"lighter"}}>Font Style:</h6>
                   <select onChange={(e) => {this.state.styleBeingEdited = e.target.value; this.editDataPoint(this.state.stylePointer + ".fontFamily")}}>
                     <option selected value='"Courier New", Courier, monospace'>Font Style</option>
                     <option value='"Courier New", Courier, monospace'>Typewriter</option>
@@ -709,10 +733,13 @@ class EditProfile extends Component {
                     <option value='"Times New Roman", Times, serif'>Classic Roman</option>
                   </select>
                 </div>
-                <div style={{display:"flex", margin:"13px 0", width:"100%"}}>
-                  <h6 style={{fontWeight:"lighter", width:"100px"}}>Font Color:</h6>
+                <div class="profile_text-model-option-wrapper">
+                  <h6 style={{fontWeight:"lighter"}}>Font Color:</h6>
                   <input onChange={(e) => {this.state.styleBeingEdited = e.target.value; this.editDataPoint(this.state.stylePointer + ".color")}} type="color"/>
                 </div>
+
+                <div style={{margin:"20px 0"}} class="app_seperating-line"></div>
+
                 <button
                   onClick={() => this.closeEditTextModel()}
                   style={{background:'green', padding:"15px 25px",margin:"10px auto 0 auto", fontSize:"20px", color:"white", borderRadius:"5px",display:"block",}}
