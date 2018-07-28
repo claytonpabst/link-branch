@@ -357,7 +357,10 @@ class EditProfile extends Component {
     let profileData = JSON.parse(JSON.stringify(this.state.profileData))
     profileData.sections[i].pieces.push({
       type:"PROJECT",
-      title:'New Project',
+      title:{
+        text:'New Project',
+        style:{}
+      },
       img:{
         src:"https://d30y9cdsu7xlg0.cloudfront.net/png/396915-200.png",
         style:{
@@ -411,6 +414,7 @@ class EditProfile extends Component {
   }
 
   pieceSwap = (i, j) => {
+    if(!this.props.edit){return}
     if(this.state.pieceDetelable === false){return}
     if(i !== this.state.currentSectionIndex){return}
     if(j === this.state.currentPieceIndex){return}
@@ -428,6 +432,7 @@ class EditProfile extends Component {
     this.unRecordDragEvent()
   }
   SectionSwap = (i) => {
+    if(!this.props.edit){return}
     if(this.state.sectionDeletable === false){return}
     if(i === this.state.currentSectionIndex){return}
     let profileData = JSON.parse(JSON.stringify(this.state.profileData))
@@ -607,7 +612,6 @@ class EditProfile extends Component {
     return (
       <div style={{background:"#f5f5f5"}} className="App">
         <div style={{background:"#f5f5f5"}} className="profile_profile-wrapper">
-
           { 
             this.buildSections(profileData)
           }
