@@ -418,6 +418,7 @@ class EditProfile extends Component {
       currentLinkIndex: null,
     })
   }
+  
   deleteSection(event){
     // This function is used for deleting sections AND child pieces, and links... maybe
     let profileData = JSON.parse(JSON.stringify(this.state.profileData))
@@ -632,7 +633,7 @@ class EditProfile extends Component {
 
   render() {
     console.log(this.state)
-    let profileData = JSON.parse(JSON.stringify(this.state.profileData));
+    let profileData = JSON.parse(JSON.stringify(this.state.profileData)); // this line is needed because of how the editDataPoint function works with updating style; react treats style attr as a prop that has to go through this.setState, which I'm not using in that function.
     let style = profileData.style
     return (
       <div style={{background:"#f5f5f5"}} className="App">
