@@ -27,40 +27,4 @@
     </noscript>
     <div id="root"></div>
   </body>
-  <script>
-    function Component () {
-      this.returnHTML = (html) => {
-        return html
-      }
-    }
-
-    function PageComponent(parent, global){
-      const component = new Component()
-      this.state = {
-        myVar: "Hello"
-      }
-      return (
-        component.returnHTML("<div class='my-class'>" + global.state.globalVar + "</div>")
-      )
-    }
-    
-    function AppComponent(parent, global){
-      return (
-        PageComponent(this, global)
-      )
-    }
-
-    function GlobalParent () {
-      this.state ={
-        globalVar:"Global"
-      }
-      this.render = () => {
-        let app = AppComponent(this, this)
-        document.body.insertAdjacentHTML('beforeend', app)
-      }
-    }
-
-    let globalParent = new GlobalParent
-    globalParent.render()
-  </script>
 </html>

@@ -218,8 +218,9 @@ class EditProfile extends Component {
       currentImg:'',
       currentSectionIndex:null,
       currentPieceIndex:null,
+      currentLinkIndex:null,
       sectionDeletable:false,
-      pieceDetelable:false,
+      pieceDeletable:false,
       editPointer:'',
       stylePointer:'',
       showLinkModel: false,
@@ -375,27 +376,34 @@ class EditProfile extends Component {
     this.setState({profileData})
   }
 
-  recordDragEvent = (e, sectionIndex, pieceIndex) => {
+  recordDragEvent = (e, sectionIndex, pieceIndex, linkIndex) => {
     let pieceDetelable = false
     let sectionDeletable = false
-    if(pieceIndex !== null){
+    let linkDeletable = false
+    if(linkIndex !== null){
+      linkDeletable = true
+    } else if (pieceIndex !== null){
       pieceDetelable = true
     } else {
       sectionDeletable = true
     }
     this.setState({
+      linkDeletable,
       sectionDeletable,
-      pieceDetelable,
+      pieceDeletable,
       currentSectionIndex: sectionIndex,
       currentPieceIndex: pieceIndex,
+      currentLinkIndex: linkIndex
     })
   }
   unRecordDragEvent = () => {
     this.setState({
-      pieceDetelable:false,
+      pieceDeletable:false,
+      linkDeletable: false,
       sectionDeletable: false,
       currentSectionIndex: null,
       currentPieceIndex: null,
+      currentLinkIndex: null,
     })
   }
   deleteSection(event){
@@ -634,11 +642,19 @@ class EditProfile extends Component {
                 {this.state.modelData.title &&
                   <h3 style={{textAlign:"center"}}>{this.state.modelData.title.text}</h3>
                 }
+                {this.props.edit &&
+                  <Fragment>
+                    <div style={{position:"absolute", top:"158px", right:"5px",display:"flex",}}>
+                      <div onDragOver={(e) => e.preventDefault()} onDrop={(e) => this.deleteSection(e)} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://cdn3.iconfinder.com/data/icons/objects/512/Bin-512.png"/></div>
+                      <div onClick={this.addSection} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://cdn4.iconfinder.com/data/icons/ios7-essence/22/add_plus-512.png"/></div>
+                    </div>
+                  </Fragment>
+                }
                 <div className="profile_links-wrapper">
                   {this.state.modelData.links &&
                     this.state.modelData.links.map((link, k) => {
                       return (
-                        <div className="profile_link-piece" key={k}>
+                        <div onDragStart={(e) => {e.stopPropagation(); this.recordDragEvent(e, this.state.modelData.i, this.state.modelData.j, k)}} className="profile_link-piece" key={k}>
                           <img className="profile_link-piece-img" src={link.img}/>
                           <a className="profile_link-piece-go" href={link.href}>Go</a>
                         </div>
