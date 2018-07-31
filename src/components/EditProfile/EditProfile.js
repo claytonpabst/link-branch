@@ -424,7 +424,7 @@ class EditProfile extends Component {
     let modelData = {}
     if(this.state.sectionDeletable){
       profileData.sections.splice(this.state.currentSectionIndex, 1)
-    } else if (this.state.pieceDetelable){
+    } else if (this.state.pieceDeletable){
       profileData.sections[this.state.currentSectionIndex].pieces.splice(this.state.currentPieceIndex, 1)
     } else if (this.state.linkDeletable){
       profileData.sections[this.state.currentSectionIndex].pieces[this.state.currentPieceIndex].links.splice(this.state.currentLinkIndex, 1)
@@ -440,7 +440,7 @@ class EditProfile extends Component {
 
   pieceSwap = (i, j) => {
     if(!this.props.edit){return}
-    if(this.state.pieceDetelable === false){return}
+    if(this.state.pieceDeletable === false){return}
     if(i !== this.state.currentSectionIndex){return}
     if(j === this.state.currentPieceIndex){return}
     let profileData = JSON.parse(JSON.stringify(this.state.profileData))
@@ -452,7 +452,7 @@ class EditProfile extends Component {
     this.state.currentPieceIndex = null
     this.state.currentSectionIndex = null
     this.state.sectionDeletable = false
-    this.state.pieceDetelable = false
+    this.state.pieceDeletable = false
     this.forceUpdate()
     this.unRecordDragEvent()
   }
@@ -469,7 +469,7 @@ class EditProfile extends Component {
     this.state.currentPieceIndex = null
     this.state.currentSectionIndex = null
     this.state.sectionDeletable = false
-    this.state.pieceDetelable = false
+    this.state.pieceDeletable = false
     this.forceUpdate()
     this.unRecordDragEvent()
   }
@@ -481,7 +481,7 @@ class EditProfile extends Component {
   
   buildTextPiece = (piece, i, j) => {
     return(
-      <div onDragOver={() => this.pieceSwap(i, j)} draggable="true" onDragEnd={this.unRecordDragEvent} onDragStart={(e) => {e.stopPropagation(); this.recordDragEvent(e, i, j)}} className="profile_text-piece" key={j}>
+      <div onDragOver={() => this.pieceSwap(i, j)} draggable="true" onDragEnd={this.unRecordDragEvent} onDragStart={(e) => {e.stopPropagation(); this.recordDragEvent(e, i, j, null)}} className="profile_text-piece" key={j}>
         <div style={{position:"relative"}}>
           <h3 style={{padding:"7px 13px"}}><pre style={piece.style}>{piece.text}</pre></h3>
           {this.props.edit &&
@@ -502,7 +502,7 @@ class EditProfile extends Component {
 
   buildProjectPiece = (piece, i, j) => {
     return(
-      <div onDragOver={() => this.pieceSwap(i, j)} draggable="true" onDragEnd={this.unRecordDragEvent} onDragStart={(e) => {e.stopPropagation(); this.recordDragEvent(e, i, j)}} onClick={() => this.showLinkModel(piece, i, j)} style={{background:"#fff"}} className="profile_project-piece" key={j}>
+      <div onDragOver={() => this.pieceSwap(i, j)} draggable="true" onDragEnd={this.unRecordDragEvent} onDragStart={(e) => {e.stopPropagation(); this.recordDragEvent(e, i, j, null)}} onClick={() => this.showLinkModel(piece, i, j)} style={{background:"#fff"}} className="profile_project-piece" key={j}>
         <div style={{position:"relative"}}>
           <img src={piece.img.src}/>
           {this.props.edit &&
@@ -596,7 +596,7 @@ class EditProfile extends Component {
         {
           profileData.sections.map((section, i) => {
             return(
-              <div onDragOver={() => this.SectionSwap(i)} draggable="true" onDragEnd={this.unRecordDragEvent} onDragStart={(e) => {this.recordDragEvent(e, i, null)}} style={section.style} className="profile_section-wrapper profile_section-spacer" key={i}>
+              <div onDragOver={() => this.SectionSwap(i)} draggable="true" onDragEnd={this.unRecordDragEvent} onDragStart={(e) => {this.recordDragEvent(e, i, null, null)}} style={section.style} className="profile_section-wrapper profile_section-spacer" key={i}>
                 <div style={{position:"relative"}}>
                   {this.props.edit &&
                     <Fragment>
