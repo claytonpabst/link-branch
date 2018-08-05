@@ -66,12 +66,15 @@
     top:0;
     width: 100%;
     height: 100%;
-    background:rgba(0,0,0,0.5);
+    transition-timing-function: ease-in-out;
+    transition: background .6s;
 }
 .profile_link-model-wrapper{
+    transition-timing-function: ease-in-out;
+    transition: width .6s;
     margin: 20px auto;
     min-height: 500px;
-    width: 90%;
+    overflow: hidden;
     height: fit-content;
     background: white;
     border-radius: 10px;

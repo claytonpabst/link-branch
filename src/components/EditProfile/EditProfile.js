@@ -216,27 +216,22 @@ class EditProfile extends Component {
       styleBeingEdited:'',
       currentText:"",
       currentImg:'',
+
       currentSectionIndex:null,
       currentPieceIndex:null,
       currentLinkIndex:null,
       sectionDeletable:false,
       pieceDeletable:false,
+
       editPointer:'',
       stylePointer:'',
+
+      modelOverlayBackground:"rgba(0,0,0,0.0)",
       showLinkModel: false,
+      linkModelWidth:"0%",
       showEditImageModel: false,
       showEditTextModel: false,
-      selectedBox: null,
-      editing: false,
-      boxes: [
-        {id:0, text:'box 1', color: "blue", visibility:"visible"},
-        {id:1, text:'box 2', color: "pink", visibility:"visible"},
-        {id:2, text:'box 3', color: "orange", visibility:"visible"},
-        {id:3, text:'box 4', color: "green", visibility:"visible"},
-        {id:4, text:'box 5', color: "yellow", visibility:"visible"},
-      ],
     }
-
     this.deleteSection = this.deleteSection.bind(this);
   }
 
@@ -254,7 +249,6 @@ class EditProfile extends Component {
       profileData = this.state.profileData
       originalPointer = pointer
     }
-    console.log(profileData)
     if(typeof(pointer) === 'string'){
       pointer = pointer.split('.')
       originalPointer = originalPointer.split('.')
@@ -320,12 +314,15 @@ class EditProfile extends Component {
       showLinkModel:true,
       currentSectionIndex: i,
       currentPieceIndex: j,
+    }, () => {
+      setTimeout(() => {this.setState({linkModelWidth:"90%", modelOverlayBackground:"rgba(0,0,0,0.6)"})}, 1)
     })
   }
   
   closeLinkModel = () => {
-    this.setState({showLinkModel:false});
-    this.unRecordDragEvent()
+    this.setState({linkModelWidth:"0%", modelOverlayBackground:"rgba(0,0,0,0.0)"}, () => {
+      setTimeout(() => {this.setState({showLinkModel:false}); this.unRecordDragEvent()}, 400)
+    })
   }
 
   addSection = () => {
@@ -418,7 +415,7 @@ class EditProfile extends Component {
       currentLinkIndex: null,
     })
   }
-  
+
   deleteSection(event){
     // This function is used for deleting sections AND child pieces, and links... maybe
     let profileData = JSON.parse(JSON.stringify(this.state.profileData))
@@ -645,8 +642,8 @@ class EditProfile extends Component {
           {/* --------------------------The above line executes all the HTML functions and builds the profile. Below is the return of different editing models------------------------------ */}
 
           {this.state.showLinkModel &&
-            <div className="profile_link-model-overlay">
-              <div style={{position:"relative", padding:"20px"}} className="profile_link-model-wrapper">
+            <div style={{background:this.state.modelOverlayBackground}} className="profile_link-model-overlay">
+              <div style={{position:"relative", padding:"20px", width:this.state.linkModelWidth}} className="profile_link-model-wrapper">
                 <div 
                   onClick={() => this.closeLinkModel()}
                   style={{position:"absolute", background:'red', width:"20px", height:"20px", borderRadius:"50%", textAlign:"center", top:"0px", left:"0px"}}
