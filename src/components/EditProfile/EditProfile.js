@@ -227,11 +227,17 @@ class EditProfile extends Component {
       stylePointer:'',
 
       modelOverlayBackground:"rgba(0,0,0,0.0)",
+      modelOverlayBlur:"blur(0px)",
+      modelWidth:"0%",
       showLinkModel: false,
-      linkModelWidth:"0%",
       showEditImageModel: false,
       showEditTextModel: false,
     }
+
+    this.linkModel = React.createRef()
+    this.textModel = React.createRef()
+    this.imageModel = React.createRef()
+
     this.deleteSection = this.deleteSection.bind(this);
   }
 
@@ -273,16 +279,26 @@ class EditProfile extends Component {
       showEditImageModel: true,
       currentImg: currentImg,
       modelData:piece
+    }, () => {
+      setTimeout(() => {this.setState({modelWidth:"90%", modelOverlayBackground:"rgba(0,0,0,0.6)", modelOverlayBlur:"blur(5px)"}); this.imageModel.current.focus()}, 1)
     })
   }
 
   closeEditImageModel = () => {
     this.setState({
-      showEditImageModel: false,
-      editText: '',
-      styleBeingEdited: '',
-      editPointer: '',
-      currentImg: '',
+      modelWidth:"0%", 
+      modelOverlayBackground:"rgba(0,0,0,0.0)", 
+      modelOverlayBlur:"blur(0px)"
+    }, () => {
+      setTimeout(() => {
+        this.setState({
+          showEditImageModel: false,
+          editText: '',
+          styleBeingEdited: '',
+          editPointer: '',
+          currentImg: '',
+        })
+      }, 400)
     })
   }
   editTextModel = (pointer, piece, editText, stylePointer) => {
@@ -292,16 +308,26 @@ class EditProfile extends Component {
       showEditTextModel: true,
       editText,
       modelData: piece
+    }, () => {
+      setTimeout(() => {this.setState({modelWidth:"90%", modelOverlayBackground:"rgba(0,0,0,0.6)", modelOverlayBlur:"blur(5px)"}); this.textModel.current.focus()}, 1)
     })
   }
 
   closeEditTextModel = () => {
     this.setState({
-      showEditTextModel: false,
-      editText: '',
-      styleBeingEdited: '',
-      editPointer: '',
-      currentText: '',
+      modelWidth:"0%", 
+      modelOverlayBackground:"rgba(0,0,0,0.0)", 
+      modelOverlayBlur:"blur(0px)"
+    }, () => {
+      setTimeout(() => {
+        this.setState({
+          showEditTextModel: false,
+          editText: '',
+          styleBeingEdited: '',
+          editPointer: '',
+          currentText: '',
+        })
+      }, 400)
     })
   }
   
@@ -315,12 +341,12 @@ class EditProfile extends Component {
       currentSectionIndex: i,
       currentPieceIndex: j,
     }, () => {
-      setTimeout(() => {this.setState({linkModelWidth:"90%", modelOverlayBackground:"rgba(0,0,0,0.6)"})}, 1)
+      setTimeout(() => {this.setState({modelWidth:"90%", modelOverlayBackground:"rgba(0,0,0,0.6)", modelOverlayBlur:"blur(5px)"}); this.linkModel.current.focus()}, 1)
     })
   }
   
   closeLinkModel = () => {
-    this.setState({linkModelWidth:"0%", modelOverlayBackground:"rgba(0,0,0,0.0)"}, () => {
+    this.setState({modelWidth:"0%", modelOverlayBackground:"rgba(0,0,0,0.0)", modelOverlayBlur:"blur(0px)"}, () => {
       setTimeout(() => {this.setState({showLinkModel:false}); this.unRecordDragEvent()}, 400)
     })
   }
@@ -557,7 +583,7 @@ class EditProfile extends Component {
 
   buildSections = (profileData) => {
     return (
-      <div>
+      <div style={{filter:this.state.modelOverlayBlur}}>
         <div style={{background:profileData.generalInfoStyle.background, position:"relative"}} className="profile_general-info-wrapper">
           <div style={{position:"relative"}}>
             <img style={{width:"35%"}} src={profileData.img.src}/>
@@ -642,10 +668,10 @@ class EditProfile extends Component {
           {/* --------------------------The above line executes all the HTML functions and builds the profile. Below is the return of different editing models------------------------------ */}
 
           {this.state.showLinkModel &&
-            <div style={{background:this.state.modelOverlayBackground}} className="profile_link-model-overlay">
-              <div style={{position:"relative", padding:"20px", width:this.state.linkModelWidth}} className="profile_link-model-wrapper">
+            <div onClick={this.closeLinkModel} style={{background:this.state.modelOverlayBackground}} className="profile_link-model-overlay">
+              <div onClick={(e) => {e.stopPropagation()}} tabIndex="-1" ref={this.linkModel} style={{position:"relative", padding:"20px", width:this.state.modelWidth}} className="profile_link-model-wrapper">
                 <div 
-                  onClick={() => this.closeLinkModel()}
+                  onClick={this.closeLinkModel}
                   style={{position:"absolute", background:'red', width:"20px", height:"20px", borderRadius:"50%", textAlign:"center", top:"0px", left:"0px"}}
                   className="profile_link-model-x"
                 >
@@ -681,8 +707,8 @@ class EditProfile extends Component {
             </div>
           }
           {this.state.showEditImageModel &&
-            <div className="profile_link-model-overlay">
-              <div style={{position:"relative", padding:"20px"}} className="profile_link-model-wrapper">
+            <div onClick={this.closeEditImageModel} style={{background:this.state.modelOverlayBackground}} className="profile_link-model-overlay">
+              <div onClick={(e) => {e.stopPropagation()}} tabIndex="-1" ref={this.imageModel} style={{position:"relative", padding:"20px", width:this.state.modelWidth}} className="profile_link-model-wrapper">
                 <div 
                   onClick={() => this.closeEditImageModel()}
                   style={{position:"absolute", background:'red', width:"20px", height:"20px", borderRadius:"50%", textAlign:"center", top:"0px", left:"0px"}}
@@ -698,8 +724,8 @@ class EditProfile extends Component {
             </div>
           }
           { this.state.showEditTextModel &&
-            <div className="profile_link-model-overlay">
-              <div style={{position:"relative", padding:"20px"}} className="profile_link-model-wrapper">
+            <div  onClick={this.closeEditTextModel} style={{background:this.state.modelOverlayBackground}} className="profile_link-model-overlay">
+              <div onClick={(e) => e.stopPropagation()} tabIndex="-1" ref={this.textModel} style={{position:"relative", padding:"20px", width:this.state.modelWidth}} className="profile_link-model-wrapper">
                 <div 
                   onClick={() => this.closeEditTextModel()}
                   style={{position:"absolute", background:'red', width:"20px", height:"20px", borderRadius:"50%", textAlign:"center", top:"0px", left:"0px"}}

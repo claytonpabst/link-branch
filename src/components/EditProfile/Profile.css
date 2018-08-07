@@ -70,6 +70,7 @@
     transition: background .6s;
 }
 .profile_link-model-wrapper{
+    outline: none;
     transition-timing-function: ease-in-out;
     transition: width .6s;
     margin: 20px auto;
