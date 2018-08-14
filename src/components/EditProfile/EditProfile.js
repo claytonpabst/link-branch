@@ -27,9 +27,9 @@ class EditProfile extends Component {
           style:{
             fontSize:"30px",
             fontWeight:"bolder",
-            lineHeight:"100px",
+            lineHeight:"50px",
             fontFamily:'"Comic Sans MS", cursive, sans-serif',
-            color:"Green",
+            color:"maroon",
           },
         },
         profileViews:{
@@ -44,6 +44,7 @@ class EditProfile extends Component {
               text:"BIO",
               style:{
                 background:"#666",
+
               },
             },
             style:{
@@ -209,9 +210,7 @@ class EditProfile extends Component {
           }
         ],
       },
-      modelData:{
-
-      },
+      modelData:{},
       editText:"",
       styleBeingEdited:'',
       currentText:"",
@@ -358,6 +357,8 @@ class EditProfile extends Component {
         text:"New Section",
         style:{
           background:"#666",
+          fontSize:"30px",
+          fontWeight:"normal",
         },
       },
       style:{
@@ -375,7 +376,9 @@ class EditProfile extends Component {
       type:"TEXT",
       text:'New Text',
       style:{
-        
+        fontSize:"15px",
+        fontWeight:"normal",
+        lineHeight:"20px",
       },
     })
     this.setState({profileData})
@@ -386,7 +389,10 @@ class EditProfile extends Component {
       type:"PROJECT",
       title:{
         text:'New Project',
-        style:{}
+        style:{
+          fontSize:"15px",
+          fontWeight:"bold",
+        }
       },
       img:{
         src:"https://d30y9cdsu7xlg0.cloudfront.net/png/396915-200.png",
@@ -611,7 +617,7 @@ class EditProfile extends Component {
           {this.props.edit &&
             <Fragment>
               <div style={{position:"absolute", bottom:"8px", right:"5px",display:"flex",}}>
-                <div onDragOver={(e) => e.preventDefault()} onDrop={(e) => this.deleteSection(e)} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://cdn3.iconfinder.com/data/icons/objects/512/Bin-512.png"/></div>
+                <div onDragOver={(e) => e.preventDefault()} onDrop={(e) => this.deleteSection(e)} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="http://icons.iconarchive.com/icons/icons8/ios7/256/Messaging-Trash-icon.png"/></div>
                 <div onClick={this.addSection} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://cdn4.iconfinder.com/data/icons/ios7-essence/22/add_plus-512.png"/></div>
               </div>
             </Fragment>
@@ -631,9 +637,10 @@ class EditProfile extends Component {
                         className="profile_link-model-x edit-profile_edit-icon"
                       />
                       <div style={{position:"absolute", right:"5px",display:"flex",}}>
-                        <div onDragOver={(e) => e.preventDefault()} onDrop={(e) => this.deleteSection(e)} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://cdn3.iconfinder.com/data/icons/objects/512/Bin-512.png"/></div>
+                        <div onDragOver={(e) => e.preventDefault()} onDrop={(e) => this.deleteSection(e)} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="http://icons.iconarchive.com/icons/icons8/ios7/256/Messaging-Trash-icon.png"/></div>
                         <div onClick={() => this.addTextPiece(i)} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://www.shareicon.net/data/512x512/2015/08/29/92770_write_512x512.png"/></div>
                         <div onClick={() => this.addProjectPiece(i)} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://d30y9cdsu7xlg0.cloudfront.net/png/396915-200.png"/></div>
+                        <div onClick={() => this.addProjectPiece(i)} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://cdn4.iconfinder.com/data/icons/cinema-outline-icon-set/30/camera-512.png"/></div>
                       </div>
                     </Fragment>
                   }

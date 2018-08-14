@@ -9,17 +9,27 @@ class GlobalState extends Component {
     username: 'Clayton',
     loggedIn: false,
     showSignInModel: false,
+    showSignUpModel: true,
     showSignOutModel: false, 
     showLoadingModel: false,
   }
 
   signIn = (signInCredentials) => {
+    // ajax call to login on server
     this.setState({loggedIn:true})
   }
 
   toggleSignInModel = () => {
     let showSignInModel = this.state.showSignInModel ? false : true
     this.setState({showSignInModel})
+  }
+  toggleSignUpModel = () => {
+    let showSignUpModel = this.state.showSignUpModel ? false : true
+    this.setState({showSignUpModel})
+  }
+  toggleSignOutModel = () => {
+    let showSignOutModel = this.state.showSignOutModel ? false : true
+    this.setState({showSignOutModel})
   }
 
   render() {
@@ -29,6 +39,8 @@ class GlobalState extends Component {
           state: this.state,
           signIn: this.signIn,
           toggleSignInModel: this.toggleSignInModel,
+          toggleSignUpModel: this.toggleSignUpModel,
+          toggleSignOutModel: this.toggleSignOutModel,
         }}
       >
         {this.props.children}
