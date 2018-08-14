@@ -1,0 +1,60 @@
+.login-popover_wrapper{
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  background: rgba(0,0,0,.5);
+}
+
+#login-popover_content-wrapper{
+  position: relative;
+  width: 100%;
+  max-width: 350px;
+  left: calc(50% - 175px);
+  top: 130px;
+  background: white;
+  border-radius: 3%;
+  overflow: hidden;
+}
+
+#login-popover_header{
+  width: 100%;
+  text-align: center;
+  font-weight: bolder;
+  font-size: 20px;
+  padding: 20px;
+  border-bottom: 1px solid #555;
+  background: #ddd;
+}
+
+#login-popover_x-out{
+  position: absolute;
+  left: 1px;
+  top: 1px;
+  padding: 2px 6px 3px 6px;
+  background: #e03333;
+  border-radius: 50%;
+  width: fit-content;
+}
+#login-popover_x-out:hover{
+  cursor: pointer;
+  background: #bc2b2b;
+}
+#login-popover_forgot-password{
+  width: fit-content;
+  position: block;
+  margin: 0 auto;
+  color: rgb(40, 104, 215);
+}
+#login-popover_forgot-password:hover{
+  cursor: pointer;
+  color: rgb(4, 68, 179);
+}
+.login-popover_log-in-button{
+  background:#ef992f;
+}
+.login-popover_log-in-button:hover{
+  background:#df8517;
+}

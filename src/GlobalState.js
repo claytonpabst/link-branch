@@ -10,7 +10,16 @@ class GlobalState extends Component {
     loggedIn: false,
     showSignInModel: false,
     showSignOutModel: false, 
-    showLoadingModel: true
+    showLoadingModel: false,
+  }
+
+  signIn = (signInCredentials) => {
+    this.setState({loggedIn:true})
+  }
+
+  toggleSignInModel = () => {
+    let showSignInModel = this.state.showSignInModel ? false : true
+    this.setState({showSignInModel})
   }
 
   render() {
@@ -18,6 +27,8 @@ class GlobalState extends Component {
       <Provider 
         value={{
           state: this.state,
+          signIn: this.signIn,
+          toggleSignInModel: this.toggleSignInModel,
         }}
       >
         {this.props.children}

@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import { GlobalState } from './GlobalState.js'
+import Consumer from './GlobalState.js'
 
 import MobileMenu from "./components/MobileMenu/MobileMenu.js"
 import MainHeader from "./components/MainHeader/MainHeader.js"
+import SignInModel from './components/Models/SignIn/SignIn.js'
 
 import EditProfile from './components/EditProfile/EditProfile.js';
 
@@ -39,14 +41,25 @@ class App extends Component {
     return (
       <div className="App">
         <GlobalState>
-          <MainHeader toggleMobileMenu={this.toggleMobileMenu} />
-          <Switch>
-          
-            <Route render={()=><EditProfile edit={true}/>} exact path="/edit" />
-            <Route render={()=><EditProfile edit={false}/>} exact path="/u" />
+          <Consumer>
+            {(global) => (
+              <React.Fragment>
 
-          </Switch>
-          <MobileMenu mobileMenuStyle={this.state.mobileMenuStyle} toggleMobileMenu={this.toggleMobileMenu} />
+                <MainHeader toggleMobileMenu={this.toggleMobileMenu} />
+
+                <Switch>
+                
+                  <Route render={()=><EditProfile edit={true}/>} exact path="/edit" />
+                  <Route render={()=><EditProfile edit={false}/>} exact path="/u" />
+    
+                </Switch>
+
+                <MobileMenu mobileMenuStyle={this.state.mobileMenuStyle} toggleMobileMenu={this.toggleMobileMenu} />
+                {global.state.showSignInModel && <SignInModel/>}
+
+              </React.Fragment>
+            )}
+          </Consumer>
         </GlobalState>
       </div>
     );
