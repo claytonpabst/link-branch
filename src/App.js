@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
+import { GlobalState } from './GlobalState.js'
+
 import MobileMenu from "./components/MobileMenu/MobileMenu.js"
 import MainHeader from "./components/MainHeader/MainHeader.js"
 
@@ -36,14 +38,16 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <MainHeader toggleMobileMenu={this.toggleMobileMenu} />
-        <Switch>
-        
-          <Route render={()=><EditProfile edit={true}/>} exact path="/edit" />
-          <Route render={()=><EditProfile edit={false}/>} exact path="/u" />
+        <GlobalState>
+          <MainHeader toggleMobileMenu={this.toggleMobileMenu} />
+          <Switch>
+          
+            <Route render={()=><EditProfile edit={true}/>} exact path="/edit" />
+            <Route render={()=><EditProfile edit={false}/>} exact path="/u" />
 
-        </Switch>
-        <MobileMenu mobileMenuStyle={this.state.mobileMenuStyle} toggleMobileMenu={this.toggleMobileMenu} />
+          </Switch>
+          <MobileMenu mobileMenuStyle={this.state.mobileMenuStyle} toggleMobileMenu={this.toggleMobileMenu} />
+        </GlobalState>
       </div>
     );
   }

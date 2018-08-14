@@ -480,7 +480,7 @@ class EditProfile extends Component {
     this.forceUpdate()
     this.unRecordDragEvent()
   }
-  SectionSwap = (i) => {
+  sectionSwap = (i) => {
     if(!this.props.edit){return}
     if(this.state.sectionDeletable === false){return}
     if(i === this.state.currentSectionIndex){return}
@@ -620,7 +620,7 @@ class EditProfile extends Component {
         {
           profileData.sections.map((section, i) => {
             return(
-              <div onDragOver={() => this.SectionSwap(i)} draggable="true" onDragEnd={this.unRecordDragEvent} onDragStart={(e) => {this.recordDragEvent(e, i, null, null)}} style={section.style} className="profile_section-wrapper profile_section-spacer" key={i}>
+              <div onDragOver={() => this.sectionSwap(i)} draggable="true" onDragEnd={this.unRecordDragEvent} onDragStart={(e) => {this.recordDragEvent(e, i, null, null)}} style={section.style} className="profile_section-wrapper profile_section-spacer" key={i}>
                 <div style={{position:"relative"}}>
                   {this.props.edit &&
                     <Fragment>
