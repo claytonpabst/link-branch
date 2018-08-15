@@ -6,6 +6,7 @@
   "dependencies": {
     "axios": "^0.16.2",
     "body-parser": "^1.17.2",
+    "browser-image-compression": "0.0.3",
     "cors": "^2.8.3",
     "express": "^4.15.3",
     "express-session": "^1.15.3",

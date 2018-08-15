@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react';
 
+import imageCompressor from './imageCompressor.js';
+
 import './EditProfile.css';
 import './Profile.css';
 import './../../App.css'
@@ -215,6 +217,7 @@ class EditProfile extends Component {
       styleBeingEdited:'',
       currentText:"",
       currentImg:'',
+      imageFile:null,
 
       currentSectionIndex:null,
       currentPieceIndex:null,
@@ -269,6 +272,12 @@ class EditProfile extends Component {
       return;
     }
     return this.editDataPoint(pointer.slice(1, pointer.length), profileData[pointer[0]], originalPointer)
+  }
+
+  imageUpload = (e) => {
+    imageCompressor.handleImageUpload(e, function(img){
+      console.log(img)
+    })
   }
 
   editImageModel = (pointer, piece, currentImg, stylePointer) => {
@@ -725,7 +734,7 @@ class EditProfile extends Component {
                 </div>
                 <img src={this.state.currentImg} alt="Image to Update"/>
                 <h6 style={{textAlign:"left", margin:"20px 0px 0px 0px", fontWeight:"lighter"}}>Enter New Image Address</h6>
-                <input value={this.state.edit} onChange={(e) => this.setState({editText:e.target.value})}/>
+                <input type="file" accept="image/*" onChange={(e) => this.imageUpload(e)}/>
                 <button onClick={() => {this.editDataPoint(this.state.editPointer); this.closeEditImageModel()}}>Update Image</button>
               </div>
             </div>
