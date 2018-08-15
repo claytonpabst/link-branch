@@ -1,0 +1,18 @@
+.sign-out_wrapper{
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  background: rgba(0,0,0,.5);
+}
+
+.sign-out_nav-button{
+  color: rgb(40, 104, 215);
+}
+
+.sign-out_nav-button:hover{
+  cursor: pointer;
+  color: rgb(4, 68, 179);
+}

@@ -68,4 +68,5 @@
 }
 .sign-in_log-in-button:hover{
   background:#8a0606;
+  cursor: pointer;
 }

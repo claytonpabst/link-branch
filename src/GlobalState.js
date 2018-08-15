@@ -6,17 +6,19 @@ const { Provider, Consumer } = createContext();
 // Then create a provider Component
 class GlobalState extends Component {
   state = {
-    username: 'Clayton',
+    username: '',
     loggedIn: false,
     showSignInModel: false,
-    showSignUpModel: true,
+    showSignUpModel: false,
     showSignOutModel: false, 
     showLoadingModel: false,
   }
 
   signIn = (signInCredentials) => {
-    // ajax call to login on server
-    this.setState({loggedIn:true})
+    this.setState({loggedIn:true, username:'Clayton'})
+  }
+  signOut = () => {
+    this.setState({loggedIn:false,username:''})
   }
 
   toggleSignInModel = () => {
@@ -38,6 +40,7 @@ class GlobalState extends Component {
         value={{
           state: this.state,
           signIn: this.signIn,
+          signOut: this.signOut,
           toggleSignInModel: this.toggleSignInModel,
           toggleSignUpModel: this.toggleSignUpModel,
           toggleSignOutModel: this.toggleSignOutModel,

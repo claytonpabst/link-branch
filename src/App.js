@@ -8,6 +8,7 @@ import MobileMenu from "./components/MobileMenu/MobileMenu.js"
 import MainHeader from "./components/MainHeader/MainHeader.js"
 import SignInModel from './components/Models/SignIn/SignIn.js'
 import SignUpModel from './components/Models/SignUp/SignUp.js'
+import SignOutModel from './components/Models/SignOut/SignOut.js'
 
 import EditProfile from './components/EditProfile/EditProfile.js';
 
@@ -58,6 +59,7 @@ class App extends Component {
                 <MobileMenu mobileMenuStyle={this.state.mobileMenuStyle} toggleMobileMenu={this.toggleMobileMenu} />
                 {global.state.showSignInModel && <SignInModel/>}
                 {global.state.showSignUpModel && <SignUpModel/>}
+                {global.state.showSignOutModel && <SignOutModel/>}
 
               </React.Fragment>
             )}
