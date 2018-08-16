@@ -5,6 +5,7 @@ import imageCompressor from './imageCompressor.js';
 import './EditProfile.css';
 import './Profile.css';
 import './../../App.css'
+import { ENGINE_METHOD_CIPHERS } from 'constants';
 
 class EditProfile extends Component {
   constructor(props){
@@ -275,8 +276,13 @@ class EditProfile extends Component {
   }
 
   imageUpload = (e) => {
+    let self = this
     imageCompressor.handleImageUpload(e, function(img){
-      console.log(img)
+      let currentImg = self.state.currentImg
+      let editText = self.state.editText
+      currentImg = window.URL.createObjectURL(img)
+      editText = window.URL.createObjectURL(img)
+      self.setState({currentImg, editText})
     })
   }
 

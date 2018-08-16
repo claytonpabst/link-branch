@@ -1,5 +1,7 @@
 import React, {Component} from "react";
 
+import './MainHeader.css'
+
 import Consumer from './../../GlobalState.js'
 
 class MainHeader extends Component {
@@ -21,7 +23,7 @@ class MainHeader extends Component {
                 <h1 style={{color:"#e33737", fontWeight:"bolder", fontSize:"30px", padding:"10px", border:"1px solid #e33737"}}>LB</h1>
               </div>
               <div style={{float:"left", padding:"14px",}}>
-                <button onClick={global.state.loggedIn ? global.toggleSignOutModel : global.toggleSignInModel} style={{background:"#e33737", padding:"10px", border:"none", borderRadius:"10px", fontSize:"16px", color:"white", fontWeight:"bold"}}>{global.state.loggedIn ? global.state.username : "Sign In/Sign Up"}</button>
+                <button className="main-header_sign-in-button" onClick={global.state.loggedIn ? global.toggleSignOutModel : global.toggleSignInModel} style={{background:"#e33737", padding:"10px 15px", border:"none", borderRadius:"10px", fontSize:"16px", color:"white", fontWeight:"bold"}}>{global.state.loggedIn ? String.fromCharCode(9663) + " " + global.state.username : "Sign In/Sign Up"}</button>
               </div>
               <div style={{float:"right", padding:"19px 19px 19px 0px"}} onClick={this.props.toggleMobileMenu}>
                 <img style={{height:"30px"}} src="http://cdn.onlinewebfonts.com/svg/img_113945.png" />

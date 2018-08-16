@@ -40,27 +40,41 @@ class App extends Component {
   }
 
   render() {
+    let backgroundBlur = '';
+    let modelOpacity = '';
     return (
       <div className="App">
         <GlobalState>
           <Consumer>
             {(global) => (
               <React.Fragment>
+                {(() => {
+                  if(global.state.showSignInModel || global.state.showSignUpModel || global.state.showSignOutModel || this.state.showMobileMenu){
+                    backgroundBlur = "blur(5px)"
+                    modelOpacity = '1'
+                  } else {
+                    backgroundBlur = "blur(0px)"
+                    modelOpacity = '0'
+                  }
+                })()}
 
                 <MainHeader toggleMobileMenu={this.toggleMobileMenu} />
 
-                <Switch>
-                
-                  <Route render={()=><EditProfile edit={true}/>} exact path="/edit" />
-                  <Route render={()=><EditProfile edit={false}/>} exact path="/u" />
-    
-                </Switch>
+                <div style={{filter:backgroundBlur}}>
+                  <Switch>
+                  
+                    <Route render={()=><EditProfile edit={true}/>} exact path="/edit" />
+                    <Route render={()=><EditProfile edit={false}/>} exact path="/u" />
+      
+                  </Switch>
+                </div>
 
                 <MobileMenu mobileMenuStyle={this.state.mobileMenuStyle} toggleMobileMenu={this.toggleMobileMenu} />
-                {global.state.showSignInModel && <SignInModel/>}
-                {global.state.showSignUpModel && <SignUpModel/>}
-                {global.state.showSignOutModel && <SignOutModel/>}
-
+                <div class="app_opacity" style={{opacity:modelOpacity}}>
+                  {global.state.showSignInModel && <SignInModel/>}
+                  {global.state.showSignUpModel && <SignUpModel/>}
+                  {global.state.showSignOutModel && <SignOutModel/>}
+                </div>
               </React.Fragment>
             )}
           </Consumer>

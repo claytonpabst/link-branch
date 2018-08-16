@@ -17,3 +17,11 @@ pre {
   height: 1px;
   background: #aaa;
 }
+
+.app_opacity{
+  -webkit-transition: opacity .2s ;
+     -moz-transition: opacity .2s ;
+      -ms-transition: opacity .2s ;
+       -o-transition: opacity .2s ;
+          transition: opacity .2s ;
+}
