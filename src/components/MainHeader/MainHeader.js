@@ -13,20 +13,25 @@ class MainHeader extends Component {
     }
   }
 
+  buildUsername = (username) => {
+    username = username.length < 20 ? username : username.split('').slice(0, 18).join('') + '...';
+    return String.fromCharCode(9663) + "  " + username 
+  }
+
   render(){
     return(
-      <div style={{height:"68px", width:"100%", background:"white"}}>
+      <div className="main-header_wrapper">
         <Consumer>
           {(global) => (
-            <div style={{width:"95%", maxWidth:"500px", margin:"0 auto"}}>
-              <div style={{float:'left', padding:"8px"}}>
-                <h1 style={{color:"#e33737", fontWeight:"bolder", fontSize:"30px", padding:"10px", border:"1px solid #e33737"}}>LB</h1>
+            <div style={{width:"100%", maxWidth:"500px", margin:"0 auto"}}>
+              <div style={{float:'left'}}>
+                <h1 class="main-header_main-logo">LB</h1>
               </div>
-              <div style={{float:"left", padding:"14px",}}>
-                <button className="main-header_sign-in-button" onClick={global.state.loggedIn ? global.toggleSignOutModel : global.toggleSignInModel} style={{background:"#e33737", padding:"10px 15px", border:"none", borderRadius:"10px", fontSize:"16px", color:"white", fontWeight:"bold"}}>{global.state.loggedIn ? String.fromCharCode(9663) + " " + global.state.username : "Sign In/Sign Up"}</button>
+              <div style={{float:"left"}}>
+                <button className="main-header_sign-in-button" onClick={global.state.loggedIn ? global.toggleSignOutModel : global.toggleSignInModel}>{global.state.loggedIn ? this.buildUsername(global.state.username) : "Sign In/Sign Up"}</button>
               </div>
-              <div style={{float:"right", padding:"19px 19px 19px 0px"}} onClick={this.props.toggleMobileMenu}>
-                <img style={{height:"30px"}} src="http://cdn.onlinewebfonts.com/svg/img_113945.png" />
+              <div style={{float:"right"}} onClick={this.props.toggleMobileMenu}>
+                <img src="http://cdn.onlinewebfonts.com/svg/img_113945.png" />
               </div>
             </div>
           )}

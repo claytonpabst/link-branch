@@ -13,10 +13,11 @@
   width: 100%;
   max-width: 350px;
   left: calc(50% - 175px);
-  top: 130px;
+  top: 110px;
   background: white;
   border-radius: 3%;
-  overflow: hidden;
+  max-height: 85vh;
+  overflow: scroll;
   padding-bottom:10px;
 }
 
@@ -69,4 +70,13 @@
 .sign-in_log-in-button:hover{
   background:#8a0606;
   cursor: pointer;
+}
+
+@media (max-width: 400px) {
+  #sign-in_content-wrapper{
+    max-width: 310px;
+    left: calc(50% - 155px);
+    top: 50px;
+
+  }
 }

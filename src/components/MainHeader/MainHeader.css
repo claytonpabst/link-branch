@@ -1,6 +1,56 @@
-.main-header_sign-in-button{
+.main-header_wrapper{
+  height:68px;
+  width:100%;
+  background:white;
+}
 
+.main-header_wrapper img{
+  margin: 18px 16px 18px 0px;
+  height: 30px;
+}
+
+.main-header_main-logo{
+  color:#e33737;
+  font-weight:bolder;
+  font-size:30px;
+  padding:10px;
+  margin: 8px;
+  border:1px solid #e33737;
+}
+.main-header_main-logo:hover{
+  cursor: pointer;
+}
+
+.main-header_sign-in-button{
+  white-space: pre;
+  background:#e33737;
+  padding:10px 15px;
+  border:none;
+  border-radius:10px;
+  font-size:16px;
+  color:white;
+  font-weight:bold;
+  margin:14px 0px;
 }
 .main-header_sign-in-button:hover{
   cursor: pointer;
+}
+
+@media (max-width: 400px) {
+  .main-header_wrapper{
+    height:57px;
+  }
+  .main-header_main-logo{
+    font-size:25px;
+    padding:8px;
+    margin:7px;
+  }
+  .main-header_wrapper img{
+    margin: 14px 13px 14px 0px;
+    height: 25px;
+  }
+  .main-header_sign-in-button{
+    font-size: 12px;
+    margin:11px 0px;
+  }
 }

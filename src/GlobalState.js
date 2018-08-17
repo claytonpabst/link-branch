@@ -15,7 +15,7 @@ class GlobalState extends Component {
   }
 
   signIn = (signInCredentials) => {
-    this.setState({loggedIn:true, username:'Clayton'})
+    this.setState({loggedIn:true, username:'Clayton Todd Pabst'})
   }
   signOut = () => {
     this.setState({loggedIn:false,username:''})

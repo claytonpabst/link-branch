@@ -7,12 +7,12 @@ const theGoods = {
     var maxSizeMB = .25;
     var maxWidthOrHeight = 512; // compressedFile will scale down by ratio to a point that width or height is smaller than maxWidthOrHeight
     imageCompression(imageFile, maxSizeMB, maxWidthOrHeight) // maxSizeMB, maxWidthOrHeight are optional
-      .then(function (compressedFile) {  
-        return cb(compressedFile);
-      })
-      .catch(function (error) {
-        console.log(error.message);
-      });
+    .then(function (compressedFile) {  
+      return cb(compressedFile);
+    })
+    .catch(function (error) {
+      console.log(error.message);
+    });
   }
 }
 
