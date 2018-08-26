@@ -17,7 +17,7 @@
   background: white;
   border-radius: 3%;
   max-height: 85vh;
-  overflow: scroll;
+  overflow: auto;
   padding-bottom:10px;
 }
 
@@ -77,6 +77,5 @@
     max-width: 310px;
     left: calc(50% - 155px);
     top: 50px;
-
   }
 }

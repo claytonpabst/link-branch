@@ -5,7 +5,6 @@ import imageCompressor from './imageCompressor.js';
 import './EditProfile.css';
 import './Profile.css';
 import './../../App.css'
-import { ENGINE_METHOD_CIPHERS } from 'constants';
 
 class EditProfile extends Component {
   constructor(props){
@@ -283,6 +282,9 @@ class EditProfile extends Component {
       currentImg = window.URL.createObjectURL(img)
       editText = window.URL.createObjectURL(img)
       self.setState({currentImg, editText})
+
+      //push img to server
+      //save returned url of img to db
     })
   }
 

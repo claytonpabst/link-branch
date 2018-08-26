@@ -1,21 +1,28 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-var massive = require('massive');
-var session = require('express-session');
-var config = require('./config.js');
+const massive = require('massive');
+const session = require('express-session');
+const config = require('./config.js');
+const redis = require('redis');
+const redisStore = require('connect-redis')(session);
+const client = redis.createClient()
+const dualSession = require('./express-dual-session')
 
 const app = module.exports = express();
 
 app.use(bodyParser.json());
-app.use(session({
-  secret: config.secret,
-    resave: true,
-    saveUninitialized: false,
-    cookie:{
-      maxAge: (1000*60*60*24*14) //this is 14 days
-    }
-}))
+// app.use(session({
+//   secret: config.secret,
+//     resave: false,
+//     store: new redisStore({ host: 'localhost', port: 6379, client: client}),
+//     saveUninitialized: false,
+//     cookie:{
+//       maxAge: (1000*60*60*24*14) //this is 14 days
+//     }
+// }))
+
+app.use(dualSession())
 
 massive(config.connection)
 .then( db => {
@@ -24,9 +31,11 @@ massive(config.connection)
 
 app.use(express.static(__dirname + './../build'))
 
-// var userController = require("./userController.js");
+var userController = require("./userController.js");
 
-//////////Endpoints for the front end
+
+
+
 
 
 
