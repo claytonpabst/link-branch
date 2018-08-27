@@ -7,7 +7,7 @@ const config = require('./config.js');
 // const redis = require('redis');
 // const redisStore = require('connect-redis')(session);
 // const client = redis.createClient()
-const dualSession = require('./express-dual-session')
+const dualSession = require('./express-dual-session/index.js')
 
 const app = module.exports = express();
 
@@ -22,16 +22,20 @@ app.use(bodyParser.json());
 //     }
 // }))
 
-app.use(dualSession('I am test options.'))
+massive(config.connection)
+.then( db => {
+  app.set('db', db);
+})
+
+app.use(dualSession({
+  dbName:'db',
+  secret:"someSecretKey",
+  cookieName:"xs",
+}))
 
 app.use(function(req, res, next){
   console.log('second function')
   next()
-})
-
-massive(config.connection)
-.then( db => {
-  app.set('db', db);
 })
 
 app.use(express.static(__dirname + './../build'))

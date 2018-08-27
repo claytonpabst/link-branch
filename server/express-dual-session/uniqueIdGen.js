@@ -29,7 +29,7 @@ function generateUniqueId() {
 
 function firstOfEachNumToElse(numsArr){
   numsArr = numsArr.join('')
-  numsArr = numsArr.replace('1', '_').replace('0', 'v').replace('2', 'u').replace('3', 'p').replace('4', 'q').replace('5', 'a').replace('6', 'n').replace('7', 'x').replace('8', 'z').replace('9', 'w')
+  numsArr = numsArr.replace('1', '_').replace('0', 'v').replace('2', 'y').replace('3', 'p').replace('4', 'q').replace('5', 'b').replace('6', 'n').replace('7', 'x').replace('8', 'z').replace('9', 'w')
   numsArr = numsArr.split('')
   return numsArr
 }
