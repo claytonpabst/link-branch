@@ -1,4 +1,5 @@
 import React, { Component, createContext } from "react";
+import axios from 'axios'
 
 // Provider and Consumer are connected through their "parent" context
 const { Provider, Consumer } = createContext();
@@ -14,6 +15,16 @@ class GlobalState extends Component {
     showLoadingModel: false,
   }
 
+  componentWillMount(){
+    this.isSignedIn()
+  }
+
+  isSignedIn = () => {
+    axios.get('/api/isLoggedIn/')
+    .then(res => {
+      console.log(res)
+    })
+  }
   signIn = (signInCredentials) => {
     this.setState({loggedIn:true, username:'Clayton Todd Pabst'})
   }

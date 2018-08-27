@@ -1,37 +1,75 @@
 var app = require('./index.js');
-var db = app.get('db');
+
+const bcrypt = require('bcrypt');
+
+function hash(password){
+  bcrypt.hash(password, 12, function(err, hash) {
+    return hash
+  });
+}
 
 module.exports = {
-  getUserInfo: function(req, res){
-      console.log("get user info running");
-    db.find_by_id([req.session.passport.user.google_id],function(err,user){
-      if (err){
-        res.status(400).json(err);
-      }else if (user[0]){
-        res.status(200).json(user[0]);
-      }else if (user){
-        res.status(200).json(user);
-      }
-    });
-  },
-    
-  findById: function(accessToken,refreshToken,profile, done){
-      db.find_by_id([profile.id],function(err,user){
 
-          if(!user[0]){//if there isnt one, create!!
-            console.log('CREATING USER');
-            console.log('profile');
-            db.create_google_user([profile.id,profile.name.familyName, profile.name.givenName, accessToken],function(err,user){
-              console.log('USER CREATED',user);
-              return done(err,user);//goes to serialize user
-            })
-          }else{//if we find a user, return it
-            console.log('FOUND USER', user)
-            return done(err,user);
-          }
-
+  logIn: function(req, res){
+    const db = req.app.get('db');
+    db.logIn([req.body.email])
+    .then( response => {
+      bcrypt.compare(req.body.password, response[0].password, function(err, hash) {
+        if(hash){
+          req.session.loggedIn = true;
+          response[0].loggedIn = true;
+          response[0].message = 'Login Successful.'
+          req.session.user = response[0];
+        } else {
+          req.session.loggedIn = false
+          return res.status(200).send({
+            loggedIn: false,
+            username: '',
+            message: 'Invalid email or password.'
+          })
+        }
+        return res.status(200).json( response[0] )
       })
+    })
+    .catch(err => {
+        console.log(err)
+        res.status(500).send(err)
+    })
+  },
 
+  isLoggedIn: function(req, res){
+    return
+    if (req.session.loggedIn){
+      return res.status(200).send(req.session.user);
+    }else{
+      return res.status(200).send({loggedIn: false})
+    }
+  },
+
+  logOut: function(req, res){
+    req.session.loggedIn = false;
+    return res.status(200).send({message:'User Logged Out.'})
+  },
+
+  createUser: function(req, res) {
+    const db = req.app.get('db')
+    bcrypt.hash(req.body.password, 12, function(err, hash){
+      let paidThrough = new Date().getTime()
+      db.createUser([req.body.email, req.body.username, hash, paidThrough])
+        .then( response => {
+          req.session.loggedIn = true;
+          response[0].loggedIn=true;
+          response[0].success = true;
+          response[0].message = 'Account created successfully.'
+          req.session.user = response[0];
+          // console.log(response[0]);
+          return res.status(200).json( response[0] )
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send(err);
+        })
+    })
   }
   
 };

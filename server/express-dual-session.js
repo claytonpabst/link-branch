@@ -1,8 +1,13 @@
 const uniqueIdGen = require('./uniqueIdGen.js')
 
-function dualSession(req, res, next){
-  console.log(uniqueIdGen())
-  
+function dualSession(options){
+  return function session(req, res, next){
+    console.log(uniqueIdGen())
+    console.log(options)
+    setTimeout(function(){
+      next()
+    },3000)
+  }
 }
 
-export default dualSession
+module.exports = dualSession

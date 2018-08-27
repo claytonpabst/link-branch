@@ -43,4 +43,4 @@ function idIsUnique(id){
   return true
 }
 
-export default generateUniqueId
+module.exports = generateUniqueId

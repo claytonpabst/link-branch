@@ -4,9 +4,9 @@ const cors = require('cors');
 const massive = require('massive');
 const session = require('express-session');
 const config = require('./config.js');
-const redis = require('redis');
-const redisStore = require('connect-redis')(session);
-const client = redis.createClient()
+// const redis = require('redis');
+// const redisStore = require('connect-redis')(session);
+// const client = redis.createClient()
 const dualSession = require('./express-dual-session')
 
 const app = module.exports = express();
@@ -22,7 +22,12 @@ app.use(bodyParser.json());
 //     }
 // }))
 
-app.use(dualSession())
+app.use(dualSession('I am test options.'))
+
+app.use(function(req, res, next){
+  console.log('second function')
+  next()
+})
 
 massive(config.connection)
 .then( db => {
@@ -33,6 +38,10 @@ app.use(express.static(__dirname + './../build'))
 
 var userController = require("./userController.js");
 
+app.get('/api/isLoggedIn', userController.isLoggedIn);
+app.get('/api/logOut', userController.logOut);
+app.post('/api/logIn', userController.logIn);
+app.post('/api/createUser', userController.createUser);
 
 
 
