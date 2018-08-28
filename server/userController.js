@@ -38,11 +38,10 @@ module.exports = {
   },
 
   isLoggedIn: function(req, res){
-    return
-    if (req.session.loggedIn){
-      return res.status(200).send(req.session.user);
-    }else{
+    if (!req.session || !req.session.loggedIn){
       return res.status(200).send({loggedIn: false})
+    }else{
+      return res.status(200).send(req.session.user);
     }
   },
 
