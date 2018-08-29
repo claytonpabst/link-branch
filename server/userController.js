@@ -38,17 +38,27 @@ module.exports = {
   },
 
   isLoggedIn: function(req, res){
-    console.log("isLoggedIn", req.session)
-    if (!req.session || !req.session.loggedIn){
-      return res.status(200).send({loggedIn: false})
-    }else{
-      return res.status(200).send(req.session.user);
+    if (req.session){
+      if(req.session.loggedIn){
+        return res.status(200).send({loggedIn: true})
+      } else {
+        req.app.get('activeSessions').destroy(req.session, function(message){
+          return res.status(200).send({loggedIn: false})
+        })
+      }
+    } else {
+      return res.status(200).send("Try Signing In.");
     }
   },
 
   logOut: function(req, res){
-    req.session.loggedIn = false;
-    return res.status(200).send({message:'User Logged Out.'})
+    if(req.session){
+      req.app.get('activeSessions').destroy(req.session, function(){
+        return res.status(200).send({loggedIn:false})
+      })
+    } else {
+      return res.status(200).send({loggedIn:false})
+    }
   },
 
   createUser: function(req, res) {

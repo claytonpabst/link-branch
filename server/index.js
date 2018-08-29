@@ -27,7 +27,9 @@ massive(config.connection)
   app.set('db', db);
 })
 
+
 app.use(dualSession({
+  app:app,
   dbName:'db',
   secret:"someSecretKey",
   cookieName:"xs",
