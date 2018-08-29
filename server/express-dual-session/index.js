@@ -19,7 +19,7 @@ function dualSession(options){
         return
       } else {
         console.log('2')
-        const db = req.app.get('db')
+        const db = req.app.get(options.dbName)
         db.query("CREATE TABLE IF NOT EXISTS express_dual_session (session_id varchar(28) NOT NULL, session_data text, PRIMARY KEY (session_id))")
         .then(table => {
           console.log(table)
@@ -51,7 +51,7 @@ function createSessionForNewUser(req, res, options, activeSessions, cb){
   console.log(req.app.get('activeSessions'))
   
   
-  const db = req.app.get('db')
+  const db = req.app.get(options.dbName)
   db.query("CREATE TABLE IF NOT EXISTS express_dual_session (session_id varchar(28) NOT NULL, session_data text, PRIMARY KEY (session_id))")
   .then(table => {
     db.express_dual_session.insert({session_id: sessionId, session_data: JSON.stringify(activeSessions[sessionId])})
