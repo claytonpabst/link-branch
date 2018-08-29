@@ -31,6 +31,7 @@ app.use(dualSession({
   dbName:'db',
   secret:"someSecretKey",
   cookieName:"xs",
+  maxAge: 1000 * 60 * 60
 }))
 
 app.use(function(req, res, next){

@@ -38,6 +38,7 @@ module.exports = {
   },
 
   isLoggedIn: function(req, res){
+    console.log("isLoggedIn", req.session)
     if (!req.session || !req.session.loggedIn){
       return res.status(200).send({loggedIn: false})
     }else{
