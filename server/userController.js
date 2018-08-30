@@ -42,9 +42,9 @@ module.exports = {
       if(req.session.loggedIn){
         return res.status(200).send({loggedIn: true})
       } else {
-        req.app.get('activeSessions').destroy(req.session, function(message){
+        // req.app.get('activeSessions').destroy(req.session, function(message){
           return res.status(200).send({loggedIn: false})
-        })
+        // })
       }
     } else {
       return res.status(200).send("Try Signing In.");
