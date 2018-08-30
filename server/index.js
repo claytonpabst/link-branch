@@ -7,7 +7,7 @@ const config = require('./config.js');
 // const redis = require('redis');
 // const redisStore = require('connect-redis')(session);
 // const client = redis.createClient()
-const dualSession = require('./express-dual-session/index.js')
+const {dualSession, dualSessionConnect} = require('./express-dual-session/index.js')
 
 const app = module.exports = express();
 
@@ -24,9 +24,19 @@ app.use(bodyParser.json());
 
 massive(config.connection)
 .then( db => {
-  app.set('db', db);
+  app.set('db', db)
+  dualSessionConnect(db)
+  .then( message => {
+    db.reload()
+    .then( refreshedDb => {
+      app.set('db', refreshedDb)
+      console.log(message)
+    })
+  })
+  .catch( err => {
+    console.log(err)
+  })
 })
-
 
 app.use(dualSession({
   app:app,
@@ -50,14 +60,8 @@ app.get('/api/logOut', userController.logOut);
 app.post('/api/logIn', userController.logIn);
 app.post('/api/createUser', userController.createUser);
 
-
-
-
-
-
-
-// app.listen(config.port, console.log("you are now connected on " + config.port));
-
 app.listen(config.port, '0.0.0.0', function() {
   console.log('Listening to port:  ' + config.port);
 });
+
+
