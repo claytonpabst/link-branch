@@ -156,9 +156,12 @@ function dualSessionConnect(db){
     })
     .catch(err => {
       reject("Error while attempting to connect Dual Session to db", err)
-
     })
   })
 }
 
-module.exports = {dualSession, dualSessionConnect}
+function dualSessionClean(options){
+  // console.log(options)
+}
+
+module.exports = {dualSession, dualSessionConnect, dualSessionClean}
