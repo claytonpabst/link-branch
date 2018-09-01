@@ -116,36 +116,36 @@ function createSessionForNewUser(req, res, options, activeSessions, cb){
 function getActiveSessions(req){
   let activeSessions = req.app.get('activeSessions')
   if(!activeSessions){
-    req.app.set('activeSessions', {
-      destroy: function (session, cb){
-        destroySession(req, session._id, cb)
-      } 
-    })
+    req.app.set('activeSessions', {})
     activeSessions = req.app.get('activeSessions')
-  }
-  if(!activeSessions.destroy){
-    req.app.get('activeSessions').destroy = function(session, cb) {
-      destroySession(req, session._id, cb)
-    }
   }
   return activeSessions
 }
 
-function destroySession(req, sessionId, cb) {
-  let db = req.app.get('db')
+function dualSessionDestroy(req, dbName, cb){
+  let sessionId = req.session._id
+  let db = req.app.get(dbName)
   let activeSessions = req.app.get('activeSessions')
-  console.log('questionable', activeSessions)
   delete activeSessions[sessionId]
-  db.express_dual_session.destroy({session_id: sessionId})
-  .then(response => {
-    cb('Success')
+  req.session = activeSessions[sessionId]
+  db.express_dual_session.destroy({
+    session_id: sessionId
+  }).then(response => {
+    if(cb){cb('Session Destroyed')}
+    return
+  }).catch( err => {
+    if(cb){cb(err)}
     return
   })
-  .catch(err => {
-    console.log(err)
-    cb(err)
-    return
-  })
+}
+
+function dualSessionUpdate(req, dbName, props, cb){
+  let keysArray = Object.keys(props)
+  for(let i=0; i<keysArray.length; i++){
+    
+  }
+  const db = req.app.get(dbName)
+  console.log(props)
 }
 
 function dualSessionConnect(db){
@@ -164,4 +164,4 @@ function dualSessionClean(options){
   // console.log(options)
 }
 
-module.exports = {dualSession, dualSessionConnect, dualSessionClean}
+module.exports = {dualSession, dualSessionConnect, dualSessionClean, dualSessionDestroy, dualSessionUpdate}

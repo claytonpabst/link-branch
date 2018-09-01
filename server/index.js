@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const massive = require('massive');
 const session = require('express-session');
+const helmet = require('helmet');
 const config = require('./config.js');
 // const redis = require('redis');
 // const redisStore = require('connect-redis')(session);
@@ -10,6 +11,8 @@ const config = require('./config.js');
 const {dualSession, dualSessionConnect, dualSessionClean} = require('./express-dual-session/index.js')
 
 const app = module.exports = express();
+
+app.use(helmet())
 
 app.use(bodyParser.json());
 // app.use(session({
@@ -30,9 +33,9 @@ massive(config.connection).then( db => {      // Returns database. See Massive d
       dualSessionClean({                      // *Optional* Function to handle deleting old sessions
         app: app,                             // Function needs access to app
         dbName: 'db',                         // Needs to be same name from app.set() function
-        dbMaxAge: 1000 * 60 * 60 * 24 * 180,  // Sessions in db older than 180 days will be deleted
-        memMaxAge: 1000 * 60 * 60,            // Sessions in memory older than 1 hour will be deleted
-        cleanInterval: 1000 * 60 * 60         // How often the clean function runs
+        dbMaxAge: 1000 * 60 * 60 * 24 * 30,   // Sessions in db older than 30 days will be deleted
+        memMaxAge: 1000 * 60 * 60,            // Sessions in memory older than 1 hour will be deleted, max of ~2 hours with these settings, depending on when a user creates a session and the clean function does it's thing.
+        cleanInterval: 1000 * 60 * 60         // How often the clean function runs. Note: cleanInterval needs to be === or < memMaxAge for memory to clean as expected.
       })
     })
   }).catch( err => {
@@ -42,9 +45,9 @@ massive(config.connection).then( db => {      // Returns database. See Massive d
 
 app.use(dualSession({                 // Once Dual Session is connected to db, use it by invoking with options
   dbName:'db',                        // Needs to be same name from app.set() function
-  secret:"someSecretKey",             // Secret key for cookie encryption
+  secret:"someSecretKey",             // Secret key for cookie encryption. Put this in a .gitignore
   cookieName:"xs",                    // Choose a cookie name for the client
-  maxAge: 1000 * 60 * 60 * 24 * 180   // How long until browser deletes session cookie. 
+  maxAge: 1000 * 60 * 60 * 24 * 30   // How long until browser deletes session cookie. 
 }))
 
 app.use(function(req, res, next){

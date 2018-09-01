@@ -1,4 +1,5 @@
 var app = require('./index.js');
+const {dualSessionDestroy, dualSessionUpdate} = require('./express-dual-session/index.js');
 
 const bcrypt = require('bcrypt');
 
@@ -42,9 +43,10 @@ module.exports = {
       if(req.session.loggedIn){
         return res.status(200).send({loggedIn: true})
       } else {
-        // req.app.get('activeSessions').destroy(req.session, function(message){
+        dualSessionUpdate(req, 'db', {loggedIn: true, userName: 'Clayton Pabst'}, function(message){
+          console.log(req.session)
           return res.status(200).send({loggedIn: false})
-        // })
+        })
       }
     } else {
       return res.status(200).send("Try Signing In.");
@@ -65,20 +67,18 @@ module.exports = {
     const db = req.app.get('db')
     bcrypt.hash(req.body.password, 12, function(err, hash){
       let paidThrough = new Date().getTime()
-      db.createUser([req.body.email, req.body.username, hash, paidThrough])
-        .then( response => {
-          req.session.loggedIn = true;
-          response[0].loggedIn=true;
-          response[0].success = true;
-          response[0].message = 'Account created successfully.'
-          req.session.user = response[0];
-          // console.log(response[0]);
-          return res.status(200).json( response[0] )
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).send(err);
-        })
+      db.createUser([req.body.email, req.body.username, hash, paidThrough]).then( response => {
+        req.session.loggedIn = true;
+        response[0].loggedIn=true;
+        response[0].success = true;
+        response[0].message = 'Account created successfully.'
+        req.session.user = response[0];
+        // console.log(response[0]);
+        return res.status(200).json( response[0] )
+      }).catch(err => {
+        console.log(err);
+        res.status(500).send(err);
+      })
     })
   }
   
