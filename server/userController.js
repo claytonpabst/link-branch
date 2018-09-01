@@ -44,7 +44,7 @@ module.exports = {
         return res.status(200).send({loggedIn: true})
       } else {
         dualSessionUpdate(req, 'db', {loggedIn: true, userName: 'Clayton Pabst'}, function(message){
-          console.log(req.session)
+          console.log(message, req.session)
           return res.status(200).send({loggedIn: false})
         })
       }
@@ -55,7 +55,7 @@ module.exports = {
 
   logOut: function(req, res){
     if(req.session){
-      req.app.get('activeSessions').destroy(req.session, function(){
+      dualSessionDestroy(req, 'db', function(message){
         return res.status(200).send({loggedIn:false})
       })
     } else {

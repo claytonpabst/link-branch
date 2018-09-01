@@ -2,19 +2,6 @@ const uniqueIdGen = require('./uniqueIdGen.js');
 const cryptoJs = require("crypto-js");
 const cookie = require('cookie');
 
-let cleanSessionsRunning = false
-let cleanSessionsInterval
-
-function cleanSessions(options){
-  if(options.app.get('activeSessions')){
-    // console.log(options.app.get('activeSessions'))
-  }
-  if(options.app.get(options.dbName).express_dual_session){
-    // console.log(options.app.get(options.dbName).express_dual_session)
-
-  }
-}
-
 function dualSession(options){
   
   return function session(req, res, next){
@@ -34,6 +21,7 @@ function dualSession(options){
         activeSessions[sessionId]._lastReq = new Date().getTime()
         req.session = activeSessions[sessionId]
         console.log(req.app.get('activeSessions'))
+        sessionId = cryptoJs.AES.encrypt(sessionId, options.secret).toString()
         res.cookie(options.cookieName, sessionId, {
           httpOnly: true,
           maxAge: options.maxAge// 1 week
@@ -52,6 +40,7 @@ function dualSession(options){
           req.session = activeSessions[sessionId]
           db.express_dual_session.save({session_id:sessionId, session_data: JSON.stringify(activeSessions[sessionId]), last_req: new Date().getTime()})
           .then(session => {
+            sessionId = cryptoJs.AES.encrypt(sessionId, options.secret).toString()
             res.cookie(options.cookieName, sessionId, {
               httpOnly: true,
               maxAge: options.maxAge// 1 week
@@ -86,30 +75,24 @@ function dualSession(options){
 function createSessionForNewUser(req, res, options, activeSessions, cb){
   let sessionId = uniqueIdGen()
   activeSessions[sessionId] = {
-    _id:sessionId,
+    _id: sessionId,
     _lastReq: new Date().getTime(),
   }
-  req.session = activeSessions[sessionId]
-  console.log(req.app.get('activeSessions'))
-  
+  req.session = activeSessions[sessionId] 
   let db = req.app.get(options.dbName)
-  db.express_dual_session.insert({session_id: sessionId, session_data: JSON.stringify(activeSessions[sessionId]), last_req: new Date().getTime()})
-  .then(session => {
-    console.log('hit', session)
-  
+  db.express_dual_session.insert({
+    session_id: sessionId, 
+    session_data: JSON.stringify(activeSessions[sessionId]), 
+    last_req: new Date().getTime()
+  }).then(session => {
     sessionId = cryptoJs.AES.encrypt(sessionId, options.secret).toString()
     res.cookie(options.cookieName, sessionId, {
       httpOnly: true,
       maxAge: options.maxAge // 1 week
     })
-  
-    cb()
-    return
-  })
-  .catch(err => {
-    console.log(err)
-    cb()
-    return
+    cb("New session created")
+  }).catch(err => {
+    cb(err)
   })
 }
 
@@ -132,20 +115,30 @@ function dualSessionDestroy(req, dbName, cb){
     session_id: sessionId
   }).then(response => {
     if(cb){cb('Session Destroyed')}
-    return
   }).catch( err => {
     if(cb){cb(err)}
-    return
   })
+  return
 }
 
 function dualSessionUpdate(req, dbName, props, cb){
-  let keysArray = Object.keys(props)
-  for(let i=0; i<keysArray.length; i++){
-    
+  let sessionId = req.session._id
+  let propsKeys = Object.keys(props)
+  let activeSessions = req.app.get('activeSessions')
+  let db = req.app.get(dbName)
+  for(let i=0; i<propsKeys.length; i++){
+    activeSessions[sessionId][propsKeys[i]] = props[propsKeys[i]]
   }
-  const db = req.app.get(dbName)
-  console.log(props)
+  req.session = activeSessions[sessionId]
+  db.express_dual_session.save({
+    session_id: sessionId, 
+    session_data: JSON.stringify(req.session)
+  }).then(response => {
+    if(cb){cb("Session Updated")}
+  }).catch(err => {
+    if(cb){cb(err)}
+  })
+  return
 }
 
 function dualSessionConnect(db){
