@@ -7,10 +7,10 @@ class SignUpPopover extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      usernameInput: '',
-      emailInput:'',
-      passwordInput:'',
-      confirmPasswordInput:'',
+      usernameInput: 'claytonpabst',
+      emailInput:'claytonpabst@gmail.com',
+      passwordInput:'test1234',
+      confirmPasswordInput:'test1234',
 
     }
   }
@@ -23,14 +23,14 @@ class SignUpPopover extends React.Component {
     }
   }
 
-  createUser = () => {
+  singUp = () => {
     if( !this.comparePasswords() ){
       window.alert('Passwords do not match.')
     } else if (this.state.usernameInput === '' || this.state.emailInput === '' || this.state.passwordInput === ''){
       window.alert('Please make sure the sign-up form is complete with valid entries.')
     } else {
-      this.props.closeSignUpPopover();
-      this.props.createUser({email:this.state.emailInput, username:this.state.usernameInput, password:this.state.passwordInput})
+      this.props.global.toggleSignUpModel();
+      this.props.global.signUp({email:this.state.emailInput, username:this.state.usernameInput, password:this.state.passwordInput})
     }
   }
 
@@ -57,7 +57,7 @@ class SignUpPopover extends React.Component {
             </div>
             <div style={{display:'block', width:'90%',  margin:' 15px auto'}} className="form-group">
               {/* <label style={{margin:'5px'}} for="exampleInputPassword1">Password:</label> */}
-              <small style={{fontSize:'12px', margin:'-5px auto 5px 5px', color:'#e03333'}} id="emailHelp" className="form-text">Recommended: Use a combination of numbers letters and symbols.</small>
+              <small style={{fontSize:'12px', margin:'-5px auto 5px 5px', color:'#e03333'}} id="emailHelp" className="form-text">Passwords are securely hashed.</small>
               <input style={{padding:'6px', fontSize:'20px', width:'95%', margin:'0 auto', display:'block'}} onChange={(e) => this.setState({passwordInput:e.target.value})} type="password" className="form-control" placeholder="Choose Password" />
               <input style={{marginTop:'3px', padding:'6px', fontSize:'20px', width:'95%', margin:'0 auto', display:'block'}} onChange={(e) => this.setState({confirmPasswordInput:e.target.value})} type="password" className="form-control" placeholder="Re-Enter Password" />
             </div>
@@ -66,7 +66,7 @@ class SignUpPopover extends React.Component {
               className="btn sign-in_log-in-button"
               onClick={(e) => {
                 e.stopPropagation(); 
-                this.createUser();
+                this.singUp();
               }}
             >
               Sign Up

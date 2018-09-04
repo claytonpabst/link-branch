@@ -62,7 +62,7 @@ var userController = require("./userController.js");
 app.get('/api/isLoggedIn', userController.isLoggedIn);
 app.get('/api/logOut', userController.logOut);
 app.post('/api/logIn', userController.logIn);
-app.post('/api/singUp', userController.singUp);
+app.post('/api/signUp', userController.singUp);
 
 app.listen(config.port, '0.0.0.0', function() {
   console.log('Listening to port:  ' + config.port);

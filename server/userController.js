@@ -40,35 +40,39 @@ module.exports = {
 
   isLoggedIn: function(req, res){
     if (req.session){
-      if(req.session.loggedIn){
-        return res.status(200).send({loggedIn: true})
+      if(req.session.authenticated){
+        return res.status(200).send({authenticated: true})
       } else {
-        dualSessionUpdate(req, 'db', {loggedIn: true, userName: 'Clayton Pabst'}, function(message){
-          console.log(message, req.session)
-          return res.status(200).send({loggedIn: false})
-        })
+        return res.status(200).send({message:"Try Signing In.", authenticated:false});
       }
     } else {
-      return res.status(200).send("Try Signing In.");
+      return res.status(200).send({message:"Try Signing In.", authenticated:false});
     }
   },
 
   logOut: function(req, res){
     if(req.session){
       dualSessionDestroy(req, 'db', function(message){
-        return res.status(200).send({loggedIn:false})
+        return res.status(200).send({authenticated:false})
       })
     } else {
-      return res.status(200).send({loggedIn:false})
+      return res.status(200).send({authenticated:false})
     }
   },
 
   singUp: function(req, res) {
     const db = req.app.get('db')
+    let profileData = JSON.stringify({})
     bcrypt.hash(req.body.password, 12, function(err, hash){
-      db.createUser([req.body.email, req.body.username, hash]).then( response => {
-        console.log(response)
-        res.status(200).send({message:"User Created"})
+      db.signUp([req.body.email, req.body.username, hash, profileData, 0]).then( response => {
+        const user = response[0]
+        dualSessionUpdate(req, 'db', {
+          id:user.id, 
+          authenticated:true,
+          username:user.username
+        }, message => {
+          res.status(200).send({message:"User Created", username:user.username, authenticated:true})
+        })
       }).catch(err => {
         console.log(err);
         res.status(500).send(err);

@@ -10,7 +10,7 @@ class GlobalState extends Component {
     username: '',
     loggedIn: false,
     showSignInModel: false,
-    showSignUpModel: false,
+    showSignUpModel: true,
     showSignOutModel: false, 
     showLoadingModel: false,
   }
@@ -20,7 +20,7 @@ class GlobalState extends Component {
   }
 
   isSignedIn = () => {
-    axios.get('/api/isLoggedIn/')
+    axios.get('/api/isLoggedIn')
     .then(res => {
       console.log(res)
     })
@@ -32,7 +32,7 @@ class GlobalState extends Component {
     this.setState({loggedIn:false,username:''})
   }
   signUp = (input) => {
-    axios.post('/api/signUp/', input).then(res => {
+    axios.post('/api/signUp', input).then(res => {
 
     }).catch(err => {
 
@@ -59,6 +59,7 @@ class GlobalState extends Component {
           state: this.state,
           signIn: this.signIn,
           signOut: this.signOut,
+          signUp: this.signUp,
           toggleSignInModel: this.toggleSignInModel,
           toggleSignUpModel: this.toggleSignUpModel,
           toggleSignOutModel: this.toggleSignOutModel,
