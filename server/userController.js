@@ -11,37 +11,35 @@ function hash(password){
 
 module.exports = {
 
-  logIn: function(req, res){
+  signIn: function(req, res){
     const db = req.app.get('db');
-    db.logIn([req.body.email])
-    .then( response => {
+    db.signIn([req.body.email]).then( response => {
       bcrypt.compare(req.body.password, response[0].password, function(err, hash) {
         if(hash){
-          req.session.loggedIn = true;
-          response[0].loggedIn = true;
-          response[0].message = 'Login Successful.'
-          req.session.user = response[0];
-        } else {
-          req.session.loggedIn = false
-          return res.status(200).send({
-            loggedIn: false,
-            username: '',
-            message: 'Invalid email or password.'
+          const user = response[0]
+          dualSessionUpdate(req, 'db', {
+            id:user.id, 
+            authenticated:true,
+            username:user.username
+          }, message => {
+            console.log(req.session)
+            return res.status(200).send({message:"Sign in success!", username:user.username, authenticated:true})
           })
+        } else {
+          return res.status(200).send({message:"Invalid username or password", username:'', authenticated:false})
         }
-        return res.status(200).json( response[0] )
       })
-    })
-    .catch(err => {
-        console.log(err)
-        res.status(500).send(err)
+    }).catch(err => {
+      console.log(err)
+      return res.status(200).send({message:"Invalid username or password", username:'', authenticated:false})
     })
   },
 
   isLoggedIn: function(req, res){
     if (req.session){
+      console.log(req.session)
       if(req.session.authenticated){
-        return res.status(200).send({authenticated: true})
+        return res.status(200).send({authenticated: true, username:req.session.username})
       } else {
         return res.status(200).send({message:"Try Signing In.", authenticated:false});
       }
@@ -50,13 +48,14 @@ module.exports = {
     }
   },
 
-  logOut: function(req, res){
+  signOut: function(req, res){
     if(req.session){
       dualSessionDestroy(req, 'db', function(message){
-        return res.status(200).send({authenticated:false})
+        console.log(req.session)
+        return res.status(200).send({message:'User signed out.', authenticated:false, username:''})
       })
     } else {
-      return res.status(200).send({authenticated:false})
+      return res.status(200).send({authenticated:false, username:''})
     }
   },
 
@@ -71,7 +70,8 @@ module.exports = {
           authenticated:true,
           username:user.username
         }, message => {
-          res.status(200).send({message:"User Created", username:user.username, authenticated:true})
+          console.log(req.session)
+          res.status(200).send({message:"User created.", username:user.username, authenticated:true})
         })
       }).catch(err => {
         console.log(err);

@@ -8,9 +8,9 @@ const { Provider, Consumer } = createContext();
 class GlobalState extends Component {
   state = {
     username: '',
-    loggedIn: false,
+    authenticated: false,
     showSignInModel: false,
-    showSignUpModel: true,
+    showSignUpModel: false,
     showSignOutModel: false, 
     showLoadingModel: false,
   }
@@ -20,22 +20,44 @@ class GlobalState extends Component {
   }
 
   isSignedIn = () => {
-    axios.get('/api/isLoggedIn')
-    .then(res => {
-      console.log(res)
+    this.setState({showLoadingModel:true})
+    axios.get('/api/isLoggedIn').then(res => {
+      this.handleAuthRes(res)
+    }).catch(err => {
+      console.log(err)
     })
   }
   signIn = (signInCredentials) => {
-    this.setState({loggedIn:true, username:'Clayton Todd Pabst'})
+    this.setState({showLoadingModel:true})
+    axios.post('/api/signIn', signInCredentials).then(res => {
+      this.handleAuthRes(res)
+    }).catch(err => {
+      console.log(err)
+    })
   }
   signOut = () => {
-    this.setState({loggedIn:false,username:''})
+    this.setState({showLoadingModel:true})
+    axios.get('/api/signOut').then(res => {
+      this.handleAuthRes(res)
+    }).catch(err => {
+      console.log(err)
+    })
   }
   signUp = (input) => {
+    this.setState({showLoadingModel:true})
     axios.post('/api/signUp', input).then(res => {
-
+      this.handleAuthRes(res)
     }).catch(err => {
+      console.log(err)
+    })
+  }
 
+  handleAuthRes = (res) => {
+    // if(res.data.message){alert(res.data.message)}
+    this.setState({
+      showLoadingModel: false,
+      username:res.data.username,
+      authenticated:res.data.authenticated
     })
   }
 

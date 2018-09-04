@@ -28,7 +28,7 @@ class MainHeader extends Component {
                 <h1 class="main-header_main-logo">LB</h1>
               </div>
               <div style={{float:"left"}}>
-                <button className="main-header_sign-in-button" onClick={global.state.loggedIn ? global.toggleSignOutModel : global.toggleSignInModel}>{global.state.loggedIn ? this.buildUsername(global.state.username) : "Sign In/Sign Up"}</button>
+                <button className="main-header_sign-in-button" onClick={global.state.authenticated ? global.toggleSignOutModel : global.toggleSignInModel}>{global.state.authenticated ? this.buildUsername(global.state.username) : "Sign In/Sign Up"}</button>
               </div>
               <div style={{float:"right"}} onClick={this.props.toggleMobileMenu}>
                 <img src="http://cdn.onlinewebfonts.com/svg/img_113945.png" />

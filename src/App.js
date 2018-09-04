@@ -9,6 +9,7 @@ import MainHeader from "./components/MainHeader/MainHeader.js"
 import SignInModel from './components/Models/SignIn/SignIn.js'
 import SignUpModel from './components/Models/SignUp/SignUp.js'
 import SignOutModel from './components/Models/SignOut/SignOut.js'
+import LoadingModel from './components/Models/Loading/Loading.js'
 
 import EditProfile from './components/EditProfile/EditProfile.js';
 import UserAssetManager from './components/UserAssetManager/UserAssetManager.js';
@@ -50,7 +51,7 @@ class App extends Component {
             {(global) => (
               <React.Fragment>
                 {(() => {
-                  if(global.state.showSignInModel || global.state.showSignUpModel || global.state.showSignOutModel || this.state.showMobileMenu){
+                  if(global.state.showLoadingModel || global.state.showSignInModel || global.state.showSignUpModel || global.state.showSignOutModel || this.state.showMobileMenu){
                     backgroundBlur = "blur(5px)"
                     modelOpacity = '1'
                   } else {
@@ -76,6 +77,7 @@ class App extends Component {
                   {global.state.showSignInModel && <SignInModel/>}
                   {global.state.showSignUpModel && <SignUpModel/>}
                   {global.state.showSignOutModel && <SignOutModel/>}
+                  {global.state.showLoadingModel && <LoadingModel/>}
                 </div>
               </React.Fragment>
             )}

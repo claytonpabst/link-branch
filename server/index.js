@@ -60,8 +60,8 @@ app.use(express.static(__dirname + './../build'))
 var userController = require("./userController.js");
 
 app.get('/api/isLoggedIn', userController.isLoggedIn);
-app.get('/api/logOut', userController.logOut);
-app.post('/api/logIn', userController.logIn);
+app.get('/api/signOut', userController.signOut);
+app.post('/api/signIn', userController.signIn);
 app.post('/api/signUp', userController.singUp);
 
 app.listen(config.port, '0.0.0.0', function() {
