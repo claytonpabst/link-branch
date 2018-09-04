@@ -77,7 +77,7 @@ class App extends Component {
                   {global.state.showSignInModel && <SignInModel/>}
                   {global.state.showSignUpModel && <SignUpModel/>}
                   {global.state.showSignOutModel && <SignOutModel/>}
-                  {global.state.showLoadingModel && <LoadingModel/>}
+                  {global.state.showLoadingModel && <LoadingModel header2="Authenticating..."/>}
                 </div>
               </React.Fragment>
             )}

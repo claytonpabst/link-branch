@@ -9,6 +9,7 @@ class GlobalState extends Component {
   state = {
     username: '',
     authenticated: false,
+
     showSignInModel: false,
     showSignUpModel: false,
     showSignOutModel: false, 
