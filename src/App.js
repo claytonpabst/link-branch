@@ -11,6 +11,7 @@ import SignUpModel from './components/Models/SignUp/SignUp.js'
 import SignOutModel from './components/Models/SignOut/SignOut.js'
 
 import EditProfile from './components/EditProfile/EditProfile.js';
+import UserAssetManager from './components/UserAssetManager/UserAssetManager.js';
 
 import './reset.css';
 import './App.css';
@@ -65,6 +66,7 @@ class App extends Component {
                   
                     <Route render={()=><EditProfile edit={true}/>} exact path="/edit" />
                     <Route render={()=><EditProfile edit={false}/>} exact path="/u" />
+                    <Route render={()=><UserAssetManager/>} exact path="/assets" />
       
                   </Switch>
                 </div>

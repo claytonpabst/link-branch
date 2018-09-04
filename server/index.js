@@ -47,7 +47,7 @@ app.use(dualSession({                 // Once Dual Session is connected to db, u
   dbName:'db',                        // Needs to be same name from app.set() function
   secret:"someSecretKey",             // Secret key for cookie encryption. Put this in a .gitignore
   cookieName:"xs",                    // Choose a cookie name for the client
-  maxAge: 1000 * 60 * 60 * 24 * 30   // How long until browser deletes session cookie. 
+  maxAge: 1000 * 60 * 60 * 24 * 30    // How long until browser deletes session cookie. 
 }))
 
 app.use(function(req, res, next){
@@ -62,7 +62,7 @@ var userController = require("./userController.js");
 app.get('/api/isLoggedIn', userController.isLoggedIn);
 app.get('/api/logOut', userController.logOut);
 app.post('/api/logIn', userController.logIn);
-app.post('/api/createUser', userController.createUser);
+app.post('/api/singUp', userController.singUp);
 
 app.listen(config.port, '0.0.0.0', function() {
   console.log('Listening to port:  ' + config.port);

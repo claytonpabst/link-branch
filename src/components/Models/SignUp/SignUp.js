@@ -57,7 +57,7 @@ class SignUpPopover extends React.Component {
             </div>
             <div style={{display:'block', width:'90%',  margin:' 15px auto'}} className="form-group">
               {/* <label style={{margin:'5px'}} for="exampleInputPassword1">Password:</label> */}
-              <small style={{fontSize:'12px', margin:'-5px auto 5px 5px', color:'#e03333'}} id="emailHelp" className="form-text">It's best practice to not use your IG password here.</small>
+              <small style={{fontSize:'12px', margin:'-5px auto 5px 5px', color:'#e03333'}} id="emailHelp" className="form-text">Recommended: Use a combination of numbers letters and symbols.</small>
               <input style={{padding:'6px', fontSize:'20px', width:'95%', margin:'0 auto', display:'block'}} onChange={(e) => this.setState({passwordInput:e.target.value})} type="password" className="form-control" placeholder="Choose Password" />
               <input style={{marginTop:'3px', padding:'6px', fontSize:'20px', width:'95%', margin:'0 auto', display:'block'}} onChange={(e) => this.setState({confirmPasswordInput:e.target.value})} type="password" className="form-control" placeholder="Re-Enter Password" />
             </div>

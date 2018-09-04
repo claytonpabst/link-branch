@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 
 import imageCompressor from './imageCompressor.js';
+import EditImageModel from './EditImageModel.js';
 
 import './EditProfile.css';
 import './Profile.css';
@@ -236,9 +237,9 @@ class EditProfile extends Component {
       showEditTextModel: false,
     }
 
-    this.linkModel = React.createRef()
-    this.textModel = React.createRef()
-    this.imageModel = React.createRef()
+    this.linkModelRef = React.createRef()
+    this.editTextModelRef = React.createRef()
+    this.editImageModelRef = React.createRef()
 
     this.deleteSection = this.deleteSection.bind(this);
   }
@@ -296,7 +297,7 @@ class EditProfile extends Component {
       currentImg: currentImg,
       modelData:piece
     }, () => {
-      setTimeout(() => {this.setState({modelWidth:"90%", modelOverlayBackground:"rgba(0,0,0,0.6)", modelOverlayBlur:"blur(5px)"}); this.imageModel.current.focus()}, 1)
+      setTimeout(() => {this.setState({modelWidth:"90%", modelOverlayBackground:"rgba(0,0,0,0.6)", modelOverlayBlur:"blur(5px)"}); this.editImageModelRef.current.focus()}, 1)
     })
   }
 
@@ -325,7 +326,7 @@ class EditProfile extends Component {
       editText,
       modelData: piece
     }, () => {
-      setTimeout(() => {this.setState({modelWidth:"90%", modelOverlayBackground:"rgba(0,0,0,0.6)", modelOverlayBlur:"blur(5px)"}); this.textModel.current.focus()}, 1)
+      setTimeout(() => {this.setState({modelWidth:"90%", modelOverlayBackground:"rgba(0,0,0,0.6)", modelOverlayBlur:"blur(5px)"}); this.editTextModelRef.current.focus()}, 1)
     })
   }
 
@@ -357,7 +358,7 @@ class EditProfile extends Component {
       currentSectionIndex: i,
       currentPieceIndex: j,
     }, () => {
-      setTimeout(() => {this.setState({modelWidth:"90%", modelOverlayBackground:"rgba(0,0,0,0.6)", modelOverlayBlur:"blur(5px)"}); this.linkModel.current.focus()}, 1)
+      setTimeout(() => {this.setState({modelWidth:"90%", modelOverlayBackground:"rgba(0,0,0,0.6)", modelOverlayBlur:"blur(5px)"}); this.linkModelRef.current.focus()}, 1)
     })
   }
   
@@ -693,7 +694,7 @@ class EditProfile extends Component {
 
           {this.state.showLinkModel &&
             <div onClick={this.closeLinkModel} style={{background:this.state.modelOverlayBackground}} className="profile_link-model-overlay">
-              <div onClick={(e) => {e.stopPropagation()}} tabIndex="-1" ref={this.linkModel} style={{position:"relative", padding:"20px", width:this.state.modelWidth}} className="profile_link-model-wrapper">
+              <div onClick={(e) => {e.stopPropagation()}} tabIndex="-1" ref={this.linkModelRef} style={{position:"relative", padding:"20px", width:this.state.modelWidth}} className="profile_link-model-wrapper">
                 <div 
                   onClick={this.closeLinkModel}
                   style={{position:"absolute", background:'red', width:"20px", height:"20px", borderRadius:"50%", textAlign:"center", top:"0px", left:"0px"}}
@@ -731,25 +732,20 @@ class EditProfile extends Component {
             </div>
           }
           {this.state.showEditImageModel &&
-            <div onClick={this.closeEditImageModel} style={{background:this.state.modelOverlayBackground}} className="profile_link-model-overlay">
-              <div onClick={(e) => {e.stopPropagation()}} tabIndex="-1" ref={this.imageModel} style={{position:"relative", padding:"20px", width:this.state.modelWidth}} className="profile_link-model-wrapper">
-                <div 
-                  onClick={() => this.closeEditImageModel()}
-                  style={{position:"absolute", background:'red', width:"20px", height:"20px", borderRadius:"50%", textAlign:"center", top:"0px", left:"0px"}}
-                  className="profile_link-model-x"
-                >
-                  x
-                </div>
-                <img src={this.state.currentImg} alt="Image to Update"/>
-                <h6 style={{textAlign:"left", margin:"20px 0px 0px 0px", fontWeight:"lighter"}}>Enter New Image Address</h6>
-                <input type="file" accept="image/*" onChange={(e) => this.imageUpload(e)}/>
-                <button onClick={() => {this.editDataPoint(this.state.editPointer); this.closeEditImageModel()}}>Update Image</button>
-              </div>
-            </div>
+            <EditImageModel 
+              closeEditImageModel={this.closeEditImageModel} 
+              modelOverlayBackground={this.state.modelOverlayBackground}
+              editImageModelRef={this.editImageModelRef}
+              modelWidth={this.state.modelWidth}
+              currentImg={this.state.currentImg}
+              imageUpload={this.imageUpload}
+              editDataPoint={this.editDataPoint}
+              editPointer={this.state.editPointer}
+            />
           }
           { this.state.showEditTextModel &&
             <div  onClick={this.closeEditTextModel} style={{background:this.state.modelOverlayBackground}} className="profile_link-model-overlay">
-              <div onClick={(e) => e.stopPropagation()} tabIndex="-1" ref={this.textModel} style={{position:"relative", padding:"20px", width:this.state.modelWidth}} className="profile_link-model-wrapper">
+              <div onClick={(e) => e.stopPropagation()} tabIndex="-1" ref={this.editTextModelRef} style={{position:"relative", padding:"20px", width:this.state.modelWidth}} className="profile_link-model-wrapper">
                 <div 
                   onClick={() => this.closeEditTextModel()}
                   style={{position:"absolute", background:'red', width:"20px", height:"20px", borderRadius:"50%", textAlign:"center", top:"0px", left:"0px"}}

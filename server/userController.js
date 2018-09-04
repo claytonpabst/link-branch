@@ -63,18 +63,12 @@ module.exports = {
     }
   },
 
-  createUser: function(req, res) {
+  singUp: function(req, res) {
     const db = req.app.get('db')
     bcrypt.hash(req.body.password, 12, function(err, hash){
-      let paidThrough = new Date().getTime()
-      db.createUser([req.body.email, req.body.username, hash, paidThrough]).then( response => {
-        req.session.loggedIn = true;
-        response[0].loggedIn=true;
-        response[0].success = true;
-        response[0].message = 'Account created successfully.'
-        req.session.user = response[0];
-        // console.log(response[0]);
-        return res.status(200).json( response[0] )
+      db.createUser([req.body.email, req.body.username, hash]).then( response => {
+        console.log(response)
+        res.status(200).send({message:"User Created"})
       }).catch(err => {
         console.log(err);
         res.status(500).send(err);

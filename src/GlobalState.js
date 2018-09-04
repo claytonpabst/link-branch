@@ -31,6 +31,13 @@ class GlobalState extends Component {
   signOut = () => {
     this.setState({loggedIn:false,username:''})
   }
+  signUp = (input) => {
+    axios.post('/api/signUp/', input).then(res => {
+
+    }).catch(err => {
+
+    })
+  }
 
   toggleSignInModel = () => {
     let showSignInModel = this.state.showSignInModel ? false : true
