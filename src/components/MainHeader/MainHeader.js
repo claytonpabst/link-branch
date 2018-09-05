@@ -23,7 +23,7 @@ class MainHeader extends Component {
       <div className="main-header_wrapper">
         <Consumer>
           {(global) => (
-            <div style={{width:"100%", maxWidth:"500px", margin:"0 auto"}}>
+            <div>
               <div style={{float:'left'}}>
                 <h1 class="main-header_main-logo">LB</h1>
               </div>

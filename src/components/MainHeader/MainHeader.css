@@ -1,7 +1,9 @@
 .main-header_wrapper{
   height:68px;
-  width:100%;
+  width:90%;
   background:white;
+  max-width:1220px; 
+  margin:0 auto;
 }
 
 .main-header_wrapper img{
@@ -34,6 +36,12 @@
 }
 .main-header_sign-in-button:hover{
   cursor: pointer;
+}
+
+@media (max-width: 550px) {
+  .main-header_wrapper{
+    width: 100%
+  }
 }
 
 @media (max-width: 400px) {

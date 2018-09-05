@@ -2,8 +2,8 @@
   width:100%;
 }
 .user-asset-manager_assets-wrapper {
-  min-height: 500px;
-  background: pink;
+  /* background: pink; */
+  padding: 30px;
   width: 100%;
   max-width: 1320px;
   margin: 0 auto;
@@ -11,12 +11,13 @@
   flex-wrap: wrap;
 }
 
-.user-asset-manager_new-image-wrapper{
-  width:200px;
+.user-asset-manager_one-asset{
+  margin: 5px;
+  width:150px;
   position:relative; 
-  height:200px;
+  height:150px;
   overflow:hidden;
 }
-.user-asset-manager_new-image-wrapper:hover{
+.user-asset-manager_one-asset:hover{
   cursor: pointer;
 }

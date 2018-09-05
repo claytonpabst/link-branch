@@ -5,11 +5,13 @@ class PageNameHeader extends Component {
   render() {
     return (
       <div className='page-name-header_wrapper'>
-        <div>
-          {
-            this.props.children()
-          }
-        </div>
+        <section>
+          <div>
+            {
+              this.props.children()
+            }
+          </div>
+        </section>
       </div> 
     );
   }

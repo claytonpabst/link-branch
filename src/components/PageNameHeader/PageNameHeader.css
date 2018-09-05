@@ -1,26 +1,39 @@
 .page-name-header_wrapper{
   width:100%;
-  height: 60px;
+  height: 45px;
   background: #333;
 }
-.page-name-header_wrapper div{
-  position: relative;
+.page-name-header_wrapper section{
   width: 100%;
+  height: 100%;
   max-width: 1320px;
   margin: 0 auto;
+}
+
+.page-name-header_wrapper div{
+  /* background: orange; */
+  position: relative;
+  min-width: fit-content;
+  width: 100%;
+  height: 100%;
+  max-width: 1320px;
+  /* left: 3vw; */
   color: white;
   font-weight: bolder;
   font-size: 30px;
   line-height: 60px;
   letter-spacing: 4px;
-  /* background:orange; */
+  position: absolute;
 }
 .page-name-header_wrapper h1{
-  width: fit-content;
+  position: absolute;
+  left:-13%;
+  width: 100%;
+  height: 45px;
   color: white;
   font-weight: bolder;
-  font-size: 40px;
-  line-height: 60px;
+  font-size: 30px;
+  line-height: 45px;
   letter-spacing: 4px;
   transform: scale(.7, 1);
 }

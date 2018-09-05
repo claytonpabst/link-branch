@@ -11,7 +11,7 @@ class UserAssetManager extends React.Component {
     super(props)
 
     this.state = {
-      assets:[]
+      assets:[1,2,3,4]
     }
   }
 
@@ -19,9 +19,9 @@ class UserAssetManager extends React.Component {
     return (
       this.state.assets.map(asset => {
         return (
-          <div>
-            <img src="https://d30y9cdsu7xlg0.cloudfront.net/png/396915-200.png"/>
-            <h6>New Asset</h6>
+          <div className="user-asset-manager_one-asset">
+            <input type="file" accept="image/*" onChange={(e) => this.imageUpload(e)} style={{position:"absolute", width:"100%", height:"100%", opacity:"0.0"}}/>
+            <img style={{width:'100%', height:'100%'}} src="https://d30y9cdsu7xlg0.cloudfront.net/png/396915-200.png"/>
           </div>
         )
       })
@@ -48,15 +48,19 @@ class UserAssetManager extends React.Component {
     return (
       <div className="user-asset-manager_main-wrapper">
         < PageNameHeader>
-          {() => (<h1>Assets Manager</h1>)}
+          {() => (<h1>Asset Manager</h1>)}
         </ PageNameHeader >
         <div className="user-asset-manager_assets-wrapper">
           {this.renderAssets()}
-          <div className="user-asset-manager_new-image-wrapper">
+          <div className="user-asset-manager_one-asset">
             <input type="file" accept="image/*" onChange={(e) => this.imageUpload(e)} style={{position:"absolute", width:"100%", height:"100%", opacity:"0.0"}}/>
             <img style={{width:'100%', height:'100%'}} src="https://d30y9cdsu7xlg0.cloudfront.net/png/396915-200.png"/>
           </div>
         </div>
+        < PageNameHeader>
+          {() => (<h1>Storage</h1>)}
+        </ PageNameHeader >
+        <h1>0%</h1>
       </div>
     )
   }
