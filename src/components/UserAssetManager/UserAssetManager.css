@@ -21,3 +21,34 @@
 .user-asset-manager_one-asset:hover{
   cursor: pointer;
 }
+
+.user-asset-manager_new-asset{
+  width:100%;
+  max-width: 1320px;
+  margin:5px auto;
+  text-align: center;
+  padding-bottom: 30px;
+}
+
+.user-asset-manager_new-asset-button-active{
+  width: 120px;
+  height: 40px;
+  border-radius: 5px;
+  background: rgb(25, 97, 25);
+  color: white;
+  margin-top: 10px;
+}
+.user-asset-manager_new-asset-button-active:hover{
+  cursor: pointer;
+}
+.user-asset-manager_new-asset-button-inactive{
+  width: 120px;
+  height: 40px;
+  border-radius: 5px;
+  background: rgb(75, 75, 75);
+  color: rgb(184, 184, 184);
+  margin-top: 10px;
+}
+.user-asset-manager_new-asset-button-inactive:hover{
+  cursor: not-allowed;
+}

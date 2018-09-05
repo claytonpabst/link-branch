@@ -16,6 +16,7 @@
     "express-session": "^1.15.3",
     "helmet": "^3.13.0",
     "massive": "^3.0.0",
+    "multer": "^1.3.1",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-redux": "^5.0.5",

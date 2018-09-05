@@ -5,14 +5,16 @@ const massive = require('massive');
 const session = require('express-session');
 const helmet = require('helmet');
 const config = require('./config.js');
+const multer = require('multer');
 // const redis = require('redis');
 // const redisStore = require('connect-redis')(session);
 // const client = redis.createClient()
 const {dualSession, dualSessionConnect, dualSessionClean} = require('./express-dual-session/index.js')
 
 const app = module.exports = express();
+const multerParser = multer({ storage: multer.memoryStorage() })
 
-app.use(helmet())
+// app.use(helmet())
 
 app.use(bodyParser.json());
 // app.use(session({
@@ -63,6 +65,10 @@ app.get('/api/isLoggedIn', userController.isLoggedIn);
 app.get('/api/signOut', userController.signOut);
 app.post('/api/signIn', userController.signIn);
 app.post('/api/signUp', userController.singUp);
+
+var assetController = require("./assetController.js");
+
+app.post('/api/uploadAsset', multerParser.single('asset'), assetController.uploadAsset);
 
 app.listen(config.port, '0.0.0.0', function() {
   console.log('Listening to port:  ' + config.port);
