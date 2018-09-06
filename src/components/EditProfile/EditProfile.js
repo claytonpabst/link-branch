@@ -251,6 +251,12 @@ class EditProfile extends Component {
     this.setState({availableAssets:assets})
   }
 
+  newImageSelected = (imgSrc) => {
+    this.state.editText = imgSrc
+    this.editDataPoint(this.state.editPointer)
+    this.closeEditImageModel()
+  }
+
   
   // pointer changes as this function calls inself to dig into the obj. 
   // original pointer is used to check if .style exists in the pointer to decide what to update--------------------
@@ -734,6 +740,7 @@ class EditProfile extends Component {
               editPointer={this.state.editPointer}
               availableAssets={this.state.availableAssets}
               setAssetsToState={this.setAssetsToState}
+              newImageSelected={this.newImageSelected}
             />
           }
           { this.state.showEditTextModel &&

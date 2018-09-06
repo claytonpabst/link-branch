@@ -37,8 +37,8 @@ class EditImageModel extends React.Component {
     return (
       this.props.availableAssets.map(asset => {
         return (
-          <div>
-            <img src={asset.src}/>
+          <div onClick={() => {this.props.newImageSelected(asset.src)}} style={{width:"33.3%"}}>
+            <img class="edit-image-model_asset" style={{width:"100%", height:"auto", padding:"5px", borderRadius:"5px"}} src={asset.src}/>
           </div>
         )
       })
@@ -61,10 +61,10 @@ class EditImageModel extends React.Component {
             x
           </div>
           <img src={this.props.currentImg} alt="Image to Update"/>
-          <h6 style={{textAlign:"left", margin:"20px 0px 0px 0px", fontWeight:"lighter"}}>Enter New Image Address</h6>
+          <h6 style={{textAlign:"center", margin:"20px 0px", fontSize:"25px", fontWeight:"bolder"}}>Choose New Image</h6>
           <input type="file" accept="image/*" onChange={(e) => this.props.imageUpload(e)}/>
           <button onClick={() => {this.props.editDataPoint(this.props.editPointer); this.props.closeEditImageModel()}}>Update Image</button>
-          <div id="edit-image-model_assets-wrapper">
+          <div style={{display:"flex", flexWrap:"wrap"}}>
             {this.renderAssets()}
           </div>
         </div>
