@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 
-import imageCompressor from './imageCompressor.js';
 import EditImageModel from './EditImageModel.js';
 
 import './EditProfile.css';
@@ -235,6 +234,8 @@ class EditProfile extends Component {
       showLinkModel: false,
       showEditImageModel: false,
       showEditTextModel: false,
+
+      availableAssets:null,
     }
 
     this.linkModelRef = React.createRef()
@@ -245,6 +246,11 @@ class EditProfile extends Component {
   }
 
   //--------------Start of Data Editing Functions --------------------//
+
+  setAssetsToState = (assets) => {
+    this.setState({availableAssets:assets})
+  }
+
   
   // pointer changes as this function calls inself to dig into the obj. 
   // original pointer is used to check if .style exists in the pointer to decide what to update--------------------
@@ -273,20 +279,6 @@ class EditProfile extends Component {
       return;
     }
     return this.editDataPoint(pointer.slice(1, pointer.length), profileData[pointer[0]], originalPointer)
-  }
-
-  imageUpload = (e) => {
-    let self = this
-    imageCompressor.handleImageUpload(e, function(img){
-      let currentImg = self.state.currentImg
-      let editText = self.state.editText
-      currentImg = window.URL.createObjectURL(img)
-      editText = window.URL.createObjectURL(img)
-      self.setState({currentImg, editText})
-
-      //push img to server
-      //save returned url of img to db
-    })
   }
 
   editImageModel = (pointer, piece, currentImg, stylePointer) => {
@@ -738,9 +730,10 @@ class EditProfile extends Component {
               editImageModelRef={this.editImageModelRef}
               modelWidth={this.state.modelWidth}
               currentImg={this.state.currentImg}
-              imageUpload={this.imageUpload}
               editDataPoint={this.editDataPoint}
               editPointer={this.state.editPointer}
+              availableAssets={this.state.availableAssets}
+              setAssetsToState={this.setAssetsToState}
             />
           }
           { this.state.showEditTextModel &&

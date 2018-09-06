@@ -1,0 +1,12 @@
+#edit-image-model_assets-wrapper{
+  display: flex;
+  flex-wrap: wrap;
+  background: pink;
+  width:100%;
+  height: 100px;
+}
+#edit-image-model_assets-wrapper img{
+  width: 33.3%;
+  padding: 5px;
+  border-radius: 5px;
+}

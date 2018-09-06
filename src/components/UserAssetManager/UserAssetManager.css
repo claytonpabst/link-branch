@@ -17,7 +17,11 @@
   position:relative; 
   height:150px;
   overflow:hidden;
-  background: orange;
+  /* background: orange; */
+}
+.user-asset-manager_one-asset img{
+  object-fit: cover;
+  /* background: orange; */
 }
 
 .user-asset-manager_new-asset{
@@ -26,13 +30,14 @@
   margin:5px auto;
   text-align: center;
   padding-bottom: 30px;
+  border-radius: 5px;
 }
 .user-asset-manager_new-asset-image{
-  cursor: pointer;
-  z-index: 999;
+  border-radius: 5px;
 }
 .user-asset-manager_new-asset-image:hover{
-  background: green !important;
+  background: rgb(232, 232, 232);
+  cursor: pointer;
 }
 
 .user-asset-manager_new-asset-button-active{
