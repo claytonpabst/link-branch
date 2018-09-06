@@ -17,9 +17,7 @@
   position:relative; 
   height:150px;
   overflow:hidden;
-}
-.user-asset-manager_one-asset:hover{
-  cursor: pointer;
+  background: orange;
 }
 
 .user-asset-manager_new-asset{
@@ -29,6 +27,13 @@
   text-align: center;
   padding-bottom: 30px;
 }
+.user-asset-manager_new-asset-image{
+  cursor: pointer;
+  z-index: 999;
+}
+.user-asset-manager_new-asset-image:hover{
+  background: green !important;
+}
 
 .user-asset-manager_new-asset-button-active{
   width: 120px;
@@ -37,8 +42,10 @@
   background: rgb(25, 97, 25);
   color: white;
   margin-top: 10px;
+  transition: background .1s
 }
 .user-asset-manager_new-asset-button-active:hover{
+  background: rgb(20, 131, 20);
   cursor: pointer;
 }
 .user-asset-manager_new-asset-button-inactive{

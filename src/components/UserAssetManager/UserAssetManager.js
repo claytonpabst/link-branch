@@ -12,6 +12,7 @@ class UserAssetManager extends React.Component {
     super(props)
 
     this.state = {
+      assetToUploadSrc: "https://d30y9cdsu7xlg0.cloudfront.net/png/396915-200.png",
       assetToUpload: null,
       assets:[1,2,3,4]
     }
@@ -33,7 +34,8 @@ class UserAssetManager extends React.Component {
   imageUpload = (e) => {
     let self = this
     imageCompressor.handleImageUpload(e, function(img){
-      self.setState({assetToUpload:img})
+      let src = window.URL.createObjectURL(img)
+      self.setState({assetToUpload:img, assetToUploadSrc:src})
     })
   }
 
@@ -56,9 +58,9 @@ class UserAssetManager extends React.Component {
           {this.renderAssets()}
         </div>
         <div className="user-asset-manager_new-asset">
-          <div style={{display:'block', margin:"0 auto"}} className="user-asset-manager_one-asset">
+          <div style={{display:'block', margin:"0 auto"}} className="user-asset-manager_one-asset user-asset-manager_new-asset-image">
             <input type="file" accept="image/*" onChange={(e) => this.imageUpload(e)} style={{position:"absolute", width:"100%", height:"100%", opacity:"0.0"}}/>
-            <img style={{width:'100%', height:'100%'}} src="https://d30y9cdsu7xlg0.cloudfront.net/png/396915-200.png"/>
+            <img style={{width:'100%', height:'100%'}} src={this.state.assetToUploadSrc}/>
           </div>
           <button className={this.state.assetToUpload ? 'user-asset-manager_new-asset-button-active' : 'user-asset-manager_new-asset-button-inactive' } onClick={this.sendImageToServer}>Upload</button>
         </div>

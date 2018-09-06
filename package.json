@@ -8,6 +8,7 @@
     "bcrypt": "^3.0.0",
     "body-parser": "^1.17.2",
     "browser-image-compression": "0.0.3",
+    "cloudinary": "^1.11.0",
     "connect-redis": "^3.3.3",
     "cookie": "^0.3.1",
     "cors": "^2.8.3",
