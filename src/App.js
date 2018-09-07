@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 
 import { GlobalState } from './GlobalState.js'
 import Consumer from './GlobalState.js'
@@ -42,11 +42,12 @@ class App extends Component {
   }
 
   render() {
+    console.log(this)
     let backgroundBlur = '';
     let modelOpacity = '';
     return (
       <div className="App">
-        <GlobalState>
+        <GlobalState history={this.props.history}>
           <Consumer>
             {(global) => (
               <React.Fragment>
@@ -88,4 +89,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);

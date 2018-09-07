@@ -9,7 +9,6 @@ function formatUsername(name){
 }
 
 export default function LogoutPopover(props) {
-
   return (
     <Consumer>
       {(global) => (

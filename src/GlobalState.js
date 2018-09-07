@@ -6,14 +6,18 @@ const { Provider, Consumer } = createContext();
 
 // Then create a provider Component
 class GlobalState extends Component {
-  state = {
-    username: '',
-    authenticated: false,
+  constructor(props){
+    super(props)
 
-    showSignInModel: false,
-    showSignUpModel: false,
-    showSignOutModel: false, 
-    showLoadingModel: false,
+    this.state = {
+      username: '',
+      authenticated: false,
+  
+      showSignInModel: false,
+      showSignUpModel: false,
+      showSignOutModel: false, 
+      showLoadingModel: false,
+    }
   }
 
   componentWillMount(){
@@ -40,6 +44,7 @@ class GlobalState extends Component {
     this.setState({showLoadingModel:true})
     axios.get('/api/signOut').then(res => {
       this.handleAuthRes(res)
+      this.props.history.push("/")
     }).catch(err => {
       console.log(err)
     })
@@ -76,6 +81,7 @@ class GlobalState extends Component {
   }
 
   render() {
+    console.log(this)
     return (
       <Provider 
         value={{

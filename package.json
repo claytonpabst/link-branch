@@ -4,6 +4,7 @@
   "main": "server/index.js",
   "private": true,
   "dependencies": {
+    "anychart-react": "^1.4.1",
     "axios": "^0.16.2",
     "bcrypt": "^3.0.0",
     "body-parser": "^1.17.2",

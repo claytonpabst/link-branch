@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 
+import AnyChart from 'anychart-react';
+
 import imageCompressor from './imageCompressor.js';
 
 import PageNameHeader from './../PageNameHeader/PageNameHeader.js';
@@ -93,7 +95,16 @@ class UserAssetManager extends React.Component {
           <button className={this.state.assetToUpload ? 'user-asset-manager_new-asset-button-active' : 'user-asset-manager_new-asset-button-inactive' } onClick={this.sendImageToServer}>Upload</button>
         </div>
         < PageNameHeader>{() => (<h1>Storage</h1>)}</ PageNameHeader >
-        <h1>0%</h1>
+        <div style={{display:"block", margin:"30px auto", width:'300px', background:'pink'}}>
+          <AnyChart 
+            type="pie"
+            data={`Available,${15-this.state.assets.length},green\nImages,${15-(15-this.state.assets.length)}`}
+            title={`${this.state.assets.length} / 15 Assets Used`}
+            width={300}
+            height={300}
+            
+          />
+        </div>
       </div>
     )
   }
