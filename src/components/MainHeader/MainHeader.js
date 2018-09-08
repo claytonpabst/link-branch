@@ -25,7 +25,7 @@ class MainHeader extends Component {
           {(global) => (
             <div>
               <div style={{float:'left'}}>
-                <h1 class="main-header_main-logo">LB</h1>
+                <h1 className="main-header_main-logo">LB</h1>
               </div>
               <div style={{float:"left"}}>
                 <button className="main-header_sign-in-button" onClick={global.state.authenticated ? global.toggleSignOutModel : global.toggleSignInModel}>{global.state.authenticated ? this.buildUsername(global.state.username) : "Sign In/Sign Up"}</button>

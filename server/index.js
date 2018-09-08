@@ -71,6 +71,11 @@ var assetController = require("./assetController.js");
 app.post('/api/uploadAsset', multerParser.single('asset'), assetController.uploadAsset);
 app.get('/api/getAssets', assetController.getAssets)
 
+var profileController = require("./profileController.js");
+
+app.get('/api/getProfileDataForUser', profileController.getProfileDataForUser)
+app.get('/api/getProfileDataForGuest', profileController.getProfileDataForGuest)
+
 app.listen(config.port, '0.0.0.0', function() {
   console.log('Listening to port:  ' + config.port);
 });

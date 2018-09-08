@@ -38,7 +38,7 @@ class EditImageModel extends React.Component {
       this.props.availableAssets.map(asset => {
         return (
           <div onClick={() => {this.props.newImageSelected(asset.src)}} style={{width:"33.3%"}}>
-            <img class="edit-image-model_asset" style={{width:"100%", height:"auto", padding:"5px", borderRadius:"5px"}} src={asset.src}/>
+            <img className="edit-image-model_asset" style={{width:"100%", height:"auto", padding:"5px", borderRadius:"5px"}} src={asset.src}/>
           </div>
         )
       })

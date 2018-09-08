@@ -1,10 +1,11 @@
 import React, { Component, Fragment } from 'react';
+import axios from 'axios';
 
 import EditImageModel from './EditImageModel.js';
 
 import './EditProfile.css';
 import './Profile.css';
-import './../../App.css'
+import './../../App.css';
 
 class EditProfile extends Component {
   constructor(props){
@@ -247,6 +248,26 @@ class EditProfile extends Component {
 
   //--------------Start of Data Editing Functions --------------------//
 
+  componentDidMount = () => {
+    this.getProfileData()
+  }
+
+  getProfileData = () => {
+    if(this.props.edit){
+      axios.get('/api/getProfileDataForUser').then(res => {
+        this.setState({profileData:JSON.parse(res.data.profileData)})
+      }).catch(err => {
+        console.log(err)
+      })
+    } else {
+      axios.get(`/api/getProfileDataForGuest?user=${this.props.user}`).then(res => {
+        this.setState({profileData:JSON.parse(res.data.profileData)})
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+  }
+
   setAssetsToState = (assets) => {
     this.setState({availableAssets:assets})
   }
@@ -256,7 +277,6 @@ class EditProfile extends Component {
     this.editDataPoint(this.state.editPointer)
     this.closeEditImageModel()
   }
-
   
   // pointer changes as this function calls inself to dig into the obj. 
   // original pointer is used to check if .style exists in the pointer to decide what to update--------------------
@@ -678,7 +698,7 @@ class EditProfile extends Component {
   }
 
   render() {
-    console.log(this.state)
+    console.log(this)
     let profileData = JSON.parse(JSON.stringify(this.state.profileData)); // this line is needed because of how the editDataPoint function works with updating style; react treats style attr as a prop that has to go through this.setState, which I'm not using in that function.
     let style = profileData.style
     return (

@@ -61,7 +61,33 @@ module.exports = {
 
   singUp: function(req, res) {
     const db = req.app.get('db')
-    let profileData = JSON.stringify({})
+    let profileData = JSON.stringify({
+      generalInfoStyle:{
+        background:"#fff",
+      },
+      style:{
+        background:"#fff",
+      },
+      img:{
+        src:'https://image.freepik.com/free-icon/profile-user-silhouette_318-40557.jpg',
+        style:{},
+      },
+      name:{
+        text:req.body.username,
+        style:{
+          fontSize:"30px",
+          fontWeight:"bolder",
+          lineHeight:"50px",
+          fontFamily:'"Comic Sans MS", cursive, sans-serif',
+          color:"black",
+        },
+      },
+      profileViews:{
+        views:1,
+        style:{},
+      },
+      sections:[]
+    })
     bcrypt.hash(req.body.password, 12, function(err, hash){
       db.signUp([req.body.email, req.body.username, hash, profileData, 0]).then( response => {
         const user = response[0]
