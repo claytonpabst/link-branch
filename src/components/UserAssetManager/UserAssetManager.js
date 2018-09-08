@@ -51,6 +51,7 @@ class UserAssetManager extends React.Component {
   }
   
   sendImageToServer = () => {
+    if(!this.state.assetToUpload){return}
     this.setState({showLoadingModel:true, loadingModelHeader:"Uploading..."})
     console.log('hit')
     let formData = new FormData()

@@ -3,6 +3,8 @@ import axios from 'axios';
 
 import LoadingModel from './../Models/Loading/Loading.js';
 
+import './EditImageModel.css';
+
 class EditImageModel extends React.Component {
   constructor(props) {
     super(props)
@@ -15,6 +17,22 @@ class EditImageModel extends React.Component {
 
   componentDidMount = () => {
     this.getAssets()
+  }
+
+  componentDidUpdate = () => {
+    setTimeout(this.setProjectPiecesHeight, 400)
+  }
+
+  setProjectPiecesHeight = () => {
+    console.log('hit')
+    const projects = document.getElementsByClassName('edit-image-model_asset')
+    for(let i=0; i<projects.length; i++){
+      if(projects[i]){
+        let node = projects[i]
+        let width = node.clientWidth
+        node.height = width
+      }
+    }
   }
 
   getAssets = () => {
@@ -38,7 +56,7 @@ class EditImageModel extends React.Component {
       this.props.availableAssets.map(asset => {
         return (
           <div onClick={() => {this.props.newImageSelected(asset.src)}} style={{width:"33.3%"}}>
-            <img className="edit-image-model_asset" style={{width:"100%", height:"auto", padding:"5px", borderRadius:"5px"}} src={asset.src}/>
+            <img className="edit-image-model_asset" style={{objectFit:"cover", width:"100%", padding:"5px", borderRadius:"5px"}} src={asset.src}/>
           </div>
         )
       })
@@ -62,8 +80,8 @@ class EditImageModel extends React.Component {
           </div>
           <img src={this.props.currentImg} alt="Image to Update"/>
           <h6 style={{textAlign:"center", margin:"20px 0px", fontSize:"25px", fontWeight:"bolder"}}>Choose New Image</h6>
-          <input type="file" accept="image/*" onChange={(e) => this.props.imageUpload(e)}/>
-          <button onClick={() => {this.props.editDataPoint(this.props.editPointer); this.props.closeEditImageModel()}}>Update Image</button>
+          {/* <input type="file" accept="image/*" onChange={(e) => this.props.imageUpload(e)}/>
+          <button onClick={() => {this.props.editDataPoint(this.props.editPointer); this.props.closeEditImageModel()}}>Update Image</button> */}
           <div style={{display:"flex", flexWrap:"wrap"}}>
             {this.renderAssets()}
           </div>

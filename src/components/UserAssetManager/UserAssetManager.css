@@ -64,3 +64,14 @@
 .user-asset-manager_new-asset-button-inactive:hover{
   cursor: not-allowed;
 }
+
+@media (max-width: 400px){
+  .user-asset-manager_assets-wrapper {
+    padding: 30px 5px ;
+  }
+
+  .user-asset-manager_one-asset{
+    width:140px;
+    height:140px;
+  }
+}

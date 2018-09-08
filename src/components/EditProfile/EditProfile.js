@@ -252,6 +252,10 @@ class EditProfile extends Component {
     this.getProfileData()
   }
 
+  componentDidUpdate = () => {
+    this.setProjectPiecesHeight()
+  }
+
   getProfileData = () => {
     if(this.props.edit){
       axios.get('/api/getProfileDataForUser').then(res => {
@@ -265,6 +269,17 @@ class EditProfile extends Component {
       }).catch(err => {
         console.log(err)
       })
+    }
+  }
+
+  setProjectPiecesHeight = () => {
+    const projects = document.getElementsByClassName('edit-profile_project-image')
+    for(let i=0; i<projects.length; i++){
+      if(projects[i]){
+        let node = projects[i]
+        let width = node.clientWidth
+        node.height = width
+      }
     }
   }
 
@@ -566,11 +581,17 @@ class EditProfile extends Component {
     )
   }
 
+  setProjectPieceRef = (el) => {
+    if(el){
+      this.projectPieces.push(el)
+    }
+  }
   buildProjectPiece = (piece, i, j) => {
+    console.log('hit')
     return(
       <div onDragOver={() => this.pieceSwap(i, j)} draggable="true" onDragEnd={this.unRecordDragEvent} onDragStart={(e) => {e.stopPropagation(); this.recordDragEvent(e, i, j, null)}} onClick={() => this.showLinkModel(piece, i, j)} style={{background:"#fff"}} className="profile_project-piece" key={j}>
         <div style={{position:"relative"}}>
-          <img src={piece.img.src}/>
+          <img className="edit-profile_project-image" src={piece.img.src}/>
           {this.props.edit &&
             <img 
               src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
