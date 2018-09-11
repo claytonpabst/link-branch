@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import AnyChart from 'anychart-react'
 import { Link } from 'react-router-dom'
 import axios from 'axios';
 
@@ -245,6 +246,7 @@ class EditProfile extends Component {
 
       availableAssets:null,
       userOnOwnAccount:false,
+      profileUsername:'',
       assetsInDbShouldUpdate:false,
       firstLoad:true
     }
@@ -257,7 +259,7 @@ class EditProfile extends Component {
     this.onUnloadCleanup = this.onUnloadCleanup.bind(this);
   }
 
-  //--------------Start of Data Editing Functions --------------------//
+  //--------------Start of axios Functions --------------------//
   
   componentDidMount(){
     this._isMounted = true
@@ -284,13 +286,15 @@ class EditProfile extends Component {
     this.setState({loadingModelHeader:"Loading...", showLoadingModel:true})
     if(this.props.edit){
       axios.get('/api/getProfileDataForUser').then(res => {
-        this.setState({profileData:JSON.parse(res.data.profileData), userOnOwnAccount:true, showLoadingModel:false})
+        this.setState({profileData:JSON.parse(res.data.profileData), userOnOwnAccount:true, showLoadingModel:false, profileUsername:res.data.profileUsername})
       }).catch(err => {
         console.log(err)
       })
     } else {
       axios.get(`/api/getProfileDataForGuest?user=${this.props.user}`).then(res => {
-        this.setState({profileData:JSON.parse(res.data.profileData), showLoadingModel:false})
+        this.setState({profileData:JSON.parse(res.data.profileData), showLoadingModel:false, profileUsername:res.data.profileUsername})
+        this.forceUpdate()
+        this.clickProjectFromParams()
       }).catch(err => {
         console.log(err)
       })
@@ -358,7 +362,9 @@ class EditProfile extends Component {
     }
     event.returnValue = ''
   }
-  
+
+  //--------------End of Axios Functions --------------------//
+  //--------------Start of Data Editing Functions --------------------//
   
   // pointer changes as this function calls inself to dig into the obj. 
   // original pointer is used to check if .style exists in the pointer to decide what to update--------------------
@@ -623,10 +629,34 @@ class EditProfile extends Component {
     this.unRecordDragEvent()
   }
 
-
   //--------------End Editing Functions --------------------//
+  //--------------Start of this.params handling functions --------------------//
 
-  //--------------Start HTML Return Function --------------------//
+  clickProjectFromParams = () => {
+    if(this.props.edit || this.state.showLinkModel){return}
+    if(this.props.project && document.getElementsByClassName("project-piece-title-"+this.props.project).length){
+      console.log(document.getElementsByClassName("project-piece-title-"+this.props.project))
+      document.getElementsByClassName("project-piece-title-"+this.props.project)[0].click()
+    }
+  }
+
+  formatTitleForParams = (title) => {
+    title = title.replace(/[^a-zA-Z0-9]/g,'_').toLowerCase()
+    return title
+  }
+
+  copyToClipboard = (e, url) => {
+    var textField = document.createElement('textarea')
+    textField.innerText = url
+    document.body.appendChild(textField)
+    textField.select()
+    document.execCommand('copy')
+    textField.remove()
+    e.target.innerText = "COPIED"
+  }
+
+  //--------------End of this.params handling functions --------------------//
+  //--------------Start HTML Return Functions --------------------//
   
   buildTextPiece = (piece, i, j) => {
     return(
@@ -684,7 +714,7 @@ class EditProfile extends Component {
               className="profile_link-model-x edit-profile_edit-icon"
             />
           }
-          <h3 style={piece.title.style}>{piece.title.text}</h3>
+          <h3 style={piece.title.style} className={"project-piece-title-" + this.formatTitleForParams(piece.title.text)}>{piece.title.text}</h3>
         </div>
       </div>
     )
@@ -692,7 +722,7 @@ class EditProfile extends Component {
   
   buildPieces = (section, i) => {
     return (
-      <div>
+      <div style={{padding:"5px"}}>
         {
           section.pieces.map((piece, j) => {
             switch (piece.type){
@@ -789,13 +819,27 @@ class EditProfile extends Component {
 
   render() {
     console.log(this)
-    let profileData = JSON.parse(JSON.stringify(this.state.profileData)); // this line is needed because of how the editDataPoint function works with updating style; react treats style attr as a prop that has to go through this.setState, which I'm not using in that function.
+    let profileDataString = JSON.stringify(this.state.profileData)
+    let profileData = JSON.parse(profileDataString); // this line is needed because of how the editDataPoint function works with updating style; react treats style attr as a prop that has to go through this.setState, which I'm not using in that function.
     let style = profileData.style
     return (
       <div style={{background:"#f5f5f5"}} className="App">
         <div style={{background:"#f5f5f5"}} className="profile_profile-wrapper">
           { 
             this.buildSections(profileData)
+          }
+
+          {this.props.edit &&
+            <div style={{display:"block", margin:"30px auto", width:'300px', background:'pink'}}>
+              <AnyChart 
+                type="pie"
+                data={`Available,${20000-profileDataString.length},green\nUsed,${20000-(20000-profileDataString.length)}`}
+                title={`${this.numberToThousands(profileDataString.length)} / 20,000 Units Used`}
+                width={300}
+                height={300}
+                
+              />
+            </div>
           }
 
           {/* --------------------------The above line executes all the HTML functions and builds the profile. Below is the return of different editing models------------------------------ */}
@@ -808,13 +852,20 @@ class EditProfile extends Component {
               <div onClick={(e) => {e.stopPropagation()}} tabIndex="-1" ref={this.linkModelRef} style={{position:"relative", padding:"20px", width:this.state.modelWidth}} className="profile_link-model-wrapper">
                 <div 
                   onClick={this.closeLinkModel}
-                  style={{position:"absolute", background:'red', width:"20px", height:"20px", borderRadius:"50%", textAlign:"center", top:"0px", left:"0px"}}
+                  style={{position:"absolute", width:"20px", height:"20px", borderRadius:"50%", textAlign:"center", top:"0px", left:"0px"}}
                   className="profile_link-model-x"
                 >
                   x
                 </div>
+                <div 
+                  onClick={(e) => this.copyToClipboard(e, 'localhost:3000/u/'+this.state.profileUsername+"/"+this.formatTitleForParams(this.state.modelData.title.text))}
+                  style={{position:"absolute", lineHeight:"40px", background:'#e33737', width:"80px", borderRadius:"5px", textAlign:"center", top:"75px", left:"10px", color:"white", fontWeight:"bold"}}
+                  className="profile_link-model-x"
+                >
+                  SHARE
+                </div>
                 {this.state.modelData.img.src &&
-                  <img src={this.state.modelData.img.src}/>
+                  <img style={{height:"150px", width:"150", objectFit:"cover", marginBottom:"18px"}} src={this.state.modelData.img.src}/>
                 }
                 {this.state.modelData.title &&
                   <h3 style={{textAlign:"center"}}>{this.state.modelData.title.text}</h3>
@@ -829,6 +880,7 @@ class EditProfile extends Component {
                 }
                 <div className="profile_links-wrapper">
                   {(() => {
+                    console.log("yeah", this.state)
                     return this.state.profileData.sections[this.state.currentSectionIndex].pieces[this.state.currentPieceIndex].links.map((link, k) => {
                       return (
                         <div draggable="true" onDragStart={(e) => {e.stopPropagation(); this.recordDragEvent(e, this.state.currentSectionIndex, this.state.currentPieceIndex, k)}} className="profile_link-piece" key={k}>
