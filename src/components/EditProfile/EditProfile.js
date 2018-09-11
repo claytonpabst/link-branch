@@ -1,11 +1,15 @@
 import React, { Component, Fragment } from 'react';
+import { Link } from 'react-router-dom'
 import axios from 'axios';
 
 import EditImageModel from './EditImageModel.js';
+import LoadingModel from './../Models/Loading/Loading.js';
 
 import './EditProfile.css';
 import './Profile.css';
 import './../../App.css';
+
+let saveAssetsToDbTimeout = null
 
 class EditProfile extends Component {
   constructor(props){
@@ -236,7 +240,13 @@ class EditProfile extends Component {
       showEditImageModel: false,
       showEditTextModel: false,
 
+      showLoadingModel: false,
+      loadingModelHeader: null,
+
       availableAssets:null,
+      userOnOwnAccount:false,
+      assetsInDbShouldUpdate:false,
+      firstLoad:true
     }
 
     this.linkModelRef = React.createRef()
@@ -244,28 +254,43 @@ class EditProfile extends Component {
     this.editImageModelRef = React.createRef()
 
     this.deleteSection = this.deleteSection.bind(this);
+    this.onUnloadCleanup = this.onUnloadCleanup.bind(this);
   }
 
   //--------------Start of Data Editing Functions --------------------//
-
-  componentDidMount = () => {
+  
+  componentDidMount(){
+    this._isMounted = true
     this.getProfileData()
   }
-
-  componentDidUpdate = () => {
+  
+  componentDidUpdate = (prevProps, prevState) => {
     this.setProjectPiecesHeight()
+    this.checkIfAssetsNeedSavingToDb(prevState)
+  }
+  
+  componentWillUnmount(){
+    this._isMounted = false
+    window.removeEventListener("beforeunload", this.onUnloadCleanup)
+  }
+
+  checkIfAssetsNeedSavingToDb = (prevState) => {
+    if(JSON.stringify(this.state.profileData) !== JSON.stringify(prevState.profileData)){
+      this.updateAssetsInDbTimeout()
+    }
   }
 
   getProfileData = () => {
+    this.setState({loadingModelHeader:"Loading...", showLoadingModel:true})
     if(this.props.edit){
       axios.get('/api/getProfileDataForUser').then(res => {
-        this.setState({profileData:JSON.parse(res.data.profileData)})
+        this.setState({profileData:JSON.parse(res.data.profileData), userOnOwnAccount:true, showLoadingModel:false})
       }).catch(err => {
         console.log(err)
       })
     } else {
       axios.get(`/api/getProfileDataForGuest?user=${this.props.user}`).then(res => {
-        this.setState({profileData:JSON.parse(res.data.profileData)})
+        this.setState({profileData:JSON.parse(res.data.profileData), showLoadingModel:false})
       }).catch(err => {
         console.log(err)
       })
@@ -292,6 +317,48 @@ class EditProfile extends Component {
     this.editDataPoint(this.state.editPointer)
     this.closeEditImageModel()
   }
+
+  updateAssetsInDbTimeout = () => {
+    let self = this
+    if(!this.state.assetsInDbShouldUpdate){
+      window.addEventListener("beforeunload", this.onUnloadCleanup)
+      this.setState({assetsInDbShouldUpdate:true})
+    }
+    if(saveAssetsToDbTimeout){
+      clearTimeout(saveAssetsToDbTimeout)
+    }
+    if(this.state.userOnOwnAccount){
+      saveAssetsToDbTimeout = setTimeout(function(){
+        self.updateAssetsInDb()
+      }, 4000)
+    }
+  }
+  updateAssetsInDb = () => {
+    if(this._isMounted){
+      this.setState({showLoadingModel:true, loadingModelHeader:"Saving..."})
+    }
+    axios.post('/api/updateProfileDataForUser', {profileData:this.state.profileData}).then(res => {
+      if(this._isMounted){
+        window.removeEventListener("beforeunload", this.onUnloadCleanup)
+        this.setState({showLoadingModel:false, assetsInDbShouldUpdate:false})
+      }
+    }).catch(err => {
+      console.log(err)
+    })
+  }
+
+  onUnloadCleanup(event){
+    this._isMounted = false
+    if(saveAssetsToDbTimeout){
+      clearTimeout(saveAssetsToDbTimeout)
+      saveAssetsToDbTimeout = null
+    }
+    if(this.state.assetsInDbShouldUpdate){
+      this.updateAssetsInDb()
+    }
+    event.returnValue = ''
+  }
+  
   
   // pointer changes as this function calls inself to dig into the obj. 
   // original pointer is used to check if .style exists in the pointer to decide what to update--------------------
@@ -316,6 +383,7 @@ class EditProfile extends Component {
         content = this.state.editText
       }
       profileData[pointer[0]] = content
+      this.updateAssetsInDbTimeout()
       this.forceUpdate()
       return;
     }
@@ -647,6 +715,7 @@ class EditProfile extends Component {
   buildSections = (profileData) => {
     return (
       <div style={{filter:this.state.modelOverlayBlur}}>
+        <Link to="/assets">to assets</Link>
         <div style={{background:profileData.generalInfoStyle.background, position:"relative"}} className="profile_general-info-wrapper">
           <div style={{position:"relative"}}>
             <img style={{width:"35%"}} src={profileData.img.src}/>
@@ -731,6 +800,9 @@ class EditProfile extends Component {
 
           {/* --------------------------The above line executes all the HTML functions and builds the profile. Below is the return of different editing models------------------------------ */}
 
+          {this.state.showLoadingModel &&
+            <LoadingModel header={this.state.loadingModelHeader}/>
+          }
           {this.state.showLinkModel &&
             <div onClick={this.closeLinkModel} style={{background:this.state.modelOverlayBackground}} className="profile_link-model-overlay">
               <div onClick={(e) => {e.stopPropagation()}} tabIndex="-1" ref={this.linkModelRef} style={{position:"relative", padding:"20px", width:this.state.modelWidth}} className="profile_link-model-wrapper">

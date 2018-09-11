@@ -20,5 +20,14 @@ module.exports = {
     }).catch(err => {
       console.log(err)
     })
+  },
+
+  updateProfileDataForUser: function(req, res){
+    const db = req.app.get('db')
+    db.updateProfileDataForUser([req.session.id, JSON.stringify(req.body.profileData)]).then(response => {
+      res.status(200).send()
+    }).catch(err => {
+      res.status(500).send()
+    })
   }
 };

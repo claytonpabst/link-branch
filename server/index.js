@@ -75,6 +75,7 @@ var profileController = require("./profileController.js");
 
 app.get('/api/getProfileDataForUser', profileController.getProfileDataForUser)
 app.get('/api/getProfileDataForGuest', profileController.getProfileDataForGuest)
+app.post('/api/updateProfileDataForUser', profileController.updateProfileDataForUser)
 
 app.listen(config.port, '0.0.0.0', function() {
   console.log('Listening to port:  ' + config.port);
