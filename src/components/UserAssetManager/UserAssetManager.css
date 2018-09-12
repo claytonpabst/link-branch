@@ -65,6 +65,30 @@
   cursor: not-allowed;
 }
 
+.user-asset-manager_delete-view-wrapper{
+  position: absolute;
+  overflow: hidden;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.516);
+  transition: width .2s ease-out;
+}
+.user-asset-manager_delete-view-wrapper h1{
+  margin-top:8px;
+  font-weight: bold;
+  font-size: 30px;
+  text-align: center;
+}
+.user-asset-manager_delete-view-wrapper h2{
+  width:60%;
+  margin: 10px 20%;
+  line-height: 40px;
+  border-radius: 5px;
+  text-align: center;
+}
+.user-asset-manager_delete-view-wrapper h2:hover{
+  cursor: pointer;
+}
+
 @media (max-width: 400px){
   .user-asset-manager_assets-wrapper {
     padding: 30px 5px ;

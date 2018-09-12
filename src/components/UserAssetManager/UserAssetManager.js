@@ -17,7 +17,7 @@ class UserAssetManager extends React.Component {
     this.state = {
       assetToUploadSrc: "https://d30y9cdsu7xlg0.cloudfront.net/png/396915-200.png",
       assetToUpload: null,
-      assets:[1,2,3,4],
+      assets:[],
       showLoadingModel: false,
       loadingModelHeader: null,
     }
@@ -48,6 +48,7 @@ class UserAssetManager extends React.Component {
       let src = window.URL.createObjectURL(img)
       self.setState({assetToUpload:img, assetToUploadSrc:src, showLoadingModel:false, loadingModelHeader:null})
     })
+    e.target.value = ''
   }
   
   sendImageToServer = () => {
@@ -65,13 +66,40 @@ class UserAssetManager extends React.Component {
       this.setState({assetToUploadSrc:"https://d30y9cdsu7xlg0.cloudfront.net/png/396915-200.png", assetToUpload: null, showLoadingModel:false, loadingModelHeader:null})
     })
   }
+
+  deleteAsset = (public_id) => {
+    this.setState({showLoadingModel:true, loadingModelHeader:"Deleting..."})
+    axios.post('/api/deleteAsset', {public_id:public_id}).then(res => {
+      this.getAssets()
+    }).catch(err => {
+      console.log(err)
+    })
+  }
+
+  toggleDeleteView = (i) => {
+    let assets = this.state.assets
+    this.state.assets[i].deleteViewWidth = this.state.assets[i].deleteViewWidth === "100%" ? "0%" : "100%"
+    this.setState({assets})
+  }
   
   renderAssets = () => {
     return (
-      this.state.assets.map(asset => {
+      this.state.assets.map((asset, i) =>{
         return (
           <div className="user-asset-manager_one-asset">
-            <img style={{width:'100%', height:'100%'}} src={asset.src}/>
+            <div style={{width:asset.deleteViewWidth ? asset.deleteViewWidth : "0%", zIndex:"3"}} className="user-asset-manager_delete-view-wrapper">
+              <h1>Delete?</h1>
+              <h2 style={{background:"green"}} onClick={() => this.deleteAsset(asset.public_id)}>YES</h2>
+              <h2 style={{background:"red"}} onClick={() => this.toggleDeleteView(i)}>NO</h2>
+            </div>
+            <div 
+              onClick={() => this.toggleDeleteView(i)}
+              style={{zIndex:"2", position:"absolute", background:"#eeeeee55", width:"20px", height:"20px", borderRadius:"50%", textAlign:"center", top:"0px", left:"0px"}}
+              className="profile_link-model-x"
+            >
+              x
+            </div>
+            <img style={{filter:asset.deleteViewWidth === "100%" ? "blur(5px)" : "blur(0px)", width:'100%', height:'100%'}} src={asset.src}/>
           </div>
         )
       })
@@ -79,6 +107,7 @@ class UserAssetManager extends React.Component {
   }
 
   render(){
+    console.log(this.state)
     return (
       <div className="user-asset-manager_main-wrapper">
         { this.state.showLoadingModel &&

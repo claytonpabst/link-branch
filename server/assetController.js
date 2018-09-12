@@ -11,7 +11,6 @@ module.exports = {
     if(!req.session || !req.session.id){
       res.status(500).send(); return
     }
-    console.log(req.file)
     cloudinary.v2.uploader.upload_stream({
       //options
     }, function(error, image) {
@@ -32,7 +31,6 @@ module.exports = {
   },
 
   getAssets: function(req, res){
-    console.log('getAssets hit')
     const db = req.app.get('db')
     db.getImages([req.session.id]).then(assets => {
       res.status(200).send({
@@ -42,5 +40,27 @@ module.exports = {
       console.log(err)
       return res.status(500).send({message:err})
     })
+  },
+
+  deleteAsset: function(req, res){
+    cloudinary.v2.uploader.destroy(req.body.public_id, function(error, result){
+      if(error){
+        console.log(error)
+        res.status(500).send()
+        return
+      }
+      const db = req.app.get('db')
+      db.deleteImage([req.body.public_id]).then(response => {
+        res.status(200).send({
+          message:"Image Deleted.",
+          success:true
+        })
+        return
+      }).catch(err => {
+        console.log(err)
+        res.status(500).send()
+        return
+      })
+    });
   }
 };

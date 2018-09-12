@@ -14,7 +14,7 @@ const {dualSession, dualSessionConnect, dualSessionClean} = require('./express-d
 const app = module.exports = express();
 const multerParser = multer({ storage: multer.memoryStorage() })
 
-// app.use(helmet())
+app.use(helmet())
 
 app.use(bodyParser.json());
 // app.use(session({
@@ -70,6 +70,7 @@ var assetController = require("./assetController.js");
 
 app.post('/api/uploadAsset', multerParser.single('asset'), assetController.uploadAsset);
 app.get('/api/getAssets', assetController.getAssets)
+app.post('/api/deleteAsset', assetController.deleteAsset)
 
 var profileController = require("./profileController.js");
 
