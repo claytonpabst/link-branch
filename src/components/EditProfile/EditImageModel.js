@@ -11,7 +11,20 @@ class EditImageModel extends React.Component {
 
     this.state = {
       showLoadingModel: false,
-      loadingModelHeader: null
+      loadingModelHeader: null,
+      commonAssets:[
+        "https://res.cloudinary.com/linkbranch/image/upload/v1536961391/lazwvulsa5cdhl0me17k.png",
+        "https://res.cloudinary.com/linkbranch/image/upload/v1536961379/qcfveyxewmlboukllktu.jpg",
+        "https://res.cloudinary.com/linkbranch/image/upload/v1536961368/thubqnp82h7effodgsdr.png",
+        "https://res.cloudinary.com/linkbranch/image/upload/v1536961359/hjna87sojd32adjkd8ot.jpg",
+        "https://res.cloudinary.com/linkbranch/image/upload/v1536961385/xsm9ediugdlsjoukfr3n.png",
+        "https://res.cloudinary.com/linkbranch/image/upload/v1536961351/ji9u51zygl0d33gqvn5o.png",
+        "https://res.cloudinary.com/linkbranch/image/upload/v1536961308/zedh3rsttcchgscta4tu.jpg",
+        "https://res.cloudinary.com/linkbranch/image/upload/v1536961343/phvsqcqrwzwuxmapsmrj.png",
+        "https://res.cloudinary.com/linkbranch/image/upload/v1536961319/p78ax4xlrl1lrq8hos0m.png",
+        "https://res.cloudinary.com/linkbranch/image/upload/v1536961336/bsvxghfchq2pwo5y7dra.png",
+        "https://res.cloudinary.com/linkbranch/image/upload/v1536961325/wyq1p8dsavdr76n98df8.jpg",
+      ]
     }
   }
 
@@ -62,6 +75,17 @@ class EditImageModel extends React.Component {
       })
     )
   }
+  renderCommonAssets = () => {
+    return (
+      this.state.commonAssets.map(asset => {
+        return (
+          <div onClick={() => {this.props.newImageSelected(asset)}} style={{width:"33.3%"}}>
+            <img className="edit-image-model_asset" style={{objectFit:"cover", width:"100%", padding:"5px", borderRadius:"5px"}} src={asset}/>
+          </div>
+        )
+      })
+    )
+  }
 
   render(){
     console.log(this.props)
@@ -84,6 +108,7 @@ class EditImageModel extends React.Component {
           <button onClick={() => {this.props.editDataPoint(this.props.editPointer); this.props.closeEditImageModel()}}>Update Image</button> */}
           <div style={{display:"flex", flexWrap:"wrap"}}>
             {this.renderAssets()}
+            {this.renderCommonAssets()}
           </div>
         </div>
           
