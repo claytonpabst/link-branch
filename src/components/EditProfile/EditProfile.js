@@ -240,6 +240,8 @@ class EditProfile extends Component {
       showLinkModel: false,
       showEditImageModel: false,
       showEditTextModel: false,
+      showFontStyleOptions: false,
+      editTextModelHeader: "New Text",
 
       showLoadingModel: false,
       loadingModelHeader: null,
@@ -334,7 +336,7 @@ class EditProfile extends Component {
     if(this.state.userOnOwnAccount){
       saveAssetsToDbTimeout = setTimeout(function(){
         self.updateAssetsInDb()
-      }, 4000)
+      }, 10000)
     }
   }
   updateAssetsInDb = () => {
@@ -425,8 +427,14 @@ class EditProfile extends Component {
       }, 400)
     })
   }
-  editTextModel = (pointer, piece, editText, stylePointer) => {
+  editTextModel = (pointer, piece, editText, stylePointer, showFontStyleOptions, editTextModelHeader) => {
+    console.log('hit')
+    console.log(arguments)
+    editTextModelHeader = editTextModelHeader ? editTextModelHeader : "New Text"
+    showFontStyleOptions = showFontStyleOptions === false ? showFontStyleOptions : true
     this.setState({
+      editTextModelHeader,
+      showFontStyleOptions,
       stylePointer,
       editPointer: pointer,
       showEditTextModel: true,
@@ -679,17 +687,11 @@ class EditProfile extends Component {
     )
   }
 
-  setProjectPieceRef = (el) => {
-    if(el){
-      this.projectPieces.push(el)
-    }
-  }
   buildProjectPiece = (piece, i, j) => {
-    console.log('hit')
     return(
       <div onDragOver={() => this.pieceSwap(i, j)} draggable="true" onDragEnd={this.unRecordDragEvent} onDragStart={(e) => {e.stopPropagation(); this.recordDragEvent(e, i, j, null)}} onClick={() => this.showLinkModel(piece, i, j)} style={{background:"#fff"}} className="profile_project-piece" key={j}>
         <div style={{position:"relative"}}>
-          <img className="edit-profile_project-image" src={piece.img.src}/>
+          <img className="edit-profile_project-image" src={piece.img.src} onError={(e)=>{e.target.src="https://d30y9cdsu7xlg0.cloudfront.net/png/396915-200.png"}}/>
           {this.props.edit &&
             <img 
               src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
@@ -706,7 +708,7 @@ class EditProfile extends Component {
           {this.props.edit &&
             <img 
               src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
-              onClick={(e) =>{e.stopPropagation(); this.editTextModel("sections."+i.toString()+".pieces."+j.toString()+".title.text", piece, piece.title.text, "sections."+i.toString()+".pieces."+j.toString()+".title.style")}}
+              onClick={(e) =>{e.stopPropagation(); this.editTextModel("sections."+i.toString()+".pieces."+j.toString()+".title.text", piece, piece.title.text, "sections."+i.toString()+".pieces."+j.toString()+".title.style", false, "Project Title")}}
               style={{
                 top:"2px",
                 left:"10px",
@@ -748,7 +750,7 @@ class EditProfile extends Component {
         <Link to="/assets">to assets</Link>
         <div style={{background:profileData.generalInfoStyle.background, position:"relative"}} className="profile_general-info-wrapper">
           <div style={{position:"relative"}}>
-            <img style={{width:"35%"}} src={profileData.img.src}/>
+            <img className="profile_profile-image" style={{width:"35%"}} src={profileData.img.src}/>
             {this.props.edit &&
               <img 
                 src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
@@ -865,7 +867,7 @@ class EditProfile extends Component {
                   SHARE
                 </div>
                 {this.state.modelData.img.src &&
-                  <img style={{height:"150px", width:"150", objectFit:"cover", marginBottom:"18px"}} src={this.state.modelData.img.src}/>
+                  <img style={{borderRadius:"0px", height:"150px", width:"150", objectFit:"cover", marginBottom:"18px"}} src={this.state.modelData.img.src}/>
                 }
                 {this.state.modelData.title &&
                   <h3 style={{textAlign:"center"}}>{this.state.modelData.title.text}</h3>
@@ -884,8 +886,54 @@ class EditProfile extends Component {
                     return this.state.profileData.sections[this.state.currentSectionIndex].pieces[this.state.currentPieceIndex].links.map((link, k) => {
                       return (
                         <div draggable="true" onDragStart={(e) => {e.stopPropagation(); this.recordDragEvent(e, this.state.currentSectionIndex, this.state.currentPieceIndex, k)}} className="profile_link-piece" key={k}>
-                          <img className="profile_link-piece-img" src={link.img}/>
-                          <a className="profile_link-piece-go" href={link.href}>Go</a>
+                          <div style={{position:"relative"}}>
+                            {this.props.edit &&
+                              <img 
+                                src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
+                                onClick={(e) =>{
+                                  e.stopPropagation(); 
+                                  this.editImageModel(
+                                    "sections."+this.state.currentSectionIndex.toString()+".pieces."+this.state.currentPieceIndex.toString()+".links."+k.toString()+".img", 
+                                    this.state.profileData.sections[this.state.currentSectionIndex].pieces[this.state.currentPieceIndex], 
+                                    this.state.profileData.sections[this.state.currentSectionIndex].pieces[this.state.currentPieceIndex].links[k].img, 
+                                    null,
+                                  );
+                                  this.closeLinkModel()
+                                }}
+                                style={{
+                                  top:"-2px",
+                                  left:"-2px",
+                                }}
+                                className="profile_link-model-x edit-profile_edit-icon"
+                              />
+                            }
+                            <img style={{borderRadius:"0px"}} className="profile_link-piece-img" src={link.img}/>
+                          </div>
+                          <div style={{position:"relative"}} className="profile_link-piece-go">
+                            {this.props.edit &&
+                              <img 
+                                src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
+                                onClick={(e) =>{
+                                  e.stopPropagation(); 
+                                  this.editTextModel(
+                                    "sections."+this.state.currentSectionIndex.toString()+".pieces."+this.state.currentPieceIndex.toString()+".links."+k.toString()+".href", 
+                                    this.state.profileData.sections[this.state.currentSectionIndex].pieces[this.state.currentPieceIndex], 
+                                    this.state.profileData.sections[this.state.currentSectionIndex].pieces[this.state.currentPieceIndex].links[k].href, 
+                                    null,
+                                    false,
+                                    "New Link Address"
+                                  );
+                                  this.closeLinkModel()
+                                }}
+                                style={{
+                                  top:"-2px",
+                                  left:"-2px",
+                                }}
+                                className="profile_link-model-x edit-profile_edit-icon"
+                              />
+                            }
+                            <a className="profile_link-piece-go" href={link.href}>Go</a>
+                          </div>
                         </div>
                       )
                     })
@@ -919,73 +967,77 @@ class EditProfile extends Component {
                   x
                 </div>
 
-                <h6 style={{margin:"10px 0px 5px 0px", fontWeight:"Bold", textAlign:"center", fontSize:"20px", display:"inlineBlock"}}>New Text</h6>
+                <h6 style={{margin:"10px 0px 5px 0px", fontWeight:"Bold", textAlign:"center", fontSize:"20px", display:"inlineBlock"}}>{this.state.editTextModelHeader ? this.state.editTextModelHeader : "New Text"}</h6>
                 <textarea style={{width:"100%", height:"200px"}} value={this.state.editText} onChange={(e) => {this.state.editText = e.target.value; this.editDataPoint(this.state.editPointer)}}/>
                 
-                <div style={{margin:"20px 0"}} class="app_seperating-line"></div>
+                {this.state.showFontStyleOptions &&
+                  <React.Fragment>
+                    <div style={{margin:"20px 0"}} class="app_seperating-line"></div>
 
-                <h6 style={{margin:"-10px 0px 5px 0px", fontWeight:"Bold", textAlign:"center", fontSize:"20px", display:"inlineBlock"}}>Font Styling</h6>
-                <div class="profile_text-model-option-wrapper">
-                  <h6 style={{fontWeight:"lighter"}}>Font Size:</h6>
-                  <select onChange={(e) => {this.state.styleBeingEdited = e.target.value; this.editDataPoint(this.state.stylePointer + ".fontSize")}}>
-                    <option selected value="30px">Font Size</option>
-                    <option value="10px">10</option>
-                    <option value="15px">15</option>
-                    <option value="20px">20</option>
-                    <option value="25px">25</option>
-                    <option value="30px">30</option>
-                    <option value="35px">35</option>
-                    <option value="40px">40</option>
-                    <option value="50px">50</option>
-                  </select>
-                </div>
-                <div class="profile_text-model-option-wrapper"> 
-                  <h6 style={{fontWeight:"lighter"}}>Bold Value:</h6>
-                  <select onChange={(e) => {this.state.styleBeingEdited = e.target.value; this.editDataPoint(this.state.stylePointer + ".fontWeight")}}>
-                    <option selected value="30px">Bold Select</option>
-                    <option value="lighter">Thinner</option>
-                    <option value="light">Thin</option>
-                    <option value="normal">Normal</option>
-                    <option value="bold">Thick</option>
-                    <option value="bolder">Thicker</option>
-                  </select>
-                </div>
-                <div class="profile_text-model-option-wrapper">
-                  <h6 style={{fontWeight:"lighter"}}>Line Spacing:</h6>
-                  <select onChange={(e) => {this.state.styleBeingEdited = e.target.value; this.editDataPoint(this.state.stylePointer + ".lineHeight")}}>
-                    <option selected value="30px">Line Spacing</option>
-                    <option value="10px">10</option>
-                    <option value="15px">15</option>
-                    <option value="20px">20</option>
-                    <option value="25px">25</option>
-                    <option value="30px">30</option>
-                    <option value="35px">35</option>
-                    <option value="40px">40</option>
-                    <option value="50px">50</option>
-                    <option value="60px">60</option>
-                    <option value="70px">70</option>
-                    <option value="80px">80</option>
-                  </select>
-                </div>
-                <div class="profile_text-model-option-wrapper">
-                  <h6 style={{fontWeight:"lighter"}}>Font Style:</h6>
-                  <select onChange={(e) => {this.state.styleBeingEdited = e.target.value; this.editDataPoint(this.state.stylePointer + ".fontFamily")}}>
-                    <option selected value='"Courier New", Courier, monospace'>Font Style</option>
-                    <option value='"Courier New", Courier, monospace'>Typewriter</option>
-                    <option value='Impact, Charcoal, sans-serif'>Compact</option>
-                    <option value='"Lucida Sans Unicode", "Lucida Grande", sans-serif'>Spacious</option>
-                    <option value='"Comic Sans MS", cursive, sans-serif'>Hand Written</option>
-                    <option value="Georgia, serif">Novel Print</option>
-                    <option value='"Times New Roman", Times, serif'>Classic Roman</option>
-                  </select>
-                </div>
-                <div class="profile_text-model-option-wrapper">
-                  <h6 style={{fontWeight:"lighter"}}>Font Color:</h6>
-                  <input onChange={(e) => {this.state.styleBeingEdited = e.target.value; this.editDataPoint(this.state.stylePointer + ".color")}} type="color"/>
-                </div>
+                    <h6 style={{margin:"-10px 0px 5px 0px", fontWeight:"Bold", textAlign:"center", fontSize:"20px", display:"inlineBlock"}}>Font Styling</h6>
+                    <div class="profile_text-model-option-wrapper">
+                      <h6 style={{fontWeight:"lighter"}}>Font Size:</h6>
+                      <select onChange={(e) => {this.state.styleBeingEdited = e.target.value; this.editDataPoint(this.state.stylePointer + ".fontSize")}}>
+                        <option selected value="30px">Font Size</option>
+                        <option value="10px">10</option>
+                        <option value="15px">15</option>
+                        <option value="20px">20</option>
+                        <option value="25px">25</option>
+                        <option value="30px">30</option>
+                        <option value="35px">35</option>
+                        <option value="40px">40</option>
+                        <option value="50px">50</option>
+                      </select>
+                    </div>
+                    <div class="profile_text-model-option-wrapper"> 
+                      <h6 style={{fontWeight:"lighter"}}>Bold Value:</h6>
+                      <select onChange={(e) => {this.state.styleBeingEdited = e.target.value; this.editDataPoint(this.state.stylePointer + ".fontWeight")}}>
+                        <option selected value="30px">Bold Select</option>
+                        <option value="lighter">Thinner</option>
+                        <option value="light">Thin</option>
+                        <option value="normal">Normal</option>
+                        <option value="bold">Thick</option>
+                        <option value="bolder">Thicker</option>
+                      </select>
+                    </div>
+                    <div class="profile_text-model-option-wrapper">
+                      <h6 style={{fontWeight:"lighter"}}>Line Spacing:</h6>
+                      <select onChange={(e) => {this.state.styleBeingEdited = e.target.value; this.editDataPoint(this.state.stylePointer + ".lineHeight")}}>
+                        <option selected value="30px">Line Spacing</option>
+                        <option value="10px">10</option>
+                        <option value="15px">15</option>
+                        <option value="20px">20</option>
+                        <option value="25px">25</option>
+                        <option value="30px">30</option>
+                        <option value="35px">35</option>
+                        <option value="40px">40</option>
+                        <option value="50px">50</option>
+                        <option value="60px">60</option>
+                        <option value="70px">70</option>
+                        <option value="80px">80</option>
+                      </select>
+                    </div>
+                    <div class="profile_text-model-option-wrapper">
+                      <h6 style={{fontWeight:"lighter"}}>Font Style:</h6>
+                      <select onChange={(e) => {this.state.styleBeingEdited = e.target.value; this.editDataPoint(this.state.stylePointer + ".fontFamily")}}>
+                        <option selected value='"Courier New", Courier, monospace'>Font Style</option>
+                        <option value='"Courier New", Courier, monospace'>Typewriter</option>
+                        <option value='Impact, Charcoal, sans-serif'>Compact</option>
+                        <option value='"Lucida Sans Unicode", "Lucida Grande", sans-serif'>Spacious</option>
+                        <option value='"Comic Sans MS", cursive, sans-serif'>Hand Written</option>
+                        <option value="Georgia, serif">Novel Print</option>
+                        <option value='"Times New Roman", Times, serif'>Classic Roman</option>
+                      </select>
+                    </div>
+                    <div class="profile_text-model-option-wrapper">
+                      <h6 style={{fontWeight:"lighter"}}>Font Color:</h6>
+                      <input onChange={(e) => {this.state.styleBeingEdited = e.target.value; this.editDataPoint(this.state.stylePointer + ".color")}} type="color"/>
+                    </div>
 
-                <div style={{margin:"20px 0"}} class="app_seperating-line"></div>
-
+                    <div style={{margin:"20px 0"}} class="app_seperating-line"></div>
+                  </React.Fragment>
+                }
+                
                 <button
                   onClick={() => this.closeEditTextModel()}
                   style={{background:'green', padding:"15px 25px",margin:"10px auto 0 auto", fontSize:"20px", color:"white", borderRadius:"5px",display:"block",}}
@@ -1001,6 +1053,5 @@ class EditProfile extends Component {
     );
   }
 }
-
 
 export default EditProfile;
