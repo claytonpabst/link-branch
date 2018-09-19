@@ -13,7 +13,7 @@ class EditImageModel extends React.Component {
       showLoadingModel: false,
       loadingModelHeader: null,
       commonAssets:[
-        "https://res.cloudinary.com/linkbranch/image/upload/v1536961391/lazwvulsa5cdhl0me17k.png",
+        "https://res.cloudinary.com/linkbranch/image/upload/v1537387329/goxkhpmbgjcxf6xcjdzg.png",
         "https://res.cloudinary.com/linkbranch/image/upload/v1536961379/qcfveyxewmlboukllktu.jpg",
         "https://res.cloudinary.com/linkbranch/image/upload/v1536961368/thubqnp82h7effodgsdr.png",
         "https://res.cloudinary.com/linkbranch/image/upload/v1536961359/hjna87sojd32adjkd8ot.jpg",

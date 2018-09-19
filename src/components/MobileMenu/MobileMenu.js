@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {Link} from 'react-router-dom';
 
 class MobileMenu extends Component {
   constructor(props){
@@ -14,10 +15,14 @@ class MobileMenu extends Component {
     return(
       <div onClick={this.props.toggleMobileMenu} style={{position:"absolute", width:mobileMenuStyle.width, height:"100%", background:"rgba(0,0,0,0.8)", top:"68px", left:mobileMenuStyle.left, transition:"all .7s", overflow:"hidden"}}>
         <div style={{width:"100vw", maxWidth:"500px", height:"100%", background:"white", position:"absolute", right:"0"}}>
-          <p style={{textAlign:"center"}}>About</p>
-          <p style={{textAlign:"center"}}>About</p>
-          <p style={{textAlign:"center"}}>About</p>
-          <p style={{textAlign:"center"}}>About</p>
+          {this.props.authenticated &&
+            <React.Fragment>
+              <Link style={{textDecoration:"none"}} to="/edit"><p style={{width:"100%", padding:"15px", margin:"10px", textAlign:"center"}}>Update Profile</p></Link>
+              <Link style={{textDecoration:"none"}} to="/assets"><p style={{width:"100%", padding:"15px", margin:"10px", textAlign:"center"}}>Asset Upload</p></Link>
+            </React.Fragment>
+          }
+          <Link style={{textDecoration:"none"}} to="/"><p style={{width:"100%", padding:"15px", margin:"10px", textAlign:"center"}}>About</p></Link>
+          <Link style={{textDecoration:"none"}} to="/"><p style={{width:"100%", padding:"15px", margin:"10px", textAlign:"center"}}>Help/Feedback</p></Link>
         </div>
       </div>
     )

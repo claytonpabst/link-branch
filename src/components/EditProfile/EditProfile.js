@@ -643,7 +643,6 @@ class EditProfile extends Component {
   clickProjectFromParams = () => {
     if(this.props.edit || this.state.showLinkModel){return}
     if(this.props.project && document.getElementsByClassName("project-piece-title-"+this.props.project).length){
-      console.log(document.getElementsByClassName("project-piece-title-"+this.props.project))
       document.getElementsByClassName("project-piece-title-"+this.props.project)[0].click()
     }
   }
