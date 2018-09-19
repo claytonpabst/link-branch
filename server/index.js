@@ -29,7 +29,7 @@ app.use(bodyParser.json());
 
 massive(config.connection).then( db => {      // Returns database. See Massive docs for connection options
   dualSessionConnect(db).then( message => {   // Pass db to connect function
-    db.reload().then( refreshedDb => {        // Reload/refresh db since we added Dual Session
+    db.reload().then( refreshedDb => {        // Reload/refresh db after we add Dual Session
       app.set('db', refreshedDb)              // Adds db object to app object
       console.log(message)
       dualSessionClean({                      // *Optional* Function to handle deleting old sessions
@@ -47,7 +47,7 @@ massive(config.connection).then( db => {      // Returns database. See Massive d
 
 app.use(dualSession({                 // Once Dual Session is connected to db, use it by invoking with options
   dbName:'db',                        // Needs to be same name from app.set() function
-  secret:"someSecretKey",             // Secret key for cookie encryption. Put this in a .gitignore
+  secret:config.secret,               // Secret key for cookie encryption. Put this in a .gitignore
   cookieName:"xs",                    // Choose a cookie name for the client
   maxAge: 1000 * 60 * 60 * 24 * 30    // How long until browser deletes session cookie. 
 }))
@@ -65,6 +65,7 @@ app.get('/api/isLoggedIn', userController.isLoggedIn);
 app.get('/api/signOut', userController.signOut);
 app.post('/api/signIn', userController.signIn);
 app.post('/api/signUp', userController.singUp);
+app.post('/api/checkIfUsernameIsAvailable', userController.checkIfUsernameIsAvailable);
 
 var assetController = require("./assetController.js");
 

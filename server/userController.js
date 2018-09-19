@@ -104,6 +104,18 @@ module.exports = {
         res.status(500).send(err);
       })
     })
+  },
+
+  checkIfUsernameIsAvailable: function(req, res){
+    const db = req.app.get('db')
+    db.checkIfUsernameIsAvailable([req.body.username]).then( response => {
+      if(response.length){
+        res.status(200).send({usernameAvailable:false})
+      } else {
+        res.status(200).send({usernameAvailable:true})
+      }
+    }).catch( err => {
+      res.status(500).send({usernameAvailable:false})
+    })
   }
-  
 };
