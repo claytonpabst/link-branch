@@ -1,9 +1,12 @@
 .landing-message_wrapper{
   width: 100%;
-  background-color:#b23153;
-  border-bottom: 5px solid #fbad50;
+  padding: 120px 0;
+  border-bottom: 5px solid #000000;
+  border-top: 5px solid #000000;
+  background-position: center;
+  background-repeat: no-repeat;
   /* background-image:linear-gradient(left top, #bc2a8d 39%, #fccc63 40%,#e95950 41%); */
-  background-image:linear-gradient(left top, #bc2a8d 22%, #fccc63 53%,#e95950 69%);
+  background-image: url("https://images.unsplash.com/photo-1508081883599-a58656e0ac48?ixlib=rb-0.3.5&s=1cf5d5dbc14a05752c0ec5998a7d8e8c&auto=format&fit=crop&w=1778&q=80");
 }
 
 .section1{
@@ -11,13 +14,14 @@
   width: 100%;
   max-width: 1320px;
   padding: 10px;
-  background-color: rgba(0,0,0,0);
+  /* background-color: rgba(0,0,0,0); */
   display: flex;
   justify-content: center;
   /* background-image:linear-gradient(left top, #bc2a8d 22%, #fccc63 53%,#e95950 69%); */
 }
 
 .section1Left{
+  /* background: white; */
   height: 310px;
   width: 50%;
   margin-right: -6%;
@@ -30,12 +34,13 @@
   text-align: left;
   /* width: 600px; */
   height: auto;
-  margin: 10% 0 0 -12%;
+  margin: 7% 0 0 -5%;
   /*position: relative;*/
 }
 
 .section1LeftContent h1{
   color: white;
+  text-shadow: 2px 2px #525252;
   /*transform: scaleX(1);*/
   font-size: 50px;
   line-height: 53px; 
@@ -44,9 +49,12 @@
   text-align: center;
 }
 .section1LeftContent h3{
-  color: #333;
+  color: rgb(255, 255, 255);
+  text-shadow: 1px 1px #525252;
+
   font-weight: bold;
-  line-height: 60px;
+  padding: 20px;
+  margin-bottom: 20px;
   text-align: center;
   font-size: 1.2em;
   transform: scale(.9,1);
@@ -55,7 +63,7 @@
   text-align: center;
   line-height: .1em;
   font-weight: bold;
-  color: #2e3f84;
+  color: #1d38a2;
 }
 .section1LeftContent p:hover{
   cursor: pointer;
@@ -66,7 +74,28 @@
   /* background:pink; */
   position: relative;
   height: 310px;
-  width: 35%;
+  width: 50%;
+  /* background: rgb(157, 157, 157); */
+}
+.section1RightPhone {
+  /* background: white; */
+  height: 650px;
+  width: 300px;
+  position: absolute;
+  left: calc(50% - 140px);
+  top: -120px;
+  background-size: 650px 650px;
+  background-repeat: no-repeat;
+  background-position: right -170px bottom 40px;
+  background-image: url("https://www.freeiconspng.com/uploads/white-iphone-6-png-32.png")
+}
+.section1RightPhone img {
+  height: 410px;
+  width: 228px;
+  position: absolute;
+  left: 22px;
+  top: 67px;
+  z-index: 8;
 }
 .section1Right div {
   z-index: 5;
@@ -90,19 +119,18 @@
   transform: scale(.8, 1);
 }
 
-.section1Right img{
-  position: absolute;
-  opacity: .3;
-  margin: 7% 0 0 90px;
-  height: 85%;
-}
-
 @media (max-width: 950px){
+  .landing-message_wrapper{
+    padding: 0px 0;
+    height: 800px;
+  }
+  .section1RightPhone{
+    top: 0px;
+  }
   .section1{
     padding: 20px;
     flex-direction: column;
     align-items: center;
-
   }
 
   .section1Left{
@@ -126,16 +154,16 @@
   }
   .section1LeftContent h3{
       line-height: 20px;
-      color:black;
+      font-size: 13px;
+      /* color:black; */
+  }
+  .section1LeftContent p{
+      line-height: 0px;
+      margin-top: -10px;
   }
 
   .section1Right{
     height: auto;
     width: auto;
-  }
-
-  .section1Right img{
-    margin: 0;
-    width: 300px;
   }
 }

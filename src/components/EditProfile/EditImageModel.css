@@ -5,3 +5,10 @@
   border: 1px solid grey;
   cursor: pointer;
 } 
+.edit-image-model_upload-button{
+  width:fit-content;
+  
+}
+.edit-image-model_upload-button:hover{
+  cursor: pointer;
+}

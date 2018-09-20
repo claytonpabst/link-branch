@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import {Link} from 'react-router-dom';
 
 import AnyChart from 'anychart-react';
 
@@ -123,6 +124,8 @@ class UserAssetManager extends React.Component {
             <img style={{width:'100%', height:'100%'}} src={this.state.assetToUploadSrc}/>
           </div>
           <button className={this.state.assetToUpload ? 'user-asset-manager_new-asset-button-active' : 'user-asset-manager_new-asset-button-inactive' } onClick={this.sendImageToServer}>Upload</button>
+          <br/>
+          <Link to="edit" style={{textDecoration:"none"}}><button style={{background:"#e33737"}} className="user-asset-manager_new-asset-button-active">To Profile</button></Link>
         </div>
         < PageNameHeader>{() => (<h1>Storage</h1>)}</ PageNameHeader >
         <div style={{display:"block", margin:"30px auto", width:'300px', background:'pink'}}>

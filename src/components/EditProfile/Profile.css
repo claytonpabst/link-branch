@@ -17,6 +17,7 @@
     padding: 20px 0px 0px 0px;
 }
 .profile_profile-image{
+    object-fit:cover;
     box-sizing: content-box;
     border: 3px solid rgb(255, 255, 255);
     box-shadow: 0px 0px 0px 3px rgb(48, 48, 48);

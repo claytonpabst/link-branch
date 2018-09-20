@@ -68,10 +68,10 @@ class App extends Component {
                 <div style={{filter:backgroundBlur}}>
                   <Switch>
                   
-                    <Route path="/" component={MainSplash}/>
                     <Route path="/u/:user/:project?" render={(props) => <EditProfile user={props.match.params.user} project={props.match.params.project} edit={false}/>} />
                     {global.state.authenticated && <Route render={()=><EditProfile edit={true}/>} path="/edit" />}
                     {global.state.authenticated && <Route render={()=><UserAssetManager/>} path="/assets" />}
+                    <Route path="/" render={() => <MainSplash toggleSignUpModel={global.toggleSignUpModel} />}/>
 
                     <Route component={PageNotFound} />
       

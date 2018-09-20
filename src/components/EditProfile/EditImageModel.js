@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import {Link} from 'react-router-dom'
 
 import LoadingModel from './../Models/Loading/Loading.js';
 
@@ -104,6 +105,7 @@ class EditImageModel extends React.Component {
           </div>
           <img style={{objectFit:"cover", width:"150px", height:"150px"}} src={this.props.currentImg} alt="Image to Update"/>
           <h6 style={{textAlign:"center", margin:"20px 0px", fontSize:"25px", fontWeight:"bolder"}}>Choose New Image</h6>
+          <Link style={{textDecoration:"none"}} to="/assets"><h6 className="edit-image-model_upload-button" style={{color:"white", textAlign:"center", margin:"10px auto", padding:"10px", display:"block", fontSize:"15px", fontWeight:"normal", background:"#e33737"}}>Upload Custom Image</h6></Link>
           {/* <input type="file" accept="image/*" onChange={(e) => this.props.imageUpload(e)}/>
           <button onClick={() => {this.props.editDataPoint(this.props.editPointer); this.props.closeEditImageModel()}}>Update Image</button> */}
           <div style={{display:"flex", flexWrap:"wrap"}}>

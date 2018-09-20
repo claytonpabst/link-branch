@@ -16,21 +16,26 @@ class MainSplash extends React.Component {
   render(){
     return (
       <div className="home_wrapper">
+        < PageNameHeader>
+          {() => (
+            <h1>WELCOME</h1>
+          )}
+        </ PageNameHeader >
         < LandingMessage />
         < PageNameHeader>
           {() => (
-            <h1>FIND MORE FREEDOM</h1>
+            <h1>PLAY MORE</h1>
           )}
         </ PageNameHeader >
         <PictureWithMessage>
           {() => (
-            <div style={{backgroundImage:"url('https://wallup.net/wp-content/uploads/2016/01/311247-landscape-beach-people-couple.jpg')"}} className="picture-with-message_background-div">
+            <div style={{backgroundImage:"url('https://images.unsplash.com/photo-1518553550601-d817bf328722?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=79f197a0a8162599df49dc78fe20c1fc&auto=format&fit=crop&w=500&q=60')"}} className="picture-with-message_background-div">
               
               <div className="picture-with-message_content-wrapper">
                 <div className="picture-with-message_text-left-wrapper">
-                  <h2 style={{color:'white', fontSize:'4em', fontWeight:'Bolder'}}>Spend More Time</h2>
-                  <h2 style={{color:'white', fontSize:'4em', fontWeight:'Bolder'}}>On TRAVELING.</h2>
-                  <p style={{paddingLeft:'5px'}} className="picture-with-message_get-started">Get Started</p>
+                  <h2>Spend More Time</h2>
+                  <h2>PLAYING.</h2>
+                  <p onClick={this.props.toggleSignUpModel} style={{paddingLeft:'5px'}} className="picture-with-message_get-started">Get Started</p>
                 </div>
               </div>
             </div>
@@ -38,18 +43,18 @@ class MainSplash extends React.Component {
         </PictureWithMessage>
         < PageNameHeader>
           {() => (
-            <h1 style={{position:'absolute', right:'0'}}>FIND MORE CREATIVIY</h1>
+            <h1>WRITE MORE</h1>
           )}
         </ PageNameHeader >
         <PictureWithMessage>
           {() => (
-            <div style={{backgroundImage:"url('https://iso.500px.com/wp-content/uploads/2016/03/pedroquintela.jpg')"}} className="picture-with-message_background-div">
+            <div style={{backgroundImage:"url('https://images.unsplash.com/photo-1527345931282-806d3b11967f?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=9c0bc3098e450b1b2f33e1a0c2ac133b&auto=format&fit=crop&w=500&q=60')"}} className="picture-with-message_background-div">
               <div className="picture-with-message_content-wrapper">
                 <div className="picture-with-message_text-right-wrapper">
-                  <h2 style={{color:'white', fontSize:'4em', fontWeight:'Bolder',}}>Spend More Time</h2>
-                  <h2 style={{color:'white', fontSize:'4em', fontWeight:'Bolder'}}>On CONTENT.</h2>
+                  <h2>Spend More Time</h2>
+                  <h2>WRITING.</h2>
                   <div style={{position:'relative'}}>
-                    <p style={{paddingRight:'5px', position:'absolute', right:'0'}} className="picture-with-message_get-started">Get Started</p>
+                    <p onClick={this.props.toggleSignUpModel} style={{paddingRight:'5px', position:'absolute', right:'0'}} className="picture-with-message_get-started">Get Started</p>
                   </div>
                 </div>
               </div>
@@ -58,17 +63,17 @@ class MainSplash extends React.Component {
         </PictureWithMessage>
         < PageNameHeader>
           {() => (
-            <h1>FIND MORE FOCUS</h1>
+            <h1>RECORD MORE</h1>
           )}
         </ PageNameHeader >
         <PictureWithMessage>
           {() => (
-            <div style={{backgroundImage:"url('http://shabier.com/images/hd-gym-wallpapers/hd-gym-wallpapers-18.jpg')"}} className="picture-with-message_background-div">
+            <div style={{backgroundImage:"url('https://images.unsplash.com/photo-1531651750200-b2c2b3ddc876?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=1e05b28a4619760b9accdfe6c9870b6d&auto=format&fit=crop&w=500&q=60')"}} className="picture-with-message_background-div">
               <div className="picture-with-message_content-wrapper">
                 <div className="picture-with-message_text-left-wrapper">
-                  <h2 style={{color:'white', fontSize:'4em', fontWeight:'Bolder',}}>Spend More Time</h2>
-                  <h2 style={{color:'white', fontSize:'4em', fontWeight:'Bolder'}}>On YOU.</h2>
-                    <p style={{paddingLeft:'5px'}} className="picture-with-message_get-started">Get Started</p>
+                  <h2>Spend More Time</h2>
+                  <h2>RECORDING.</h2>
+                    <p onClick={this.props.toggleSignUpModel} style={{paddingLeft:'5px'}} className="picture-with-message_get-started">Get Started</p>
                 </div>
               </div>
             </div>
