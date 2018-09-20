@@ -4,6 +4,7 @@ import { Switch, Route, withRouter } from 'react-router-dom';
 import { GlobalState } from './GlobalState.js'
 import Consumer from './GlobalState.js'
 
+import MainSplash from './components/MainSplash/MainSplash.js'
 import MobileMenu from "./components/MobileMenu/MobileMenu.js"
 import MainHeader from "./components/MainHeader/MainHeader.js"
 import SignInModel from './components/Models/SignIn/SignIn.js'
@@ -67,6 +68,7 @@ class App extends Component {
                 <div style={{filter:backgroundBlur}}>
                   <Switch>
                   
+                    <Route path="/" component={MainSplash}/>
                     <Route path="/u/:user/:project?" render={(props) => <EditProfile user={props.match.params.user} project={props.match.params.project} edit={false}/>} />
                     {global.state.authenticated && <Route render={()=><EditProfile edit={true}/>} path="/edit" />}
                     {global.state.authenticated && <Route render={()=><UserAssetManager/>} path="/assets" />}
@@ -81,7 +83,7 @@ class App extends Component {
                   {global.state.showSignInModel && <SignInModel/>}
                   {global.state.showSignUpModel && <SignUpModel/>}
                   {global.state.showSignOutModel && <SignOutModel/>}
-                  {global.state.showLoadingModel && <LoadingModel header2="Authenticating..."/>}
+                  {global.state.showLoadingModel && <LoadingModel header="Authenticating..."/>}
                 </div>
               </React.Fragment>
             )}

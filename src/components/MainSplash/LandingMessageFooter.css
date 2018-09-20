@@ -1,0 +1,141 @@
+.landing-message_wrapper{
+  width: 100%;
+  background-color:#b23153;
+  border-bottom: 5px solid #fbad50;
+  /* background-image:linear-gradient(left top, #bc2a8d 39%, #fccc63 40%,#e95950 41%); */
+  background-image:linear-gradient(left top, #bc2a8d 22%, #fccc63 53%,#e95950 69%);
+}
+
+.section1{
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1320px;
+  padding: 10px;
+  background-color: rgba(0,0,0,0);
+  display: flex;
+  justify-content: center;
+  /* background-image:linear-gradient(left top, #bc2a8d 22%, #fccc63 53%,#e95950 69%); */
+}
+
+.section1Left{
+  height: 310px;
+  width: 50%;
+  margin-right: -6%;
+  display: inline-block;
+  /* background: pink; */
+}
+
+.section1LeftContent{
+  /* background: pink; */
+  text-align: left;
+  /* width: 600px; */
+  height: auto;
+  margin: 10% 0 0 -12%;
+  /*position: relative;*/
+}
+
+.section1LeftContent h1{
+  color: white;
+  /*transform: scaleX(1);*/
+  font-size: 50px;
+  line-height: 53px; 
+  font-weight: bold;
+  transform: scale(.8, 1);
+  text-align: center;
+}
+.section1LeftContent h3{
+  color: #333;
+  font-weight: bold;
+  line-height: 60px;
+  text-align: center;
+  font-size: 1.2em;
+  transform: scale(.9,1);
+}
+.section1LeftContent p{
+  text-align: center;
+  line-height: .1em;
+  font-weight: bold;
+  color: #2e3f84;
+}
+.section1LeftContent p:hover{
+  cursor: pointer;
+  color: #1f2a59;
+}
+
+.section1Right{
+  /* background:pink; */
+  position: relative;
+  height: 310px;
+  width: 35%;
+}
+.section1Right div {
+  z-index: 5;
+  /* background: pink; */
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  padding-top:18%;
+  position: absolute;
+  margin: 0 auto;
+  /* display: block; */
+}
+.section1Right h2 {
+  font-weight: bolder;
+  font-size: 3em;
+  transform: scale(.9, 1);
+}
+.section1Right p {
+  font-weight: 900;
+  font-size: 6em;
+  transform: scale(.8, 1);
+}
+
+.section1Right img{
+  position: absolute;
+  opacity: .3;
+  margin: 7% 0 0 90px;
+  height: 85%;
+}
+
+@media (max-width: 950px){
+  .section1{
+    padding: 20px;
+    flex-direction: column;
+    align-items: center;
+
+  }
+
+  .section1Left{
+      width: 100%;
+      height: fit-content;
+      margin: 20px 0;
+  }
+
+  .section1LeftContent{
+      max-width: 400px;
+      width: 90%;
+      height: auto;
+      margin: 0 auto;
+      text-align: center;
+  }
+
+  .section1LeftContent h1{
+      font-size: 25px;
+      font-weight: bold;
+      line-height: 30px; 
+  }
+  .section1LeftContent h3{
+      line-height: 20px;
+      color:black;
+  }
+
+  .section1Right{
+    height: auto;
+    width: auto;
+  }
+
+  .section1Right img{
+    margin: 0;
+    width: 300px;
+  }
+}
