@@ -79,6 +79,8 @@ class EditProfile extends Component {
       firstLoad:true
     }
 
+    this.overLimit = false
+
     this.linkModelRef = React.createRef()
     this.editTextModelRef = React.createRef()
     this.editImageModelRef = React.createRef()
@@ -197,6 +199,10 @@ class EditProfile extends Component {
   // pointer changes as this function calls inself to dig into the obj. 
   // original pointer is used to check if .style exists in the pointer to decide what to update--------------------
   editDataPoint = (pointer, profileDataOnReCall, originalPointer) => {
+    if(this.overLimit){
+      alert("Profile is at max size.")
+      return
+    }
     let profileData
     let content
     if(profileDataOnReCall){
@@ -310,6 +316,10 @@ class EditProfile extends Component {
   }
 
   addSection = () => {
+    if(this.overLimit){
+      alert("Profile at max size.")
+      return
+    }
     let profileData = JSON.parse(JSON.stringify(this.state.profileData))
     profileData.sections.push({
       title:{
@@ -329,7 +339,12 @@ class EditProfile extends Component {
       profileData
     })
   }
+
   addTextPiece = (i) => {
+    if(this.overLimit){
+      alert("Profile at max size.")
+      return
+    }
     let profileData = JSON.parse(JSON.stringify(this.state.profileData))
     profileData.sections[i].pieces.push({
       type:"TEXT",
@@ -342,7 +357,12 @@ class EditProfile extends Component {
     })
     this.setState({profileData})
   }
+  
   addProjectPiece = (i) => {
+    if(this.overLimit){
+      alert("Profile at max size.")
+      return
+    }
     let profileData = JSON.parse(JSON.stringify(this.state.profileData))
     profileData.sections[i].pieces.push({
       type:"PROJECT",
@@ -368,6 +388,10 @@ class EditProfile extends Component {
   }
   
   addLink = (i, j) => {
+    if(this.overLimit){
+      alert("Profile at max size.")
+      return
+    }
     let profileData = JSON.parse(JSON.stringify(this.state.profileData))
     profileData.sections[i].pieces[j].links.push({
       img:"https://res.cloudinary.com/linkbranch/image/upload/v1536958737/eikcqbhwj04rs7tuozhp.png",
@@ -647,8 +671,10 @@ class EditProfile extends Component {
   render() {
     console.log(this)
     let profileDataString = JSON.stringify(this.state.profileData)
+    let profileDataLength = profileDataString.length
     let profileData = JSON.parse(profileDataString); // this line is needed because of how the editDataPoint function works with updating style; react treats style attr as a prop that has to go through this.setState, which I'm not using in that function.
     let style = profileData.style
+    this.overLimit = profileDataLength > 20000 ? true : false
     return (
       <div style={{background:"#f5f5f5"}} className="App">
         <div style={{background:"#f5f5f5"}} className="profile_profile-wrapper">
@@ -660,8 +686,8 @@ class EditProfile extends Component {
             <div style={{display:"block", margin:"30px auto", width:'300px', background:'pink'}}>
               <AnyChart 
                 type="pie"
-                data={`Available,${20000-profileDataString.length},green\nUsed,${20000-(20000-profileDataString.length)}`}
-                title={`${this.numberToThousands(profileDataString.length)} / 20,000 Units Used`}
+                data={`Available,${20000-profileDataLength},green\nUsed,${20000-(20000-profileDataLength)}`}
+                title={`${this.numberToThousands(profileDataLength)} / 20,000 Units Used`}
                 width={300}
                 height={300}
                 

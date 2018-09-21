@@ -22,6 +22,8 @@ class UserAssetManager extends React.Component {
       showLoadingModel: false,
       loadingModelHeader: null,
     }
+
+    this.overLimit = false
   }
 
   componentDidMount = () => {
@@ -42,6 +44,10 @@ class UserAssetManager extends React.Component {
   }
   
   imageUpload = (e) => {
+    if(this.overLimit){
+      alert("Max assets reached. Delete an asset to upload something new.")
+      return
+    }
     if(!e.target.files[0]){return}
     let self = this
     this.setState({showLoadingModel:true, loadingModelHeader:"Optimizing..."})
@@ -108,6 +114,7 @@ class UserAssetManager extends React.Component {
   }
 
   render(){
+    this.overLimit = this.state.assets.length >= 15 ? true : false
     console.log(this.state)
     return (
       <div className="user-asset-manager_main-wrapper">
