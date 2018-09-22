@@ -82,6 +82,7 @@ class SignUpPopover extends React.Component {
               type="submit" 
               className="btn sign-in_log-in-button"
               onClick={(e) => {
+                e.preventDefault();
                 e.stopPropagation(); 
                 this.singUp();
               }}
@@ -91,7 +92,7 @@ class SignUpPopover extends React.Component {
             <p style={{textAlign:'center', padding:'10px', color:'#777', fontWeight:'bold'}}>_____________ or _____________</p>
             <button 
               className="btn sign-in_log-in-button"
-              onClick={(e) => {e.stopPropagation(); props.global.toggleSignUpModel(); props.global.toggleSignInModel()}}
+              onClick={(e) => {e.preventDefault(); e.stopPropagation(); props.global.toggleSignUpModel(); props.global.toggleSignInModel()}}
             >
               Log In
             </button>

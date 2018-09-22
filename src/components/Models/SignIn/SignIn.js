@@ -36,6 +36,7 @@ class LoginModel extends React.Component {
                   className="btn sign-in_log-in-button"
                   onClick={
                     (e) => {
+                      e.preventDefault();
                       e.stopPropagation(); 
                       global.signIn({email:this.state.emailInput, password:this.state.passwordInput}); 
                       this.setState({emailInput:'', passwordInput:''});
@@ -49,7 +50,7 @@ class LoginModel extends React.Component {
                 <p style={{textAlign:'center', padding:'10px', color:'#777', fontWeight:'bold'}}>_____________ or _____________</p>
                 <button  
                   className="btn sign-in_log-in-button"
-                  onClick={(e) => {e.stopPropagation(); global.toggleSignInModel(); global.toggleSignUpModel()}}
+                  onClick={(e) => {e.preventDefault(); e.stopPropagation(); global.toggleSignInModel(); global.toggleSignUpModel()}}
                 >
                   Sign Up
                 </button>
