@@ -22,7 +22,6 @@ module.exports = {
             authenticated:true,
             username:user.username
           }, message => {
-            console.log(req.session)
             return res.status(200).send({message:"Sign in success!", username:user.username, authenticated:true})
           })
         } else {
@@ -37,7 +36,6 @@ module.exports = {
 
   isLoggedIn: function(req, res){
     if (req.session){
-      console.log(req.session)
       if(req.session.authenticated){
         return res.status(200).send({authenticated: true, username:req.session.username})
       } else {
@@ -51,7 +49,6 @@ module.exports = {
   signOut: function(req, res){
     if(req.session){
       dualSessionDestroy(req, 'db', function(message){
-        console.log(req.session)
         return res.status(200).send({message:'User signed out.', authenticated:false, username:''})
       })
     } else {
@@ -96,7 +93,6 @@ module.exports = {
           authenticated:true,
           username:user.username
         }, message => {
-          console.log(req.session)
           res.status(200).send({message:"User created.", username:user.username, authenticated:true})
         })
       }).catch(err => {

@@ -33,7 +33,6 @@ class UserAssetManager extends React.Component {
   getAssets = () => {
     this.setState({showLoadingModel:true, loadingModelHeader:"Fetching..."})
     axios.get('/api/getAssets').then(res => {
-      console.log(res)
       if(res.data.message){alert(res.data.message)}
       this.setState({assets:res.data.assets, showLoadingModel:false, loadingModelHeader:null})
     }).catch(err => {
@@ -61,7 +60,6 @@ class UserAssetManager extends React.Component {
   sendImageToServer = () => {
     if(!this.state.assetToUpload){return}
     this.setState({showLoadingModel:true, loadingModelHeader:"Uploading..."})
-    console.log('hit')
     let formData = new FormData()
     formData.append('asset', this.state.assetToUpload, this.state.assetToUpload.name)
     axios.post('/api/uploadAsset', formData).then(res => {
@@ -115,7 +113,6 @@ class UserAssetManager extends React.Component {
 
   render(){
     this.overLimit = this.state.assets.length >= 15 ? true : false
-    console.log(this.state)
     return (
       <div className="user-asset-manager_main-wrapper">
         { this.state.showLoadingModel &&

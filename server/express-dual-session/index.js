@@ -17,10 +17,8 @@ function dualSession(options){
     if(cookies[options.cookieName]){
       let sessionId = cryptoJs.AES.decrypt(cookies[options.cookieName], options.secret).toString(cryptoJs.enc.Utf8)
       if(activeSessions[sessionId]){
-        console.log('1')
         activeSessions[sessionId]._lastReq = new Date().getTime()
         req.session = activeSessions[sessionId]
-        console.log(req.app.get('activeSessions'))
         sessionId = cryptoJs.AES.encrypt(sessionId, options.secret).toString()
         res.cookie(options.cookieName, sessionId, {
           httpOnly: true,
@@ -30,11 +28,9 @@ function dualSession(options){
         next()
         return
       } else {
-        console.log('2')
         let db = req.app.get(options.dbName)
         db.express_dual_session.findOne({session_id : sessionId})
         .then(session => {
-          console.log('this is the db sess', session)
           activeSessions[sessionId] = JSON.parse(session.session_data)
           activeSessions[sessionId]._lastReq = new Date().getTime()
           req.session = activeSessions[sessionId]
@@ -54,8 +50,6 @@ function dualSession(options){
           })
         })
         .catch(err => {
-          
-          console.log('4')
           createSessionForNewUser(req, res, options, activeSessions, function(){
             next()
             return
@@ -63,7 +57,6 @@ function dualSession(options){
         })
       }
     } else {
-      console.log('3')
       createSessionForNewUser(req, res, options, activeSessions, function(){
         next()
         return

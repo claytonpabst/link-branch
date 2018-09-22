@@ -26,9 +26,7 @@ class GlobalState extends Component {
   }
 
   checkUrlForRedirect = () => {
-    console.log('url thing hit')
     if(window.location.hash){
-      console.log('hash exists')
       this.props.history.push(window.location.hash.split('#')[1])
     }
   }

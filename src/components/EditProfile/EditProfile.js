@@ -260,8 +260,6 @@ class EditProfile extends Component {
     })
   }
   editTextModel = (pointer, piece, editText, stylePointer, showFontStyleOptions, editTextModelHeader) => {
-    console.log('hit')
-    console.log(arguments)
     editTextModelHeader = editTextModelHeader ? editTextModelHeader : "New Text"
     showFontStyleOptions = showFontStyleOptions === false ? showFontStyleOptions : true
     this.setState({
@@ -669,7 +667,6 @@ class EditProfile extends Component {
   }
 
   render() {
-    console.log(this)
     let profileDataString = JSON.stringify(this.state.profileData)
     let profileDataLength = profileDataString.length
     let profileData = JSON.parse(profileDataString); // this line is needed because of how the editDataPoint function works with updating style; react treats style attr as a prop that has to go through this.setState, which I'm not using in that function.

@@ -38,7 +38,6 @@ class EditImageModel extends React.Component {
   }
 
   setProjectPiecesHeight = () => {
-    console.log('hit')
     const projects = document.getElementsByClassName('edit-image-model_asset')
     for(let i=0; i<projects.length; i++){
       if(projects[i]){
@@ -51,7 +50,6 @@ class EditImageModel extends React.Component {
 
   getAssets = () => {
     if(!this.props.availableAssets){
-      console.log(this.props.availableAssets)
       this.setState({showLoadingModel:true, loadingModelHeader:"Fetching..."})
       axios.get('/api/getAssets').then(res => {
         this.setState({showLoadingModel:false, loadingModelHeader:null})
@@ -89,7 +87,6 @@ class EditImageModel extends React.Component {
   }
 
   render(){
-    console.log(this.props)
     return (
       <div onClick={this.props.closeEditImageModel} style={{background:this.props.modelOverlayBackground}} className="profile_link-model-overlay">
         {this.state.showLoadingModel &&

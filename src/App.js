@@ -44,7 +44,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this)
     let backgroundBlur = '';
     let modelOpacity = '';
     return (
