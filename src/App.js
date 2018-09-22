@@ -77,7 +77,7 @@ class App extends Component {
                   </Switch>
                 </div>
 
-                <MobileMenu authenticated={global.state.authenticated} mobileMenuStyle={this.state.mobileMenuStyle} toggleMobileMenu={this.toggleMobileMenu} />
+                <MobileMenu toggleSignInModel={global.toggleSignInModel} toggleSignOutModel={global.toggleSignOutModel} authenticated={global.state.authenticated} mobileMenuStyle={this.state.mobileMenuStyle} toggleMobileMenu={this.toggleMobileMenu} />
                 <div className="app_opacity" style={{opacity:modelOpacity}}>
                   {global.state.showSignInModel && <SignInModel/>}
                   {global.state.showSignUpModel && <SignUpModel/>}

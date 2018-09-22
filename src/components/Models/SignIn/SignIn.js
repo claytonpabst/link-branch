@@ -25,7 +25,7 @@ class LoginModel extends React.Component {
               <form>
                 <div style={{display:'block', width:'90%', margin:' 15px auto'}} className="form-group">
                   <small style={{fontSize:'12px', lineHeight:"18px", padding:"4px"}} id="emailHelp" className="form-text text-muted">E-mail:</small>
-                  <input style={{padding:'6px', fontSize:'20px', width:'95%', margin:'0 auto', display:'block'}} value={this.state.emailInput} onChange={(e) => this.setState({emailInput:e.target.value})} type="email" className="form-control" aria-describedby="emailHelp" placeholder="Enter E-mail" />
+                  <input style={{overflow:"hidden", padding:'6px', fontSize:'20px', width:'95%', margin:'0 auto', display:'block'}} value={this.state.emailInput} onChange={(e) => this.setState({emailInput:e.target.value})} type="email" className="form-control" aria-describedby="emailHelp" placeholder="Enter E-mail" />
                 </div>
                 <div style={{display:'block', width:'90%',  margin:' 15px auto'}} className="form-group">
                   <small style={{fontSize:'12px', lineHeight:"18px", padding:"4px"}} id="emailHelp" className="form-text text-muted">Password:</small>

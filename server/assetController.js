@@ -11,10 +11,14 @@ module.exports = {
     if(!req.session || !req.session.id){
       res.status(500).send(); return
     }
+    console.log(req.file)
     cloudinary.v2.uploader.upload_stream({
       //options
     }, function(error, image) {
-      if(error){ res.status(500).send({message:error}); return }
+      if(error){ 
+        res.status(500).send({message:error}); 
+        return 
+      }
       const db = req.app.get('db')
       db.createImage([req.session.id, image.secure_url, image.public_id]).then(response => {
         res.status(200).send({

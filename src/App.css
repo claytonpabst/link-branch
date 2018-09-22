@@ -25,3 +25,7 @@ pre {
        -o-transition: opacity .2s ;
           transition: opacity .2s ;
 }
+
+.app_cursor-pointer:hover{
+  cursor: pointer;
+}

@@ -24,10 +24,10 @@ class MobileMenu extends Component {
           <Link style={{textDecoration:"none"}} to="/"><p style={{width:"100%", padding:"15px", margin:"10px", textAlign:"center"}}>About</p></Link>
           <Link style={{textDecoration:"none"}} to="/"><p style={{width:"100%", padding:"15px", margin:"10px", textAlign:"center"}}>Help/Feedback</p></Link>
           {this.props.authenticated &&
-            <p style={{width:"100%", padding:"15px", margin:"10px", textAlign:"center"}}>Sing Out</p>
+            <p className="app_cursor-pointer" onClick={this.props.toggleSignOutModel} style={{width:"100%", padding:"15px", margin:"10px", textAlign:"center"}}>Sing Out</p>
           }
           {!this.props.authenticated &&
-            <p style={{width:"100%", padding:"15px", margin:"10px", textAlign:"center"}}>Sing In</p>
+            <p className="app_cursor-pointer" onClick={this.props.toggleSignInModel} style={{width:"100%", padding:"15px", margin:"10px", textAlign:"center"}}>Sing In</p>
           }
         </div>
       </div>
