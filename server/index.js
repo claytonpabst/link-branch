@@ -5,6 +5,7 @@ const massive = require('massive');
 const helmet = require('helmet');
 const config = require('./config.js');
 const multer = require('multer');
+const path = require('path');
 
 const {dualSession, dualSessionConnect, dualSessionClean} = require('./express-dual-session/index.js')
 

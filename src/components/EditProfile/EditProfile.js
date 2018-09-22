@@ -357,7 +357,7 @@ class EditProfile extends Component {
     })
     this.setState({profileData})
   }
-  
+
   addProjectPiece = (i) => {
     if(this.overLimit){
       alert("Profile at max size.")
@@ -711,7 +711,7 @@ class EditProfile extends Component {
                   x
                 </div>
                 <div 
-                  onClick={(e) => this.copyToClipboard(e, 'localhost:3000/u/'+this.state.profileUsername+"/"+this.formatTitleForParams(this.state.modelData.title.text))}
+                  onClick={(e) => this.copyToClipboard(e, window.location.host+'/#u/'+this.state.profileUsername+"/"+this.formatTitleForParams(this.state.modelData.title.text))}
                   style={{position:"absolute", lineHeight:"40px", background:'#e33737', width:"80px", borderRadius:"5px", textAlign:"center", top:"75px", left:"10px", color:"white", fontWeight:"bold"}}
                   className="profile_link-model-x"
                 >

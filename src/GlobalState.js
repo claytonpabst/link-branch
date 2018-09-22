@@ -22,6 +22,15 @@ class GlobalState extends Component {
 
   componentWillMount(){
     this.isSignedIn()
+    this.checkUrlForRedirect()
+  }
+
+  checkUrlForRedirect = () => {
+    console.log('url thing hit')
+    if(window.location.hash){
+      console.log('hash exists')
+      this.props.history.push(window.location.hash.split('#')[1])
+    }
   }
 
   isSignedIn = () => {
