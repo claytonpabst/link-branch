@@ -62,6 +62,16 @@ app.get('/api/getProfileDataForUser', profileController.getProfileDataForUser)
 app.get('/api/getProfileDataForGuest', profileController.getProfileDataForGuest)
 app.post('/api/updateProfileDataForUser', profileController.updateProfileDataForUser)
 
+app.get('/*', function(req, res){
+  let url = req.originalUrl
+  if(url.includes('%23')){
+    url = url.split('%23')[1]
+  }
+  let redirect = req.protocol + "://" + req.get("host") + "#" + url
+  let html ='<!DOCTYPE html><html><head><meta charset="utf-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Page Title</title><meta name="viewport" content="width=device-width, initial-scale=1"></head><div>Redirecting...<script>window.location.href="'+redirect+'";</script></body></html>'
+  res.send(html)
+})
+
 app.listen(config.port, '0.0.0.0', function() {
   console.log('Listening to port:  ' + config.port);
 });

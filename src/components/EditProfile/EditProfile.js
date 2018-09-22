@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import AnyChart from 'anychart-react'
 import { Link } from 'react-router-dom'
 import axios from 'axios';
+import {CopyToClipboard} from 'react-copy-to-clipboard'
 
 import EditImageModel from './EditImageModel.js';
 import LoadingModel from './../Models/Loading/Loading.js';
@@ -501,12 +502,12 @@ class EditProfile extends Component {
   }
 
   copyToClipboard = (e, url) => {
-    var textField = document.createElement('textarea')
-    textField.innerText = url
-    document.body.appendChild(textField)
-    textField.select()
-    document.execCommand('copy')
-    textField.remove()
+    // var textField = document.createElement('textarea')
+    // textField.innerText = url
+    // document.body.appendChild(textField)
+    // textField.select()
+    // document.execCommand('copy')
+    // textField.remove()
     e.target.innerText = "COPIED"
   }
 
@@ -707,13 +708,14 @@ class EditProfile extends Component {
                 >
                   x
                 </div>
-                <div 
-                  onClick={(e) => this.copyToClipboard(e, window.location.host+'/#u/'+this.state.profileUsername+"/"+this.formatTitleForParams(this.state.modelData.title.text))}
+                <CopyToClipboard text={window.location.host+'/#u/'+this.state.profileUsername+"/"+this.formatTitleForParams(this.state.modelData.title.text)}><button 
+                  // onClick={(e) => {e.preventDefault(); this.copyToClipboard(e, window.location.host+'/#u/'+this.state.profileUsername+"/"+this.formatTitleForParams(this.state.modelData.title.text))}}
+                  onClick={(e) => {e.preventDefault(); this.copyToClipboard(e, window.location.host+'/#u/'+this.state.profileUsername+"/"+this.formatTitleForParams(this.state.modelData.title.text))}}
                   style={{position:"absolute", lineHeight:"40px", background:'#e33737', width:"80px", borderRadius:"5px", textAlign:"center", top:"75px", left:"10px", color:"white", fontWeight:"bold"}}
                   className="profile_link-model-x"
                 >
                   SHARE
-                </div>
+                </button></CopyToClipboard>
                 {this.state.modelData.img.src &&
                   <img style={{borderRadius:"0px", height:"150px", width:"150", objectFit:"cover", marginBottom:"18px"}} src={this.state.modelData.img.src}/>
                 }
