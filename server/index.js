@@ -2,30 +2,17 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const massive = require('massive');
-const session = require('express-session');
 const helmet = require('helmet');
 const config = require('./config.js');
 const multer = require('multer');
-// const redis = require('redis');
-// const redisStore = require('connect-redis')(session);
-// const client = redis.createClient()
+
 const {dualSession, dualSessionConnect, dualSessionClean} = require('./express-dual-session/index.js')
 
 const app = module.exports = express();
 const multerParser = multer({ storage: multer.memoryStorage() })
 
 app.use(helmet())
-
 app.use(bodyParser.json());
-// app.use(session({
-//   secret: config.secret,
-//     resave: false,
-//     store: new redisStore({ host: 'localhost', port: 6379, client: client}),
-//     saveUninitialized: false,
-//     cookie:{
-//       maxAge: (1000*60*60*24*14) //this is 14 days
-//     }
-// }))
 
 massive(config.connection).then( db => {      // Returns database. See Massive docs for connection options
   dualSessionConnect(db).then( message => {   // Pass db to connect function
@@ -51,11 +38,6 @@ app.use(dualSession({                 // Once Dual Session is connected to db, u
   cookieName:"xs",                    // Choose a cookie name for the client
   maxAge: 1000 * 60 * 60 * 24 * 30    // How long until browser deletes session cookie. 
 }))
-
-app.use(function(req, res, next){
-  console.log('I am a test middleware')
-  next()
-})
 
 app.use(express.static(__dirname + './../build'))
 
