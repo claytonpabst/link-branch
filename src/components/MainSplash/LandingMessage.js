@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import LandingMessageFooter from './LandingMessageFooter.js'
-
 import './LandingMessage.css';
 // import { setInterval } from 'timers';
 
@@ -31,7 +29,6 @@ class LandingMessage extends Component {
                         </section>
                     </div>
                 </div>
-                {/* < LandingMessageFooter /> */}
             </div>
         )
     }

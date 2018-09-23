@@ -525,7 +525,7 @@ class EditProfile extends Component {
           <h3 style={{padding:"7px 13px"}}><pre style={piece.style}>{piece.text}</pre></h3>
           {this.props.edit &&
             <img 
-              src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
+              src="https://cdn1.iconfinder.com/data/icons/dashboard-line-style-1/32/dashboard__Writing-512.png"
               onClick={(e) =>{e.stopPropagation(); this.editTextModel("sections."+i.toString()+".pieces."+j.toString()+".text", piece, piece.text, "sections."+i.toString()+".pieces."+j.toString()+".style")}}
               style={{
                 top:"2px",
@@ -546,7 +546,7 @@ class EditProfile extends Component {
           <img className="edit-profile_project-image" src={piece.img.src} onError={(e)=>{e.target.src="https://d30y9cdsu7xlg0.cloudfront.net/png/396915-200.png"}}/>
           {this.props.edit &&
             <img 
-              src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
+              src="https://cdn1.iconfinder.com/data/icons/dashboard-line-style-1/32/dashboard__Writing-512.png"
               onClick={(e) =>{e.stopPropagation(); this.editImageModel("sections."+i.toString()+".pieces."+j.toString()+".img.src", piece, piece.img.src)}}
               style={{
                 top:"2px",
@@ -559,7 +559,7 @@ class EditProfile extends Component {
         <div style={{position:"relative"}}>
           {this.props.edit &&
             <img 
-              src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
+              src="https://cdn1.iconfinder.com/data/icons/dashboard-line-style-1/32/dashboard__Writing-512.png"
               onClick={(e) =>{e.stopPropagation(); this.editTextModel("sections."+i.toString()+".pieces."+j.toString()+".title.text", piece, piece.title.text, "sections."+i.toString()+".pieces."+j.toString()+".title.style", false, "Project Title")}}
               style={{
                 top:"2px",
@@ -605,7 +605,7 @@ class EditProfile extends Component {
             <img className="profile_profile-image" style={{width:"170px", height:"170px",}} src={profileData.img.src}/>
             {this.props.edit &&
               <img 
-                src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
+                src="https://cdn1.iconfinder.com/data/icons/dashboard-line-style-1/32/dashboard__Writing-512.png"
                 onClick={(e) => {e.stopPropagation(); this.editImageModel("img.src", profileData.img, profileData.img.src)}}
                 style={{top:"2px",left:"10px",}}
                 className="profile_link-model-x edit-profile_edit-icon"
@@ -616,7 +616,7 @@ class EditProfile extends Component {
             <h1 style={profileData.name.style}>{profileData.name.text}</h1>
             {this.props.edit &&
               <img 
-                src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
+                src="https://cdn1.iconfinder.com/data/icons/dashboard-line-style-1/32/dashboard__Writing-512.png"
                 onClick={(e) => {e.stopPropagation(); this.editTextModel("name.text", null, profileData.name.text, "name.style")}}
                 style={{top:"2px",left:"10px",}}
                 className="profile_link-model-x edit-profile_edit-icon"
@@ -627,7 +627,7 @@ class EditProfile extends Component {
           {this.props.edit &&
             <Fragment>
               <div style={{position:"absolute", bottom:"8px", right:"5px",display:"flex",}}>
-                <div onDragOver={(e) => e.preventDefault()} onDrop={(e) => this.deleteSection(e)} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="http://icons.iconarchive.com/icons/icons8/ios7/256/Messaging-Trash-icon.png"/></div>
+                <div onDragOver={(e) => e.preventDefault()} onDrop={(e) => this.deleteSection(e)} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-trash-b-512.png"/></div>
                 <div onClick={this.addSection} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://cdn4.iconfinder.com/data/icons/ios7-essence/22/add_plus-512.png"/></div>
               </div>
             </Fragment>
@@ -641,13 +641,13 @@ class EditProfile extends Component {
                   {this.props.edit &&
                     <Fragment>
                       <img 
-                        src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
+                        src="https://cdn1.iconfinder.com/data/icons/dashboard-line-style-1/32/dashboard__Writing-512.png"
                         onClick={(e) => {e.stopPropagation(); this.editTextModel("sections."+i.toString()+".title.text", null, section.title.text, "sections."+i.toString()+".title.style")}}
                         style={{top:"2px",left:"-5px",}}
                         className="profile_link-model-x edit-profile_edit-icon"
                       />
                       <div style={{position:"absolute", right:"5px",display:"flex",}}>
-                        <div onDragOver={(e) => e.preventDefault()} onDrop={(e) => this.deleteSection(e)} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="http://icons.iconarchive.com/icons/icons8/ios7/256/Messaging-Trash-icon.png"/></div>
+                        <div onDragOver={(e) => e.preventDefault()} onDrop={(e) => this.deleteSection(e)} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-trash-b-512.png"/></div>
                         <div onClick={() => this.addTextPiece(i)} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://www.shareicon.net/data/512x512/2015/08/29/92770_write_512x512.png"/></div>
                         <div onClick={() => this.addProjectPiece(i)} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://d30y9cdsu7xlg0.cloudfront.net/png/396915-200.png"/></div>
                         {/* <div onClick={() => this.addProjectPiece(i)} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://cdn4.iconfinder.com/data/icons/cinema-outline-icon-set/30/camera-512.png"/></div> */}
@@ -715,7 +715,7 @@ class EditProfile extends Component {
                 </div>
                 <CopyToClipboard text={window.location.host+'/#u/'+this.state.profileUsername+"/"+this.formatTitleForParams(this.state.modelData.title.text)}><button 
                   // onClick={(e) => {e.preventDefault(); this.copyToClipboard(e, window.location.host+'/#u/'+this.state.profileUsername+"/"+this.formatTitleForParams(this.state.modelData.title.text))}}
-                  onClick={(e) => {e.preventDefault(); this.copyToClipboard(e, window.location.host+'/#u/'+this.state.profileUsername+"/"+this.formatTitleForParams(this.state.modelData.title.text))}}
+                  onClick={(e) => {e.preventDefault(); this.copyToClipboard(e, window.location.host+'/u/'+this.state.profileUsername+"/"+this.formatTitleForParams(this.state.modelData.title.text))}}
                   style={{position:"absolute", lineHeight:"40px", background:'#e33737', width:"80px", borderRadius:"5px", textAlign:"center", top:"75px", left:"10px", color:"white", fontWeight:"bold"}}
                   className="profile_link-model-x"
                 >
@@ -743,7 +743,7 @@ class EditProfile extends Component {
                           <div style={{position:"relative"}}>
                             {this.props.edit &&
                               <img 
-                                src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
+                                src="https://cdn1.iconfinder.com/data/icons/dashboard-line-style-1/32/dashboard__Writing-512.png"
                                 onClick={(e) =>{
                                   e.stopPropagation(); 
                                   this.editImageModel(
@@ -766,7 +766,7 @@ class EditProfile extends Component {
                           <div style={{position:"relative"}} className="profile_link-piece-go">
                             {this.props.edit &&
                               <img 
-                                src="http://www.vicksdesign.com/products/pencil-icon-6-B1.png"
+                                src="https://cdn1.iconfinder.com/data/icons/dashboard-line-style-1/32/dashboard__Writing-512.png"
                                 onClick={(e) =>{
                                   e.stopPropagation(); 
                                   this.editTextModel(
