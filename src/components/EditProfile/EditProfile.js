@@ -99,7 +99,9 @@ class EditProfile extends Component {
   
   componentDidUpdate = (prevProps, prevState) => {
     this.setProjectPiecesHeight()
-    this.checkIfAssetsNeedSavingToDb(prevState)
+    if(this.props.edit){
+      this.checkIfAssetsNeedSavingToDb(prevState)
+    }
   }
   
   componentWillUnmount(){
@@ -109,6 +111,7 @@ class EditProfile extends Component {
 
   checkIfAssetsNeedSavingToDb = (prevState) => {
     if(JSON.stringify(this.state.profileData) !== JSON.stringify(prevState.profileData)){
+      console.log('should save')
       this.updateAssetsInDbTimeout()
     }
   }
@@ -154,6 +157,7 @@ class EditProfile extends Component {
   }
 
   updateAssetsInDbTimeout = () => {
+    if(!this.props.edit){return}
     let self = this
     if(!this.state.assetsInDbShouldUpdate){
       window.addEventListener("beforeunload", this.onUnloadCleanup)
@@ -668,6 +672,7 @@ class EditProfile extends Component {
   }
 
   render() {
+    console.log(this.state)
     let profileDataString = JSON.stringify(this.state.profileData)
     let profileDataLength = profileDataString.length
     let profileData = JSON.parse(profileDataString); // this line is needed because of how the editDataPoint function works with updating style; react treats style attr as a prop that has to go through this.setState, which I'm not using in that function.
