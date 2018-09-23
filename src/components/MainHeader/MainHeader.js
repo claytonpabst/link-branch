@@ -32,7 +32,7 @@ class MainHeader extends Component {
                 <button className="main-header_sign-in-button" onClick={global.state.authenticated ? global.toggleSignOutModel : global.toggleSignInModel}>{global.state.authenticated ? this.buildUsername(global.state.username) : "Sign In/Sign Up"}</button>
               </div>
               <div style={{float:"right"}} onClick={this.props.toggleMobileMenu}>
-                <img src="http://cdn.onlinewebfonts.com/svg/img_113945.png" />
+                <img src="https://cdn4.iconfinder.com/data/icons/wirecons-free-vector-icons/32/menu-alt-512.png" />
               </div>
             </div>
           )}
