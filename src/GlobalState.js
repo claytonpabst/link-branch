@@ -46,7 +46,7 @@ class GlobalState extends Component {
       this.handleAuthRes(res)
       this.props.history.push("/edit")
     }).catch(err => {
-      alert('Incorrect username or password.')
+      if(err.message){alert(err.message)}
       this.setState({showLoadingModel:false})
       console.log(err)
     })
@@ -66,7 +66,7 @@ class GlobalState extends Component {
     axios.post('/api/signUp', input).then(res => {
       this.handleAuthRes(res)
     }).catch(err => {
-      alert('Account creation failed. Username possibly taken.')
+      if(err.message){alert(err.message)}
       this.setState({showLoadingModel:false})
       console.log(err)
     })

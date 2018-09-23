@@ -97,7 +97,7 @@ module.exports = {
         })
       }).catch(err => {
         console.log(err);
-        res.status(500).send(err);
+        res.status(500).send({message:"Account creation failed. Username taken."});
       })
     })
   },
