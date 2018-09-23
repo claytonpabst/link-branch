@@ -94,7 +94,7 @@ class SignUpPopover extends React.Component {
               className="btn sign-in_log-in-button"
               onClick={(e) => {e.preventDefault(); e.stopPropagation(); props.global.toggleSignUpModel(); props.global.toggleSignInModel()}}
             >
-              Log In
+              Sign In
             </button>
           </form>
         </div>

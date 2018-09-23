@@ -44,7 +44,7 @@ class LoginModel extends React.Component {
                     }
                   }
                 >
-                  Log In
+                  Sign In
                 </button>
                 <small id="sign-in_forgot-password" className="form-text">Forgot Password?</small>
                 <p style={{textAlign:'center', padding:'10px', color:'#777', fontWeight:'bold'}}>_____________ or _____________</p>

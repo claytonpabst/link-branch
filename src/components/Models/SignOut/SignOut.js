@@ -32,7 +32,7 @@ export default function LogoutPopover(props) {
                   }
                 }
               >
-                Log Out
+                Sign Out
               </button>
           </div>
         </div>
