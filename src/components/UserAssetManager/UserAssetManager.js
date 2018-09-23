@@ -42,7 +42,7 @@ class UserAssetManager extends React.Component {
     })
   }
   
-  imageUpload = (e) => {
+  setImage = (e) => {
     if(this.overLimit){
       alert("Max assets reached. Delete an asset to upload something new.")
       return
@@ -51,8 +51,13 @@ class UserAssetManager extends React.Component {
     let self = this
     this.setState({showLoadingModel:true, loadingModelHeader:"Optimizing..."})
     imageCompressor.handleImageUpload(e, function(img){
+      var reader = new FileReader();
+      reader.onloadend = function() {
+        self.setState({assetToUpload:reader.result})
+      }
+      reader.readAsDataURL(img);
       let src = window.URL.createObjectURL(img)
-      self.setState({assetToUpload:img, assetToUploadSrc:src, showLoadingModel:false, loadingModelHeader:null})
+      self.setState({assetToUploadSrc:src, showLoadingModel:false, loadingModelHeader:null})
     })
     e.target.value = ''
   }
@@ -60,9 +65,7 @@ class UserAssetManager extends React.Component {
   sendImageToServer = () => {
     if(!this.state.assetToUpload){return}
     this.setState({showLoadingModel:true, loadingModelHeader:"Uploading..."})
-    let formData = new FormData()
-    formData.append('asset', this.state.assetToUpload, this.state.assetToUpload.name)
-    axios.post('/api/uploadAsset', formData).then(res => {
+    axios.post('/api/uploadAsset', {asset:this.state.assetToUpload}).then(res => {
       // if(res.data.message){alert(res.data.message)}
       this.getAssets()
       this.setState({assetToUploadSrc:"https://d30y9cdsu7xlg0.cloudfront.net/png/396915-200.png", assetToUpload: null, showLoadingModel:false, loadingModelHeader:null})
@@ -124,7 +127,9 @@ class UserAssetManager extends React.Component {
         </div>
         <div className="user-asset-manager_new-asset">
           <div style={{display:'block', margin:"0 auto"}} className="user-asset-manager_one-asset user-asset-manager_new-asset-image">
-            <input type="file" accept="image/*" onChange={(e) => this.imageUpload(e)} style={{position:"absolute", width:"100%", height:"100%", opacity:"0.0"}}/>
+            <form id="assetInput">
+              <input name="asset" type="file" accept="image/*" onChange={(e) => this.setImage(e)} style={{position:"absolute", width:"100%", height:"100%", opacity:"0.0"}}/>
+            </form>
             <img style={{width:'100%', height:'100%'}} src={this.state.assetToUploadSrc}/>
           </div>
           <button className={this.state.assetToUpload ? 'user-asset-manager_new-asset-button-active' : 'user-asset-manager_new-asset-button-inactive' } onClick={this.sendImageToServer}>Upload</button>

@@ -508,7 +508,7 @@ class EditProfile extends Component {
     // textField.select()
     // document.execCommand('copy')
     // textField.remove()
-    e.target.innerText = "COPIED"
+    e.target.innerText = "COPIED" // other library is handling cody, this just updates the text in the button
   }
 
   //--------------End of this.params handling functions --------------------//
@@ -646,7 +646,7 @@ class EditProfile extends Component {
                         <div onDragOver={(e) => e.preventDefault()} onDrop={(e) => this.deleteSection(e)} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="http://icons.iconarchive.com/icons/icons8/ios7/256/Messaging-Trash-icon.png"/></div>
                         <div onClick={() => this.addTextPiece(i)} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://www.shareicon.net/data/512x512/2015/08/29/92770_write_512x512.png"/></div>
                         <div onClick={() => this.addProjectPiece(i)} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://d30y9cdsu7xlg0.cloudfront.net/png/396915-200.png"/></div>
-                        <div onClick={() => this.addProjectPiece(i)} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://cdn4.iconfinder.com/data/icons/cinema-outline-icon-set/30/camera-512.png"/></div>
+                        {/* <div onClick={() => this.addProjectPiece(i)} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://cdn4.iconfinder.com/data/icons/cinema-outline-icon-set/30/camera-512.png"/></div> */}
                       </div>
                     </Fragment>
                   }
@@ -732,7 +732,6 @@ class EditProfile extends Component {
                 }
                 <div className="profile_links-wrapper">
                   {(() => {
-                    console.log("yeah", this.state)
                     return this.state.profileData.sections[this.state.currentSectionIndex].pieces[this.state.currentPieceIndex].links.map((link, k) => {
                       return (
                         <div draggable="true" onDragStart={(e) => {e.stopPropagation(); this.recordDragEvent(e, this.state.currentSectionIndex, this.state.currentPieceIndex, k)}} className="profile_link-piece" key={k}>

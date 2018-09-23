@@ -8,14 +8,17 @@ cloudinary.config(config.cloudinary);
 module.exports = {
 
   uploadAsset: function(req, res){
+    // console.log(req.body, req.file)
     if(!req.session || !req.session.id){
       res.status(500).send(); return
     }
-    console.log(req.file)
-    cloudinary.v2.uploader.upload_stream({
-      //options
-    }, function(error, image) {
+    if(!req.body.asset){
+      res.status(500).send({message:"There was an error recieving the media."}); 
+      return 
+    }
+    cloudinary.v2.uploader.upload(req.body.asset, function(error, image) {
       if(error){ 
+        console.log(error)
         res.status(500).send({message:error}); 
         return 
       }
@@ -31,7 +34,7 @@ module.exports = {
         res.status(500).send()
         return
       })
-    }).end(req.file.buffer);
+    })
   },
 
   getAssets: function(req, res){

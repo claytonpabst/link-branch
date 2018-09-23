@@ -89,7 +89,6 @@ class GlobalState extends Component {
   }
 
   render() {
-    console.log(this)
     return (
       <Provider 
         value={{
