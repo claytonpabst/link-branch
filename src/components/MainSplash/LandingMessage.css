@@ -48,6 +48,10 @@
   transform: scale(.8, 1);
   text-align: center;
 }
+.section1LeftTitle{
+  font-size: 80px !important;
+  margin: 15px 0px;
+}
 .section1LeftContent h3{
   color: rgb(255, 255, 255);
   text-shadow: 1px 1px #525252;
@@ -145,6 +149,9 @@
       height: auto;
       margin: 0 auto;
       text-align: center;
+  }
+  .section1LeftTitle{
+    font-size: 40px !important;
   }
 
   .section1LeftContent h1{

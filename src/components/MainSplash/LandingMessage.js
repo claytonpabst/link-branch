@@ -19,7 +19,7 @@ class LandingMessage extends Component {
                 <div className='section1'>
                     <div className='section1Left'>
                         <div className='section1LeftContent'>
-                            <h1>Link Riff:</h1>
+                            <h1 className="section1LeftTitle">Link Riff</h1>
                             <h1>Share Every Link</h1>
                             <h1>With One Link</h1>
                             <h3>Now with customizable layouts</h3>
