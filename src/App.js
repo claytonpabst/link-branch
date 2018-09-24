@@ -7,11 +7,13 @@ import Consumer from './GlobalState.js'
 import MainSplash from './components/MainSplash/MainSplash.js'
 import MobileMenu from "./components/MobileMenu/MobileMenu.js"
 import MainHeader from "./components/MainHeader/MainHeader.js"
+import MainFooter from "./components/MainFooter/MainFooter.js"
 import SignInModel from './components/Models/SignIn/SignIn.js'
 import SignUpModel from './components/Models/SignUp/SignUp.js'
 import SignOutModel from './components/Models/SignOut/SignOut.js'
 import LoadingModel from './components/Models/Loading/Loading.js'
 import PageNotFound from './components/PageNotFound/PageNotFound.js'
+import HowItWorks from './components/HowItWorks/HowItWorks.js'
 
 import EditProfile from './components/EditProfile/EditProfile.js';
 import UserAssetManager from './components/UserAssetManager/UserAssetManager.js';
@@ -68,6 +70,7 @@ class App extends Component {
                   <Switch>
                   
                     <Route path="/u/:user/:project?" render={(props) => <EditProfile user={props.match.params.user} project={props.match.params.project} edit={false}/>} />
+                    <Route path='/info' component={HowItWorks} />
                     {global.state.authenticated && <Route render={()=><EditProfile edit={true}/>} path="/edit" />}
                     {global.state.authenticated && <Route render={()=><UserAssetManager/>} path="/assets" />}
                     <Route path="/" render={() => <MainSplash toggleSignUpModel={global.toggleSignUpModel} />}/>
@@ -76,6 +79,8 @@ class App extends Component {
       
                   </Switch>
                 </div>
+
+                <MainFooter />
 
                 <MobileMenu toggleSignInModel={global.toggleSignInModel} toggleSignOutModel={global.toggleSignOutModel} authenticated={global.state.authenticated} mobileMenuStyle={this.state.mobileMenuStyle} toggleMobileMenu={this.toggleMobileMenu} />
                 <div className="app_opacity" style={{opacity:modelOpacity}}>

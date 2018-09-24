@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import {Link} from 'react-router-dom';
+
 import './LandingMessage.css';
 // import { setInterval } from 'timers';
 
@@ -17,10 +19,11 @@ class LandingMessage extends Component {
                 <div className='section1'>
                     <div className='section1Left'>
                         <div className='section1LeftContent'>
-                            <h1>Link Branch: Share All The</h1>
-                            <h1>Links With One Link</h1>
+                            <h1>Link Riff:</h1>
+                            <h1>Share Every Link</h1>
+                            <h1>With One Link</h1>
                             <h3>Now with customizable layouts</h3>
-                            <p>Learn More >></p>
+                            <Link style={{textDecoration:"none"}} to="/info"><p>Learn More >></p></Link>
                         </div>
                     </div>
                     <div className='section1Right'>
