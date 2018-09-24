@@ -51,6 +51,7 @@
     padding: 10px;
 }
 .profile_project-piece{
+    vertical-align: top;
     display: inline-block;
     width: 33.3%;
     padding: 5px;
