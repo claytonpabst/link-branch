@@ -1,3 +1,14 @@
+.pic-right_wrapper{
+  /* filter: brightness(50%) grayscale(100%); */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: fit-content;
+  /* max-width: 1320px; */
+  /* margin: 0 auto; */
+  /* padding: 500px; */
+}
 .pic-right_computer{
   position: relative;
   width: 500px;
@@ -8,17 +19,6 @@
   background-repeat: no-repeat;
   border: 2px solid black;
   border-radius: 5px;
-}
-.pic-right_wrapper{
-  /* filter: brightness(50%) grayscale(100%); */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  width: 100%;
-  height: fit-content;
-  max-width: 1320px;
-  margin: 0 auto;
-  /* padding: 500px; */
 }
 .pic-right_half{
   vertical-align: top;

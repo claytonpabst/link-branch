@@ -70,7 +70,7 @@ class App extends Component {
                   <Switch>
                   
                     <Route path="/u/:user/:project?" render={(props) => <EditProfile user={props.match.params.user} project={props.match.params.project} edit={false}/>} />
-                    <Route path='/info' component={HowItWorks} />
+                    <Route path='/info' render={() => <HowItWorks toggleSignUpModel={global.toggleSignUpModel} />}/>
                     {global.state.authenticated && <Route render={()=><EditProfile edit={true}/>} path="/edit" />}
                     {global.state.authenticated && <Route render={()=><UserAssetManager/>} path="/assets" />}
                     <Route path="/" render={() => <MainSplash toggleSignUpModel={global.toggleSignUpModel} />}/>

@@ -23,7 +23,7 @@ class LandingMessage extends Component {
                             <h1>Share Every Link</h1>
                             <h1>With One Link</h1>
                             <h3>Now with customizable layouts</h3>
-                            <Link style={{textDecoration:"none"}} to="/info"><p>Learn More >></p></Link>
+                            <Link style={{textDecoration:"none"}} to="/info"><p style={{width:"200px", margin:"10px auto 10px auto", display:"block", padding:"20px 20px", borderRadius:"5px", background:"#e33737", color:"white"}}>Learn More >></p></Link>
                         </div>
                     </div>
                     <div className='section1Right'>

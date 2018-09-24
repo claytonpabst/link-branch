@@ -22,6 +22,7 @@
 
 .section1Left{
   /* background: white; */
+  margin-top: -50px;
   height: 310px;
   width: 50%;
   margin-right: -6%;
@@ -126,7 +127,7 @@
 @media (max-width: 950px){
   .landing-message_wrapper{
     padding: 0px 0;
-    height: 800px;
+    height: 900px;
   }
   .section1RightPhone{
     top: 0px;
