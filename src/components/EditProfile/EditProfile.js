@@ -713,7 +713,7 @@ class EditProfile extends Component {
                 >
                   x
                 </div>
-                <CopyToClipboard text={window.location.host+'/#u/'+this.state.profileUsername+"/"+this.formatTitleForParams(this.state.modelData.title.text)}><button 
+                <CopyToClipboard text={window.location.host+'/u/'+this.state.profileUsername+"/"+this.formatTitleForParams(this.state.modelData.title.text)}><button 
                   // onClick={(e) => {e.preventDefault(); this.copyToClipboard(e, window.location.host+'/#u/'+this.state.profileUsername+"/"+this.formatTitleForParams(this.state.modelData.title.text))}}
                   onClick={(e) => {e.preventDefault(); this.copyToClipboard(e, window.location.host+'/u/'+this.state.profileUsername+"/"+this.formatTitleForParams(this.state.modelData.title.text))}}
                   style={{position:"absolute", lineHeight:"40px", background:'#e33737', width:"80px", borderRadius:"5px", textAlign:"center", top:"75px", left:"10px", color:"white", fontWeight:"bold"}}
