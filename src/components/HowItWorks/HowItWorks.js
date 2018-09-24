@@ -38,7 +38,7 @@ class HowItWorks extends React.Component {
             <h1>Layout</h1>
           )}
         </ PageNameHeader >
-        <div style={{backgroundImage:"url(https://images.unsplash.com/photo-1506157999258-a35364384ce9?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=b72bcc7ed5534b9407f952eb254e1e65&auto=format&fit=crop&w=500&q=60)"}} className="pic-right_wrapper">
+        <div style={{backgroundImage:"url(https://images.unsplash.com/photo-1483101974978-cf266fdf1139?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=250711afae03c79108409b3e0fa17862&auto=format&fit=crop&w=500&q=60)"}} className="pic-right_wrapper">
           <div className="pic-right_half">
             <img className="pic-right_computer" src="https://res.cloudinary.com/linkbranch/image/upload/v1537764781/Screen_Shot_2018-09-23_at_10.52.29_PM.png"/>
           </div>
@@ -54,10 +54,10 @@ class HowItWorks extends React.Component {
             <h1>Links</h1>
           )}
         </ PageNameHeader >
-        <div style={{backgroundImage:"url(https://images.unsplash.com/photo-1506157491319-81aab3add711?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=3002886ba2b7a4c7be12e9d353a23a79&auto=format&fit=crop&w=500&q=60)"}} className="pic-right_wrapper">
+        <div style={{backgroundImage:"url(https://images.unsplash.com/photo-1473691955023-da1c49c95c78?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=4566b286b94fa90fc5b721ab1fa082e7&auto=format&fit=crop&w=500&q=60)"}} className="pic-right_wrapper">
           <div className="pic-right_half">
             <section>
-              <h1>Find Fan Platforms</h1>
+              <h1>Choose Top Platforms</h1>
               <h1>And Add Links</h1>
             </section>
           </div>
@@ -70,13 +70,13 @@ class HowItWorks extends React.Component {
             <h1>Share</h1>
           )}
         </ PageNameHeader >
-        <div style={{backgroundImage:"url(https://images.unsplash.com/photo-1517332998425-de3a0f3fc185?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=bc3bbad6b4192056e8fc3627295cb688&auto=format&fit=crop&w=500&q=60)"}} className="pic-right_wrapper">
+        <div style={{backgroundImage:"url(https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=ae8584287da6fac5895bbe4fb80f9f5f&auto=format&fit=crop&w=500&q=60)"}} className="pic-right_wrapper">
           <div className="pic-right_half">
             <img className="pic-right_computer" src="https://res.cloudinary.com/linkbranch/image/upload/v1537765480/Screen_Shot_2018-09-23_at_11.03.59_PM.png"/>
           </div>
           <div className="pic-right_half">
             <section>
-              <h1>Share Your Project</h1>
+              <h1>Share Your Projects</h1>
               <h1>With ONE Link</h1>
             </section>
           </div>
