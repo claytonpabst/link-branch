@@ -11,7 +11,7 @@ class PageNotFound extends React.Component {
 
   render(){
     return (
-      <div>Um.... 404, page not found.</div>
+      <div style={{fontSize:"70px", width:"100%", textAlign:"center"}}>Um.... 404, page not found.</div>
     )
   }
 }
