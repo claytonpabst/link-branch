@@ -51,6 +51,7 @@ class UserAssetManager extends React.Component {
     let self = this
     this.setState({showLoadingModel:true, loadingModelHeader:"Optimizing..."})
     imageCompressor.handleImageUpload(e, function(img){
+      // console.log(img)
       var reader = new FileReader();
       reader.onloadend = function() {
         self.setState({assetToUpload:reader.result})
@@ -127,7 +128,7 @@ class UserAssetManager extends React.Component {
         </div>
         <div className="user-asset-manager_new-asset">
           <div style={{display:'block', margin:"0 auto"}} className="user-asset-manager_one-asset user-asset-manager_new-asset-image">
-            <form id="assetInput">
+            <form  id="assetInput">
               <input name="asset" type="file" accept="image/*" onChange={(e) => this.setImage(e)} style={{position:"absolute", width:"100%", height:"100%", opacity:"0.0"}}/>
             </form>
             <img style={{width:'100%', height:'100%'}} src={this.state.assetToUploadSrc}/>
