@@ -14,6 +14,7 @@ import SignOutModel from './components/Models/SignOut/SignOut.js'
 import LoadingModel from './components/Models/Loading/Loading.js'
 import PageNotFound from './components/PageNotFound/PageNotFound.js'
 import HowItWorks from './components/HowItWorks/HowItWorks.js'
+import Gps from './components/Gps/Gps.js'
 
 import EditProfile from './components/EditProfile/EditProfile.js';
 import UserAssetManager from './components/UserAssetManager/UserAssetManager.js';
@@ -71,6 +72,7 @@ class App extends Component {
                   
                     <Route path="/u/:user/:project?" render={(props) => <EditProfile user={props.match.params.user} project={props.match.params.project} edit={false}/>} />
                     <Route path='/info' render={() => <HowItWorks toggleSignUpModel={global.toggleSignUpModel} />}/>
+                    <Route path='/gps' render={() => <Gps/>}/>
                     {global.state.authenticated && <Route render={()=><EditProfile edit={true}/>} path="/edit" />}
                     {global.state.authenticated && <Route render={()=><UserAssetManager/>} path="/assets" />}
                     <Route path="/" exact render={() => <MainSplash toggleSignUpModel={global.toggleSignUpModel} />}/>
