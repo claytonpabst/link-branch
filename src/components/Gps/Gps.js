@@ -51,6 +51,9 @@ class Gps extends Component {
             <p>
               Mph:{this.state.position.coords.speed}
             </p>
+            <p>
+              Alt:{this.state.position.coords.altitude}
+            </p>
           </div>
         }
       </div>
