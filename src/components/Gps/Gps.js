@@ -5,6 +5,7 @@ class Gps extends Component {
     super(props)
 
     this.state = {
+      previousPosition: {},
       position: {},
       currentTripDistance:[]
     }
@@ -41,7 +42,10 @@ class Gps extends Component {
   }
 
   getDistance = (lat, long, alt) => {
+    if(this.state.previousPosition.coords){
 
+    }
+    this.setState({previousPosition:this.state.position})
   }
 
   render() {
@@ -59,7 +63,7 @@ class Gps extends Component {
               Mph: {(this.state.position.coords.speed * 60 * 60) / this.metersInMile}
             </p>
             <p>
-              Alt: {this.state.position.coords.altitude * this.state.feetInMeter} ft
+              Alt: {this.state.position.coords.altitude * this.feetInMeter} ft
             </p>
           </div>
         }
