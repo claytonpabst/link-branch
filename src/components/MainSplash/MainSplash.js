@@ -3,6 +3,7 @@ import React from 'react';
 import PageNameHeader from './../PageNameHeader/PageNameHeader.js';
 import LandingMessage from './LandingMessage.js';
 import PictureWithMessage from './PictureWithMessage.js';
+import UserTutorial from './UserTutorial.js';
 
 class MainSplash extends React.Component {
   constructor(props){
@@ -22,6 +23,12 @@ class MainSplash extends React.Component {
           )}
         </ PageNameHeader >
         < LandingMessage />
+        < PageNameHeader>
+          {() => (
+            <h1>TRY IT OUT</h1>
+          )}
+        </ PageNameHeader >
+        <UserTutorial edit={true}/>
         < PageNameHeader>
           {() => (
             <h1>PLAY MORE</h1>

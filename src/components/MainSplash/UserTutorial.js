@@ -1,50 +1,203 @@
 import React, { Component, Fragment } from 'react';
-import AnyChart from 'anychart-react'
-import { Link } from 'react-router-dom'
-import axios from 'axios';
 import {CopyToClipboard} from 'react-copy-to-clipboard'
 
-import EditImageModel from './EditImageModel.js';
+import EditImageModel from './UTEditImageModel.js';
 import LoadingModel from './../Models/Loading/Loading.js';
 
-import './EditProfile.css';
-import './Profile.css';
-import './../../App.css';
+// import './EditProfile.css';
+// import './Profile.css';
+// import './../../App.css';
 
-let saveAssetsToDbTimeout = null
-
-class EditProfile extends Component {
+class UserTutorial extends Component {
   constructor(props){
     super(props)
 
     this.state = {
       profileData:{
-        generalInfoStyle:{
-          background:"#fff",
+        "generalInfoStyle": {
+            "background": "#fff"
         },
-        style:{
-          background:"#fff",
+        "style": {
+            "background": "#fff"
         },
-        img:{
-          src:'',
-          style:{},
+        "img": {
+            "src": "https://res.cloudinary.com/linkbranch/image/upload/v1537431030/ne1w0nqttq3xd5k3hnwg.jpg",
+            "style": {}
         },
-        name:{
-          text:'',
-          style:{
-            fontSize:"30px",
-            fontWeight:"bolder",
-            lineHeight:"50px",
-            fontFamily:'"Comic Sans MS", cursive, sans-serif',
-            color:"maroon",
-          },
+        "name": {
+            "text": "Band Name Here",
+            "style": {
+                "fontSize": "40px",
+                "fontWeight": "bolder",
+                "lineHeight": "50px",
+                "fontFamily": "Impact, Charcoal, sans-serif",
+                "color": "#34083e"
+            }
         },
-        profileViews:{
-          views:1000,
-          style:{},
+        "profileViews": {
+            "views": 1,
+            "style": {}
         },
-        sections:[],
-      },
+        "sections": [
+            {
+                "title": {
+                    "text": "Bio Example",
+                    "style": {
+                        "background": "#666",
+                        "fontSize": "30px",
+                        "fontWeight": "normal"
+                    }
+                },
+                "style": {
+                    "background": "#fff"
+                },
+                "pieces": [
+                    {
+                        "type": "TEXT",
+                        "text": "    If you’re writing bios for individual band members, this would look a bit different since some of the information would be repetitive. In that case, your musician bio could look at bit more like this format:\n\n    Write out some text about the band at the top. When you formed, your musical style, latest achievement, latest album and what you’re up to now.",
+                        "style": {
+                            "fontSize": "15px",
+                            "fontWeight": "normal",
+                            "lineHeight": "20px",
+                            "fontFamily": "\"Lucida Sans Unicode\", \"Lucida Grande\", sans-serif"
+                        }
+                    }
+                ]
+            },
+            {
+                "title": {
+                    "text": "Live Shows",
+                    "style": {
+                        "background": "#666",
+                        "fontSize": "30px",
+                        "fontWeight": "normal"
+                    }
+                },
+                "style": {
+                    "background": "#fff"
+                },
+                "pieces": [
+                    {
+                        "type": "PROJECT",
+                        "title": {
+                            "text": "10/13",
+                            "style": {
+                                "fontSize": "15px",
+                                "fontWeight": "bold"
+                            }
+                        },
+                        "img": {
+                            "src": "https://res.cloudinary.com/linkbranch/image/upload/v1537431223/natlveqheuwapyjmak53.jpg",
+                            "style": {}
+                        },
+                        "style": {},
+                        "links": [
+                            {
+                                "img": "https://res.cloudinary.com/linkbranch/image/upload/v1537387329/goxkhpmbgjcxf6xcjdzg.png",
+                                "href": ""
+                            },
+                            {
+                                "img": "https://res.cloudinary.com/linkbranch/image/upload/v1536961379/qcfveyxewmlboukllktu.jpg",
+                                "href": ""
+                            },
+                            {
+                                "img": "https://res.cloudinary.com/linkbranch/image/upload/v1536961368/thubqnp82h7effodgsdr.png",
+                                "href": ""
+                            }
+                        ]
+                    },
+                    {
+                        "type": "PROJECT",
+                        "title": {
+                            "text": "10/14",
+                            "style": {
+                                "fontSize": "15px",
+                                "fontWeight": "bold"
+                            }
+                        },
+                        "img": {
+                            "src": "https://res.cloudinary.com/linkbranch/image/upload/v1537431216/ycluhjyuwkpc6feubmva.jpg",
+                            "style": {}
+                        },
+                        "style": {},
+                        "links": []
+                    },
+                    {
+                        "type": "PROJECT",
+                        "title": {
+                            "text": "10/17",
+                            "style": {
+                                "fontSize": "15px",
+                                "fontWeight": "bold"
+                            }
+                        },
+                        "img": {
+                            "src": "https://res.cloudinary.com/linkbranch/image/upload/v1537431229/zu4ktmmd58jbxevqa4vg.jpg",
+                            "style": {}
+                        },
+                        "style": {},
+                        "links": []
+                    }
+                ]
+            },
+            {
+                "title": {
+                    "text": "Singles\n",
+                    "style": {
+                        "background": "#666",
+                        "fontSize": "30px",
+                        "fontWeight": "normal"
+                    }
+                },
+                "style": {
+                    "background": "#fff"
+                },
+                "pieces": [
+                    {
+                        "type": "PROJECT",
+                        "title": {
+                            "text": "Distance",
+                            "style": {
+                                "fontSize": "15px",
+                                "fontWeight": "bold"
+                            }
+                        },
+                        "img": {
+                            "src": "https://res.cloudinary.com/linkbranch/image/upload/v1537431236/fuxr2ke9lzvnkywls9p8.jpg",
+                            "style": {}
+                        },
+                        "style": {},
+                        "links": [
+                            {
+                                "img": "https://res.cloudinary.com/linkbranch/image/upload/v1537387329/goxkhpmbgjcxf6xcjdzg.png",
+                                "href": "https://www.spotify.com/us/"
+                            },
+                            {
+                                "img": "https://res.cloudinary.com/linkbranch/image/upload/v1536961379/qcfveyxewmlboukllktu.jpg",
+                                "href": "https://www.youtube.com/"
+                            },
+                            {
+                                "img": "https://res.cloudinary.com/linkbranch/image/upload/v1536961359/hjna87sojd32adjkd8ot.jpg",
+                                "href": "https://www.amazon.com/"
+                            },
+                            {
+                                "img": "https://res.cloudinary.com/linkbranch/image/upload/v1536961308/zedh3rsttcchgscta4tu.jpg",
+                                "href": ""
+                            },
+                            {
+                                "img": "https://res.cloudinary.com/linkbranch/image/upload/v1536961343/phvsqcqrwzwuxmapsmrj.png",
+                                "href": ""
+                            },
+                            {
+                                "img": "https://res.cloudinary.com/linkbranch/image/upload/v1536961319/p78ax4xlrl1lrq8hos0m.png",
+                                "href": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+        ]
+    },
       modelData:{},
       editText:"",
       styleBeingEdited:'',
@@ -80,60 +233,26 @@ class EditProfile extends Component {
       firstLoad:true
     }
 
-    this.overLimit = false
-
     this.linkModelRef = React.createRef()
     this.editTextModelRef = React.createRef()
     this.editImageModelRef = React.createRef()
 
     this.deleteSection = this.deleteSection.bind(this);
-    this.onUnloadCleanup = this.onUnloadCleanup.bind(this);
+
   }
 
-  //--------------Start of axios Functions --------------------//
-  
-  componentDidMount(){
-    this._isMounted = true
-    this.getProfileData()
-  }
-  
-  componentDidUpdate = (prevProps, prevState) => {
+  componentDidMount = () => {
     this.setProjectPiecesHeight()
-    if(this.props.edit){
-      this.checkIfAssetsNeedSavingToDb(prevState)
-    }
   }
-  
-  componentWillUnmount(){
-    this._isMounted = false
-    window.removeEventListener("beforeunload", this.onUnloadCleanup)
+  componentDidUpdate = () => {
+    this.setProjectPiecesHeight()
   }
 
-  checkIfAssetsNeedSavingToDb = (prevState) => {
-    if(JSON.stringify(this.state.profileData) !== JSON.stringify(prevState.profileData)){
-      console.log('should save')
-      this.updateAssetsInDbTimeout()
-    }
-  }
+  //----------------Start of Tutorial Functions---------------//
 
-  getProfileData = () => {
-    this.setState({loadingModelHeader:"Loading...", showLoadingModel:true})
-    if(this.props.edit){
-      axios.get('/api/getProfileDataForUser').then(res => {
-        this.setState({profileData:JSON.parse(res.data.profileData), userOnOwnAccount:true, showLoadingModel:false, profileUsername:res.data.profileUsername})
-      }).catch(err => {
-        console.log(err)
-      })
-    } else {
-      axios.get(`/api/getProfileDataForGuest?user=${this.props.user}`).then(res => {
-        this.setState({profileData:JSON.parse(res.data.profileData), showLoadingModel:false, profileUsername:res.data.profileUsername})
-        this.forceUpdate()
-        this.clickProjectFromParams()
-      }).catch(err => {
-        console.log(err)
-      })
-    }
-  }
+
+
+  //----------------End of Tutorial Functions---------------//
 
   setProjectPiecesHeight = () => {
     const projects = document.getElementsByClassName('edit-profile_project-image')
@@ -156,49 +275,6 @@ class EditProfile extends Component {
     this.closeEditImageModel()
   }
 
-  updateAssetsInDbTimeout = () => {
-    if(!this.props.edit){return}
-    let self = this
-    if(!this.state.assetsInDbShouldUpdate){
-      window.addEventListener("beforeunload", this.onUnloadCleanup)
-      this.setState({assetsInDbShouldUpdate:true})
-    }
-    if(saveAssetsToDbTimeout){
-      clearTimeout(saveAssetsToDbTimeout)
-    }
-    if(this.state.userOnOwnAccount){
-      saveAssetsToDbTimeout = setTimeout(function(){
-        self.updateAssetsInDb()
-      }, 10000)
-    }
-  }
-  updateAssetsInDb = () => {
-    if(this._isMounted){
-      this.setState({showLoadingModel:true, loadingModelHeader:"Saving..."})
-    }
-    axios.post('/api/updateProfileDataForUser', {profileData:this.state.profileData}).then(res => {
-      if(this._isMounted){
-        window.removeEventListener("beforeunload", this.onUnloadCleanup)
-        this.setState({showLoadingModel:false, assetsInDbShouldUpdate:false})
-      }
-    }).catch(err => {
-      console.log(err)
-    })
-  }
-
-  onUnloadCleanup(event){
-    this._isMounted = false
-    if(saveAssetsToDbTimeout){
-      clearTimeout(saveAssetsToDbTimeout)
-      saveAssetsToDbTimeout = null
-    }
-    if(this.state.assetsInDbShouldUpdate){
-      this.updateAssetsInDb()
-    }
-    event.returnValue = ''
-  }
-
-  //--------------End of Axios Functions --------------------//
   //--------------Start of Data Editing Functions --------------------//
   
   // pointer changes as this function calls inself to dig into the obj. 
@@ -228,7 +304,6 @@ class EditProfile extends Component {
         content = this.state.editText
       }
       profileData[pointer[0]] = content
-      this.updateAssetsInDbTimeout()
       this.forceUpdate()
       return;
     }
@@ -672,30 +747,17 @@ class EditProfile extends Component {
   }
 
   render() {
-    console.log(this.state.profileData, null, 4)
+    console.log(this.state)
     let profileDataString = JSON.stringify(this.state.profileData)
     let profileDataLength = profileDataString.length
     let profileData = JSON.parse(profileDataString); // this line is needed because of how the editDataPoint function works with updating style; react treats style attr as a prop that has to go through this.setState, which I'm not using in that function.
     let style = profileData.style
     this.overLimit = profileDataLength > 20000 ? true : false
     return (
-      <div style={{background:"#f5f5f5"}} className="App">
+      <div style={{padding:"20px", backgroundImage:"url('https://images.unsplash.com/photo-1524181385915-2104bc5514f1?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=3e8f46de0481eecf0cfae6264330d4fe&auto=format&fit=crop&w=500&q=60')"}} className="picture-with-message_background-div App">
         <div style={{background:"#f5f5f5"}} className="profile_profile-wrapper">
           { 
             this.buildSections(profileData)
-          }
-
-          {this.props.edit &&
-            <div style={{display:"block", margin:"30px auto", width:'300px', background:'pink'}}>
-              <AnyChart 
-                type="pie"
-                data={`Available,${20000-profileDataLength},green\nUsed,${20000-(20000-profileDataLength)}`}
-                title={`${this.numberToThousands(profileDataLength)} / 20,000 Units Used`}
-                width={300}
-                height={300}
-                
-              />
-            </div>
           }
 
           {/* --------------------------The above line executes all the HTML functions and builds the profile. Below is the return of different editing models------------------------------ */}
@@ -908,4 +970,4 @@ class EditProfile extends Component {
   }
 }
 
-export default EditProfile;
+export default UserTutorial;
