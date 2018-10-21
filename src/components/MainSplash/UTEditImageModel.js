@@ -1,6 +1,4 @@
 import React from 'react';
-import axios from 'axios';
-import {Link} from 'react-router-dom'
 
 import LoadingModel from './../Models/Loading/Loading.js';
 
@@ -32,10 +30,6 @@ class EditImageModel extends React.Component {
     }
   }
 
-  componentDidMount = () => {
-    this.getAssets()
-  }
-
   componentDidUpdate = () => {
     setTimeout(this.setProjectPiecesHeight, 400)
   }
@@ -51,32 +45,6 @@ class EditImageModel extends React.Component {
     }
   }
 
-  getAssets = () => {
-    if(!this.props.availableAssets){
-      this.setState({showLoadingModel:true, loadingModelHeader:"Fetching..."})
-      axios.get('/api/getAssets').then(res => {
-        this.setState({showLoadingModel:false, loadingModelHeader:null})
-        this.props.setAssetsToState(res.data.assets)
-      }).catch(err => {
-        alert("There was a problem retrieving assets.")
-        console.log(err)
-        this.setState({showLoadingModel:false, loadingModelHeader:null})
-      })
-    }
-  }
-
-  renderAssets = () => {
-    if(!this.props.availableAssets){return}
-    return (
-      this.props.availableAssets.map(asset => {
-        return (
-          <div onClick={() => {this.props.newImageSelected(asset.src)}} style={{width:"33.3%"}}>
-            <img className="edit-image-model_asset" style={{objectFit:"cover", width:"100%", padding:"5px", borderRadius:"5px"}} src={asset.src}/>
-          </div>
-        )
-      })
-    )
-  }
   renderCommonAssets = () => {
     return (
       this.state.commonAssets.map(asset => {
@@ -108,7 +76,6 @@ class EditImageModel extends React.Component {
           {/* <input type="file" accept="image/*" onChange={(e) => this.props.imageUpload(e)}/>
           <button onClick={() => {this.props.editDataPoint(this.props.editPointer); this.props.closeEditImageModel()}}>Update Image</button> */}
           <div style={{display:"flex", flexWrap:"wrap"}}>
-            {this.renderAssets()}
             {this.renderCommonAssets()}
           </div>
         </div>
