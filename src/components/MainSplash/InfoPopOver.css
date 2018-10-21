@@ -1,0 +1,23 @@
+.info-pop-over_wrapper{
+  position: fixed;
+  background: #333;
+  padding: 0px 20px;
+  border-radius: 5px;
+  animation: pulse 1s infinite;
+  color:white;
+}
+
+@keyframes pulse{
+  0%{
+    font-size: 10px;
+  }
+  40% {
+    font-size: 18px;
+  }
+  80% {
+    font-size: 10px;
+  }
+  100% {
+    font-size: 10px;
+  }
+}

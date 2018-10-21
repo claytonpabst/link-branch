@@ -3,6 +3,7 @@ import {CopyToClipboard} from 'react-copy-to-clipboard'
 
 import EditImageModel from './UTEditImageModel.js';
 import LoadingModel from './../Models/Loading/Loading.js';
+import InfoPopOver from './InfoPopOver.js';
 
 // import './EditProfile.css';
 // import './Profile.css';
@@ -243,6 +244,7 @@ class UserTutorial extends Component {
 
   componentDidMount = () => {
     this.setProjectPiecesHeight()
+    this.startTutorial()
   }
   componentDidUpdate = () => {
     this.setProjectPiecesHeight()
@@ -250,7 +252,9 @@ class UserTutorial extends Component {
 
   //----------------Start of Tutorial Functions---------------//
 
-
+  startTutorial = () => {
+    console.log(this.tutorial1.getBoundingClientRect())
+  }
 
   //----------------End of Tutorial Functions---------------//
 
@@ -691,6 +695,7 @@ class UserTutorial extends Component {
             <h1 style={profileData.name.style}>{profileData.name.text}</h1>
             {this.props.edit &&
               <img 
+                ref={el => this.tutorial1 = el}
                 src="https://cdn1.iconfinder.com/data/icons/dashboard-line-style-1/32/dashboard__Writing-512.png"
                 onClick={(e) => {e.stopPropagation(); this.editTextModel("name.text", null, profileData.name.text, "name.style")}}
                 style={{top:"2px",left:"10px",}}
@@ -759,6 +764,8 @@ class UserTutorial extends Component {
           { 
             this.buildSections(profileData)
           }
+
+          <InfoPopOver target={this.tutorial1} arrowSide="left"/>
 
           {/* --------------------------The above line executes all the HTML functions and builds the profile. Below is the return of different editing models------------------------------ */}
 
