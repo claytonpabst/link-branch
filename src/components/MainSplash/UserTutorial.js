@@ -315,7 +315,9 @@ class UserTutorial extends Component {
     if(index === this.state.tutorialTargetIndex){
       let tutorialTargetIndex = (parseInt(index) + 1).toString()
       this.setState({tutorialTargetIndex})
-      setTimeout(() => {this.scrollToNextTarget(tutorialTargetIndex)}, 700)
+      if(index === "8"){
+        setTimeout(() => {this.scrollToNextTarget(tutorialTargetIndex)}, 700)
+      }
     }
   }
 
