@@ -28,7 +28,7 @@ class MainSplash extends React.Component {
             <h1>TRY IT OUT</h1>
           )}
         </ PageNameHeader >
-        <UserTutorial edit={true}/>
+        <UserTutorial edit={true} toggleSignUpModel={this.props.toggleSignUpModel}/>
         < PageNameHeader>
           {() => (
             <h1>PLAY MORE</h1>

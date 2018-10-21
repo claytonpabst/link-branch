@@ -7,18 +7,17 @@ class InfoPopOver extends React.Component {
     super(props)
     this.state = {
       wrapperHeight: 0,
+      wrapperWidth: 0,
     }
 
     this.setWrapperHeight = this.setWrapperHeight.bind(this)
-  }
-
-  componentDidMount = () => {
   }
   
   setWrapperHeight(el) {
     console.log(el)
     let wrapperHeight = el ? el.getBoundingClientRect().height : 0
-    this.setState({wrapperHeight})
+    let wrapperWidth = el ? el.getBoundingClientRect().width : 0
+    this.setState({wrapperHeight, wrapperWidth})
   }
 
   render(){
@@ -29,21 +28,22 @@ class InfoPopOver extends React.Component {
     if(this.props.arrowSide === "left" && target){
       xLocation = {left:target.right + window.scrollX + 20}
     }else if(target){
-      xLocation = {right:target.left + window.scrollX + 20}
+      xLocation = {left:target.left + window.scrollX - 20 - this.state.wrapperWidth}
     }
 
     if(target){
       return (
-        <div ref={ this.setWrapperHeight } className="info-pop-over_wrapper" style={Object.assign({}, {top:target.top + window.scrollY - header.height - this.state.wrapperHeight + (target.height/2)}, xLocation)}>
+        <div id="info-pop-over_wrapper" ref={ this.setWrapperHeight } className="info-pop-over_wrapper" style={Object.assign({}, {width:"250px", top:target.top + window.scrollY - header.height - this.state.wrapperHeight + (target.height/2)}, xLocation)}>
           <br/>
           {/* <br/> */}
-          <p>Click the pencil to</p>
-          <p>change the band name.</p>
-          <p></p>
+          <p>-</p>
+          <p>{this.props.p1}</p>
+          <p>{this.props.p2}</p>
+          <p>{this.props.p3}</p>
           {this.props.arrowSide === "left" ?
             <div style={{left:"-15px", bottom:"-3px", position:"absolute", width:"20px", height:"20px", background:"#333", clipPath: "polygon(40% 0%, 40% 20%, 100% 20%, 100% 80%, 40% 80%, 40% 100%, 0% 50%)"}}></div>
           :
-            <div style={{left:"-15px", bottom:"-3px", position:"absolute", width:"20px", height:"20px", background:"#333", clipPath: "polygon(40% 0%, 40% 20%, 100% 20%, 100% 80%, 40% 80%, 40% 100%, 0% 50%)"}}></div>
+            <div style={{right:"-15px", bottom:"-3px", position:"absolute", width:"20px", height:"20px", background:"#333", clipPath: "polygon(0% 20%, 60% 20%, 60% 0%, 100% 50%, 60% 100%, 60% 80%, 0% 80%)"}}></div>
           }
         </div>
       )

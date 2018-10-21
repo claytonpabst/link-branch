@@ -1,6 +1,7 @@
 import React from 'react';
 
 import PageNameHeader from './../PageNameHeader/PageNameHeader.js';
+import UserTutorial from './../MainSplash/UserTutorial';
 
 import './PicRight.css';
 
@@ -90,6 +91,12 @@ class HowItWorks extends React.Component {
             <button onClick={this.props.toggleSignUpModel} style={{margin:"10px auto 35px auto", display:"block", padding:"10px 20px", borderRadius:"5px", background:"#e33737", color:"white"}}>Get Started</button>
           </div>
         </div>
+        < PageNameHeader>
+          {() => (
+            <h1>Try It Out</h1>
+          )}
+        </ PageNameHeader >
+        <UserTutorial edit={true} toggleSignUpModel={this.props.toggleSignUpModel}/>
       </div>
     )
   }

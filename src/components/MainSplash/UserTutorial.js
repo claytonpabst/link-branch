@@ -81,7 +81,7 @@ class UserTutorial extends Component {
                     {
                         "type": "PROJECT",
                         "title": {
-                            "text": "10/13",
+                            "text": "10/14",
                             "style": {
                                 "fontSize": "15px",
                                 "fontWeight": "bold"
@@ -110,7 +110,7 @@ class UserTutorial extends Component {
                     {
                         "type": "PROJECT",
                         "title": {
-                            "text": "10/14",
+                            "text": "10/13",
                             "style": {
                                 "fontSize": "15px",
                                 "fontWeight": "bold"
@@ -231,8 +231,68 @@ class UserTutorial extends Component {
       userOnOwnAccount:false,
       profileUsername:'',
       assetsInDbShouldUpdate:false,
-      firstLoad:true
+      firstLoad:true,
+
+      tutorialTargetIndex: "1",
     }
+
+    this.tutorialSections = [
+      {},
+      {
+        arrowSide:"left",
+        p1:"Click The Pencil To",
+        p2:"Change The Band Name",
+        p3:"-",
+      },
+      {
+        arrowSide:"left",
+        p1:"Click The Image's Pencil",
+        p2:"To Simply Swap To",
+        p3:"A New Image",
+      },
+      {
+        arrowSide:"left",
+        p1:"The Show Dates Are Wrong.",
+        p2:"Drag This Project To The",
+        p3:"Right To Fix It!",
+      },
+      {
+        arrowSide:"left",
+        p1:"Drag The Entire Singles",
+        p2:"Section Up To Help",
+        p3:"Showcase The New Song",
+      },
+      {
+        arrowSide:"right",
+        p1:"Drag Text, Images, Or",
+        p2:"Sections To Any Trash",
+        p3:"Icon To Delete",
+      },
+      {
+        arrowSide:"right",
+        p1:"Click To Add Text",
+        p2:"To A Section",
+        p3:"-",
+      },
+      {
+        arrowSide:"right",
+        p1:"Click To Add An",
+        p2:"Image To A",
+        p3:"Section",
+      },
+      {
+        arrowSide:"left",
+        p1:"Click A Project To",
+        p2:"Open It, Add Links,",
+        p3:"And Share.",
+      },
+      {
+        arrowSide:"left",
+        p1:"Make An Account And",
+        p2:"Share Your Music In",
+        p3:"Less Than 5 Minutes",
+      },
+    ]
 
     this.linkModelRef = React.createRef()
     this.editTextModelRef = React.createRef()
@@ -244,7 +304,6 @@ class UserTutorial extends Component {
 
   componentDidMount = () => {
     this.setProjectPiecesHeight()
-    this.startTutorial()
   }
   componentDidUpdate = () => {
     this.setProjectPiecesHeight()
@@ -252,8 +311,19 @@ class UserTutorial extends Component {
 
   //----------------Start of Tutorial Functions---------------//
 
-  startTutorial = () => {
-    console.log(this.tutorial1.getBoundingClientRect())
+  completeTutorial = (index) => {
+    if(index === this.state.tutorialTargetIndex){
+      let tutorialTargetIndex = (parseInt(index) + 1).toString()
+      this.setState({tutorialTargetIndex})
+      setTimeout(() => {this.scrollToNextTarget(tutorialTargetIndex)}, 700)
+    }
+  }
+
+  scrollToNextTarget = (tutorialTargetIndex) => {
+    window.scrollTo({
+      behavior:"smooth",
+      top:this["tutorialTarget" + tutorialTargetIndex].getBoundingClientRect().top + window.scrollY - 300
+    })
   }
 
   //----------------End of Tutorial Functions---------------//
@@ -620,13 +690,14 @@ class UserTutorial extends Component {
 
   buildProjectPiece = (piece, i, j) => {
     return(
-      <div onDragOver={() => this.pieceSwap(i, j)} draggable="true" onDragEnd={this.unRecordDragEvent} onDragStart={(e) => {e.stopPropagation(); this.recordDragEvent(e, i, j, null)}} onClick={() => this.showLinkModel(piece, i, j)} style={{background:"#fff"}} className="profile_project-piece" key={j}>
+      <div onDragOver={() => this.pieceSwap(i, j)} draggable="true" onDragEnd={this.unRecordDragEvent} onDragStart={(e) => {e.stopPropagation(); this.completeTutorial("3"); this.recordDragEvent(e, i, j, null)}} onClick={() => this.showLinkModel(piece, i, j)} style={{background:"#fff"}} className="profile_project-piece" key={j}>
         <div style={{position:"relative"}}>
-          <img className="edit-profile_project-image" src={piece.img.src} onError={(e)=>{e.target.src="https://d30y9cdsu7xlg0.cloudfront.net/png/396915-200.png"}}/>
+          <img onClick={() => {this.completeTutorial("8")}} ref={i===1 && j ===0 ? piece.title.text === "Distance" ? (el) => {this.tutorialTarget8 = el} : (el) => {this.tutorialTarget3 = el}  : null} className="edit-profile_project-image" src={piece.img.src} onError={(e)=>{e.target.src="https://d30y9cdsu7xlg0.cloudfront.net/png/396915-200.png"}}/>
           {this.props.edit &&
             <img 
+              ref={i===1 && j ===0 ? (el) => {this.tutorialTarget2 = el}  : null}
               src="https://cdn1.iconfinder.com/data/icons/dashboard-line-style-1/32/dashboard__Writing-512.png"
-              onClick={(e) =>{e.stopPropagation(); this.editImageModel("sections."+i.toString()+".pieces."+j.toString()+".img.src", piece, piece.img.src)}}
+              onClick={(e) =>{e.stopPropagation(); this.completeTutorial("2"); this.editImageModel("sections."+i.toString()+".pieces."+j.toString()+".img.src", piece, piece.img.src)}}
               style={{
                 top:"2px",
                 left:"10px",
@@ -695,9 +766,9 @@ class UserTutorial extends Component {
             <h1 style={profileData.name.style}>{profileData.name.text}</h1>
             {this.props.edit &&
               <img 
-                ref={el => this.tutorial1 = el}
+                ref={el => this.tutorialTarget1 = el}
                 src="https://cdn1.iconfinder.com/data/icons/dashboard-line-style-1/32/dashboard__Writing-512.png"
-                onClick={(e) => {e.stopPropagation(); this.editTextModel("name.text", null, profileData.name.text, "name.style")}}
+                onClick={(e) => {e.stopPropagation(); this.completeTutorial('1'); this.editTextModel("name.text", null, profileData.name.text, "name.style")}}
                 style={{top:"2px",left:"10px",}}
                 className="profile_link-model-x edit-profile_edit-icon"
               />
@@ -716,7 +787,7 @@ class UserTutorial extends Component {
         {
           profileData.sections.map((section, i) => {
             return(
-              <div onDragOver={() => this.sectionSwap(i)} draggable="true" onDragEnd={this.unRecordDragEvent} onDragStart={(e) => {this.recordDragEvent(e, i, null, null)}} style={section.style} className="profile_section-wrapper profile_section-spacer" key={i}>
+              <div onDragOver={() => this.sectionSwap(i)} draggable="true" onDragEnd={this.unRecordDragEvent} onDragStart={(e) => {this.completeTutorial("4"); this.recordDragEvent(e, i, null, null)}} style={section.style} className="profile_section-wrapper profile_section-spacer" key={i}>
                 <div style={{position:"relative"}}>
                   {this.props.edit &&
                     <Fragment>
@@ -727,14 +798,14 @@ class UserTutorial extends Component {
                         className="profile_link-model-x edit-profile_edit-icon"
                       />
                       <div style={{position:"absolute", right:"5px",display:"flex",}}>
-                        <div onDragOver={(e) => e.preventDefault()} onDrop={(e) => this.deleteSection(e)} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-trash-b-512.png"/></div>
-                        <div onClick={() => this.addTextPiece(i)} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://www.shareicon.net/data/512x512/2015/08/29/92770_write_512x512.png"/></div>
-                        <div onClick={() => this.addProjectPiece(i)} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://d30y9cdsu7xlg0.cloudfront.net/png/396915-200.png"/></div>
+                        <div ref={i===0 ? (el) => {this.tutorialTarget5 = el} : null} onClick={() => this.completeTutorial("5")} onDragOver={(e) => e.preventDefault()} onDrop={(e) => {this.deleteSection(e); this.completeTutorial("5")}} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-trash-b-512.png"/></div>
+                        <div ref={i===0 ? (el) => {this.tutorialTarget6 = el} : null} onClick={() => {this.addTextPiece(i); this.completeTutorial("6")}} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://www.shareicon.net/data/512x512/2015/08/29/92770_write_512x512.png"/></div>
+                        <div ref={i===0 ? (el) => {this.tutorialTarget7 = el} : null} onClick={() => {this.addProjectPiece(i); this.completeTutorial("7")}} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://d30y9cdsu7xlg0.cloudfront.net/png/396915-200.png"/></div>
                         {/* <div onClick={() => this.addProjectPiece(i)} style={{padding:"2px", border:"2px solid black", borderRadius:"5px", margin:"3px 10px"}}><img style={{height:"30px", width:"30px"}} src="https://cdn4.iconfinder.com/data/icons/cinema-outline-icon-set/30/camera-512.png"/></div> */}
                       </div>
                     </Fragment>
                   }
-                  <h2 style={section.title.style}>{section.title.text}</h2>
+                  <h2 style={section.title.style}>{section.title.text}</h2><p style={{position:"absolute", width:"150px", height:"80px", left:"0px", top:"0px"}} ref={i===2 ? (el) => {this.tutorialTarget4 = el}  : null}></p>
                 </div>
                 {
                   this.buildPieces(section, i)
@@ -759,13 +830,20 @@ class UserTutorial extends Component {
     let style = profileData.style
     this.overLimit = profileDataLength > 20000 ? true : false
     return (
-      <div style={{padding:"20px", backgroundImage:"url('https://images.unsplash.com/photo-1524181385915-2104bc5514f1?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=3e8f46de0481eecf0cfae6264330d4fe&auto=format&fit=crop&w=500&q=60')"}} className="picture-with-message_background-div App">
+      <div style={{padding:"20px 0px", backgroundImage:"url('https://images.unsplash.com/photo-1524181385915-2104bc5514f1?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=3e8f46de0481eecf0cfae6264330d4fe&auto=format&fit=crop&w=500&q=60')"}} className="picture-with-message_background-div App">
         <div style={{background:"#f5f5f5"}} className="profile_profile-wrapper">
           { 
             this.buildSections(profileData)
           }
+          <button ref={(el) => {this.tutorialTarget9 = el}} onClick={this.props.toggleSignUpModel} style={{margin:"10px auto 35px auto", display:"block", padding:"10px 20px", borderRadius:"5px", background:"#e33737", color:"white"}}>Get Started</button>
 
-          <InfoPopOver target={this.tutorial1} arrowSide="left"/>
+          <InfoPopOver 
+            target={this["tutorialTarget" + this.state.tutorialTargetIndex]} 
+            arrowSide={this.tutorialSections[parseInt(this.state.tutorialTargetIndex)].arrowSide} 
+            p1={this.tutorialSections[parseInt(this.state.tutorialTargetIndex)].p1} 
+            p2={this.tutorialSections[parseInt(this.state.tutorialTargetIndex)].p2} 
+            p3={this.tutorialSections[parseInt(this.state.tutorialTargetIndex)].p3}
+          />
 
           {/* --------------------------The above line executes all the HTML functions and builds the profile. Below is the return of different editing models------------------------------ */}
 
