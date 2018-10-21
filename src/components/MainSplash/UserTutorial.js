@@ -957,6 +957,7 @@ class UserTutorial extends Component {
               availableAssets={this.state.availableAssets}
               setAssetsToState={this.setAssetsToState}
               newImageSelected={this.newImageSelected}
+              tutorial={false}
             />
           }
           { this.state.showEditTextModel &&
