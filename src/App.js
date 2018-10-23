@@ -70,10 +70,10 @@ class App extends Component {
                 <div style={{filter:backgroundBlur}}>
                   <Switch>
                   
-                    <Route path="/u/:user/:project?" render={(props) => <EditProfile user={props.match.params.user} project={props.match.params.project} edit={false}/>} />
+                    <Route path="/u/:user/:project?" render={(props) => <EditProfile key="view-profile" user={props.match.params.user} project={props.match.params.project} edit={false}/>} />
                     <Route path='/info' render={() => <HowItWorks toggleSignUpModel={global.toggleSignUpModel} />}/>
                     <Route path='/gps' render={() => <Gps/>}/>
-                    {global.state.authenticated && <Route render={()=><EditProfile edit={true}/>} path="/edit" />}
+                    {global.state.authenticated && <Route render={()=><EditProfile key="edit-profile" edit={true}/>} path="/edit" />}
                     {global.state.authenticated && <Route render={()=><UserAssetManager/>} path="/assets" />}
                     <Route path="/" exact render={() => <MainSplash toggleSignUpModel={global.toggleSignUpModel} />}/>
 

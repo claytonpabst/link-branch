@@ -65,6 +65,7 @@ class GlobalState extends Component {
     this.setState({showLoadingModel:true})
     axios.post('/api/signUp', input).then(res => {
       this.handleAuthRes(res)
+      this.props.history.push("/edit")
     }).catch(err => {
       if(err.message){alert(err.message)}
       this.setState({showLoadingModel:false})
