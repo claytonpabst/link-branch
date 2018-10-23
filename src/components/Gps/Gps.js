@@ -65,6 +65,9 @@ class Gps extends Component {
             <p>
               Alt: {this.state.position.coords.altitude * this.feetInMeter} ft
             </p>
+            <p>
+              Something had to change....
+            </p>
           </div>
         }
       </div>
