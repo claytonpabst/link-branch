@@ -3,7 +3,7 @@
 // const cors = require('cors');
 // const massive = require('massive');
 // const helmet = require('helmet');
-// const config = require('./config.js');
+const config = require('./config.js');
 // const multer = require('multer');
 // const path = require('path');
 
