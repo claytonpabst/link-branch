@@ -88,13 +88,13 @@ const app = express();
 
 app.use(bodyParser.json());
 
-var options = {
-  key: fs.readFileSync('./file.pem'),
-  cert: fs.readFileSync('./file.crt')
-};
-const PORT = 8080;
+// var options = {
+//   key: fs.readFileSync('./file.pem'),
+//   cert: fs.readFileSync('./file.crt')
+// };
+// const PORT = 8080;
 
-var server = https.createServer(options, app);
+var server = https.createServer(app);
 var io = require('socket.io')(server);
 
 // write socket stuff here
@@ -118,6 +118,6 @@ io.on('connection', function(socket){
   })
 })
 
-server.listen(PORT, '0.0.0.0', function() {
-  console.log('server up and running at %s port', PORT);
+server.listen(config.port, '0.0.0.0', function() {
+  console.log('server up and running at %s port', config.port);
 });
