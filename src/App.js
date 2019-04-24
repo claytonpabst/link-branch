@@ -22,7 +22,6 @@ import UserAssetManager from './components/UserAssetManager/UserAssetManager.js'
 import './reset.css';
 import './App.css';
 
-
 class App extends Component {
   constructor(props){
     super(props)
